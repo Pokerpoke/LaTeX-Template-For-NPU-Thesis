@@ -8,6 +8,8 @@
 *.thm
 *.toc
 *.gz
+*.fuse_*
+*.pdf
 
 
 # Windows image file caches
