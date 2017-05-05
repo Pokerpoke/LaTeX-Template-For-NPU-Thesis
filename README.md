@@ -27,6 +27,11 @@
 }
 ```
 
+## Fixed
+1. 修改了`\xeCJKcapation`在新版中移除之后无法使用的情况
+2. 更改了目录的标号与字符间的间隔
+3. 增加了`fonts`文件夹，不需要再去下载了
+
 ## Copyright
 Use this code whatever you want, under the circumstances of acknowleged the mit license this page below. Star this repository if you like, and it will be very generous of you!
 
