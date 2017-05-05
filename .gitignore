@@ -1,3 +1,15 @@
+# USER
+*.bbl
+*.aux
+*.blg
+*.log
+*.fdb_latexmk
+*.out
+*.thm
+*.toc
+*.gz
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
