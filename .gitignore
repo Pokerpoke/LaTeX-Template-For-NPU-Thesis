@@ -11,7 +11,8 @@
 *.fuse_*
 *.pdf
 *.fls
-
+temp.*
+*.gz(busy)
 
 # Windows image file caches
 Thumbs.db
