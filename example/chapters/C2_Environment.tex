@@ -173,7 +173,7 @@
 	\par USRP系列设计之初便有很高的可修改性，许多产品是开源硬件。选择USRP型号的电路板原理图可免费下载;所有USRP产品均采用开源的UHD驱动程序进行控制，该驱动程序是免费的开源软件。 USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统。\cite{ wiki:USRP}
 	\begin{figure}[htb]
 		\centering
-		\includegraphics[width=13cm]{figures/USRP_B200mini_原理图.png}
+		\includegraphics[width=13cm]{figures/USRP_B200mini_BD.png}
 		\caption{USRP\_B200mini\_原理图}
 		\label{fig:USRP_B200mini_原理图}
 	\end{figure}
@@ -182,13 +182,23 @@
 	\par HackRF是一款由Michael Ossmann发起的开源软件无线电外设，旨在从30MHz到6GHz，于2012年从DARPA处拿了一笔经费，制作了500块测试版本Jawbreaker，并向社会分发测试。在经过用户对Jawbreaker的反馈后，作者对硬件板卡做了重新布线，改善了射频性能，这一点我们将会在后文详细讨论。 随后于2013年7月31日至9月4日共计35天的时间，在著名的社会化融资平台Kickstarter上，迅速地获得多达1991人的预订，共预订出价值为\$602,960的HackRF One。
 	\begin{figure}[htb]
 		\centering
-		\includegraphics[width=13cm]{figures/HackRF_架构.png}
+		\includegraphics[width=13cm]{figures/HackRF_Schematic.png}
 		\caption{HackRF\_架构图}
 	\label{fig:HackRF_架构}
 	\end{figure}
 	\subsection{osmosdr}
 \section{gqrx}
 	\subsection{简介}
+	\par Gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR）。
+	\par Gqrx支持许多SDR硬件，包括Airspy，Funcube Dongles，rtl-sdr，HackRF和USRP设备。请参阅支持的设备以获取完整列表。
+	\par Gqrx是免费软件，根据GNU通用公共许可证许可，允许任何人修复和修改它以供使用。
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=13cm]{figures/gqrx.png}
+		\caption{gqrx运行截图}
+		\label{fig:gqrx运行截图}
+	\end{figure}
+	
 \section{git}
 	\subsection{简介}
 	\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力。
@@ -201,11 +211,12 @@
 	\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
 	\par GitHub同时提供付费账户和免费账户。这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等。GitHub也提供了图表功能，用于概观显示开发者们怎样在代码库上工作以及软件的开发活跃程度。
 	\par 截止到2015年，GitHub已经有超过九百万注册用户和2110万代码库。事实上已经成为了世界上最大的代码存放网站和开源社区。\cite{ wiki:GitHub}
-	\par 本设计使用的众多开源库、软件均已托管于GitHub，网址如下:
+	\par 本设计使用的众多开源库、软件均已托管于GitHub，部分网址如下:
 	\begin{itemize}
 		\item gnuradio/gnuradio\\\href{https://github.com/gnuradio/gnuradio}{https://github.com/gnuradio/gnuradio}
 		\item gnuradio/pybombs\\\href{https://github.com/gnuradio/pybombs}{https://github.com/gnuradio/pybombs}
 		\item EttusResearch/uhd\\\href{https://github.com/EttusResearch/uhd}{https://github.com/EttusResearch/uhd}
+		\item csete/gqrx\\\href{https://github.com/csete/gqrx}{https://github.com/csete/gqrx}
 		% TODO:add all github
 	\end{itemize}
 \section{Docker}
@@ -250,4 +261,4 @@
 	\end{lstlisting}
 		\par 如果没有出现\lstinline[language=sh]{no module named gnuradio}则表示安装成功。
 	\end{itemize}
-\endinput
+% \endinput

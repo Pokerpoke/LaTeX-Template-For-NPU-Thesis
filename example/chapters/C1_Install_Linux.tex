@@ -1,0 +1,70 @@
+%!TEX root = ../example.tex
+\chapter{Linux安装}
+	\section{x86平台}
+		\subsection{虚拟机}
+			\par VMware
+			\par Hyper-V
+		\subsection{双系统}
+			\par 空间分配
+				\begin{itemize}
+					\item /
+					\item /swap
+					\item /boot
+					\item /home
+				\end{itemize}
+			\par LVM
+			\par 快照
+		\subsection{安装}
+		\subsection{软件源}
+			\begin{itemize}
+				\item 新立得包管理器
+				\item 阿里云
+			\end{itemize}
+	\section{ARM平台---树莓派}
+		\subsection{简介}
+		\par 树莓派（英语：Raspberry Pi），是一款基于Linux的单板机电脑。它由英国的树莓派基金会所开发，目的是以低价硬件及自由软件促进学校的基本计算机科学教育。
+		\par 树莓派的生产是通过有生产许可的两家公司：Element 14/Premier Farnell和RS Components。这两家公司都在网上出售树莓派。
+		\par 树莓派配备一枚博通（Broadcom）出产的ARM架构700MHz BCM2835处理器，256MB內存（B型已升级到512MB内存），使用SD卡当作存储媒体，且拥有一个Ethernet、两个USB接口、以及HDMI（支持声音输出）和RCA端子输出支持。树莓派只有一张信用卡大小，体积大概是一个火柴盒大小，可以运行像《雷神之锤III竞技场》的游戏和进行1080p视频的播放。操作系统采用开源的Linux系统如Debian、ArchLinux，自带的Iceweasel、KOffice等软件，能够满足基本的网络浏览、文字处理以及电脑学习的需要。分A、B两种型号，售价分别是A型25美元、B型35美元。树莓派基金会从2012年2月29日开始接受B型的订货。
+		\par 树莓派基金会提供了基于ARM架构的Debian、Arch Linux和Fedora等的发行版供大众下载，还计划提供支持Python作为主要编程语言，支持BBC BASIC、C语言和Perl等编程语言。
+		树莓派基金会于2016年2月发布了树莓派3,较前一代树莓派2，树莓派3的处理器升级为了64位的博通BCM2837，并首次加入了Wi-Fi无线网络及蓝牙功能，而售价仍然是35美元。\cite{ wiki:树莓派}
+		\par\noindent $\bullet$ 树莓派3B+参数
+		\begin{table}[!hbp]		%开始表格
+								%其中参数[!hbp] 的意思是：
+								%!表示尽可能的尝试 h(here) 当前位置显示表格，
+								%如果实在不行显示在 b(bottom) 底部，
+		\begin{tabular}{l|p{0.8\columnwidth}}
+		\hline
+		\hline
+		SoC & Broadcom\ BCM2837（CPU，GPU\ DSP和SDRAM、USB）\\
+		\hline
+		CPU & ARM\ Cortex-A53\ 64位\ (ARMv8系列)\ 1.2GHz\ (四核心)\\
+		\hline
+		GPU & Broadcom\ VideoCore\ IV[43],\ OpenGL\ ES\ 2.0,1080p\ 30\ h.264/MPEG-4\ AVC高清解码器\\
+		\hline
+		RAM & 1024\ MB\ (LPDDR2)\\
+		\hline
+		外设 & 14个GPIO及HAT规格铺设\\
+		\hline
+		额定功率 & 4.0\ 瓦\ (5V/800mA)\\
+		\hline
+		电源输入 & 5V\ 电压\ (通过MicroUSB或经GPIO输入)\\
+		\hline
+		总体尺寸 & 85.60\ ×\ 53.98\ 毫米（3.370\ ×\ 2.125\ 英寸）\\
+		\hline
+		重量 & 45\ g（1.6\ oz）\\
+		\hline
+		\end{tabular}
+		\end{table}
+		\subsection{烧录系统镜像}
+		\subsection{软件源}
+		\subsection{无线网络配置}
+		\subsection{镜像备份}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.6]{figures/figure1.png}
+	\caption{
+		这里是个普通的标题
+	}
+	\label{fig:example}
+\end{figure}
+% \endinput

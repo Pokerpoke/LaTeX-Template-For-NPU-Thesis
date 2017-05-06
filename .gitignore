@@ -13,6 +13,7 @@
 *.fls
 temp.*
 *.gz(busy)
+*.aux
 
 # Windows image file caches
 Thumbs.db
