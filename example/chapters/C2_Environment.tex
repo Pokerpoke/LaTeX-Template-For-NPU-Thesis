@@ -1,3 +1,4 @@
+%!TEX root = ../paper.tex
 \chapter{环境配置}
 \section{CMake}
 	\subsection{简介}
@@ -34,27 +35,18 @@
 	\par\noindent \lstinline{README.md}为用Markdown格式书写的说明文档。
 	\par\noindent 顶层目录下的\lstinline{CMakeLists.txt}内容如下：
 	\begin{lstlisting}
-	# 项目名称
 	project(main)
-	# 需要的CMake最低版本
 	cmake_minium_required(VERSION 2.6)
-	# 将目录下的所有文件名赋值给DIR_SRC变量
 	aux_source_directories(. DIR_SRC)
-	# 添加include文件夹，存放头文件
 	include_directories(include)
-	# 生成可执行文件
 	add_executable(main ${DIR_SRC})
-	# 添加子目录
 	add_subdirectory(lib)
-	# 将生成文件与动态库链接
 	target_link_libraries(main test)
 	\end{lstlisting}
 	\par\noindent \lstinline{/lib/CMakeLists.txt}内容如下：
 	\begin{lstlisting}
 	aux_source_directories(. DIR_TEST_DIR)
-	# 生成动态库
 	add_library(test ${DIR_TEST_DIR})
-	# 如果需要生成静态库
 	# add_library(test STATIC ${DIR_TEST_DIR})
 	\end{lstlisting}
 	\par\noindent \lstinline{/include/CMakeLists.txt}文件可以为空，有公共库可以用\lstinline[language=sh]{install(file name)}来安装进系统环境。
