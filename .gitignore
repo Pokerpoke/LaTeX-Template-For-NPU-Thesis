@@ -15,6 +15,7 @@ temp.*
 *.aux
 *.prj
 *.prj.*
+*.synctex
 
 # Windows image file caches
 Thumbs.db

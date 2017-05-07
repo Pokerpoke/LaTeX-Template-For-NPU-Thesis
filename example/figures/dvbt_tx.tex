@@ -1,7 +1,6 @@
-%!TEX root = ../paper.tex
 \begin{figure}[htb]
 	\centering
-	\begin{tikzpicture}[node distance=1.5cm]
+	\begin{tikzpicture}[node distance=3em]
 		\node(MPEG_2_stream)[process_vertical]{\rotatebox{-90}{MPEG-2 TS}\\流};
 		\node(energy_dispersal)[process_vertical,right of=MPEG_2_stream]{能量扩散};
 		\node(RS_encoder)[process_vertical,right of=energy_dispersal]{R\\S编码};
