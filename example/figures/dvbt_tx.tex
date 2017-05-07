@@ -1,7 +1,7 @@
 \begin{figure}[htb]
 	\centering
 	\begin{tikzpicture}[node distance=3em]
-		\node(MPEG_2_stream)[process_vertical]{\rotatebox{-90}{MPEG-2 TS}\\流};
+		\node(MPEG_2_stream)[process_vertical]{\rotatebox{-90}{MPEG-2 TS}\\输入流};
 		\node(energy_dispersal)[process_vertical,right of=MPEG_2_stream]{能量扩散};
 		\node(RS_encoder)[process_vertical,right of=energy_dispersal]{R\\S编码};
 		\node(convolutional_interleaver)[process_vertical,right of=RS_encoder]{卷积内交织};
@@ -14,7 +14,7 @@
 		\node(OFDM_CP)[process_vertical,left of=IFFT]{\rotatebox{-90}{OFDM}\\循环前缀};
 		\node(rational_resampler)[process_vertical,left of=OFDM_CP]{重采样};
 		\node(USRP_sink)[process_vertical,left of=rational_resampler]{\rotatebox{-90}{USRP}\\发射};
-				
+						
 		\draw[arrow](MPEG_2_stream)--(energy_dispersal);
 		\draw[arrow](energy_dispersal)--(RS_encoder);
 		\draw[arrow](RS_encoder)--(convolutional_interleaver);

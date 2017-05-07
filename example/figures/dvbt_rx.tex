@@ -1,5 +1,34 @@
 \begin{figure}[thb]
-	\begin{tikzpicture}
+	\centering
+	\begin{tikzpicture}[node distance=3em]
+		\node(USRP_source)[process_vertical]{\rotatebox{-90}{USRP}\\信号源};
+		\node(rational_resampler)[process_vertical,right of=USRP_source]{重采样};
+		\node(OFDM_sym_acquisition)[process_vertical,right of=rational_resampler]{\rotatebox{-90}{OFDM}\\符号校验};
+		\node(FFT)[process_vertical,right of=OFDM_sym_acquisition]{傅里叶变换};
+		\node(demod_reference_signals)[process_vertical,right of=FFT]{去参考信号};
+		\node(dvbt_demap)[process_vertical,right of=demod_reference_signals]{星座解映射};
+		\node(symbol_inner_deinterleaver)[process_vertical,right of=dvbt_demap]{符号解交织};
+		\node(bit_inner_deinterleaver)[process_vertical,below =2em of symbol_inner_deinterleaver]{比特内解交织};
+		\node(viterbi_decoder)[process_vertical,left of=bit_inner_deinterleaver]{维特比解码};
+		\node(convolutional_deinterleaver)[process_vertical,left of=viterbi_decoder]{卷积解交织};
+		\node(reed_soloman_decoder)[process_vertical,left of=convolutional_deinterleaver]{\rotatebox{-90}{RS}\\解码};
+		\node(energy_descramble)[process_vertical,left of=reed_soloman_decoder]{能量解扩散};
+		\node(MPEG_2_TS)[process_vertical,left of=energy_descramble]{\rotatebox{-90}{MPEG-2 TS}\\输出流};
+		
+		\draw[arrow](USRP_source)--(rational_resampler);
+		\draw[arrow](rational_resampler)--(OFDM_sym_acquisition);
+		\draw[arrow](OFDM_sym_acquisition)--(FFT);
+		\draw[arrow](FFT)--(demod_reference_signals);
+		\draw[arrow](demod_reference_signals)--(dvbt_demap);
+		\draw[arrow](dvbt_demap)--(symbol_inner_deinterleaver);
+		\draw[arrow](symbol_inner_deinterleaver)--(bit_inner_deinterleaver);
+		\draw[arrow](bit_inner_deinterleaver)--(viterbi_decoder);
+		\draw[arrow](viterbi_decoder)--(convolutional_deinterleaver);
+		\draw[arrow](convolutional_deinterleaver)--(reed_soloman_decoder);
+		\draw[arrow](reed_soloman_decoder)--(energy_descramble);
+		\draw[arrow](energy_descramble)--(MPEG_2_TS);
 	\end{tikzpicture}
+	\caption{DVB-T接收端系统框图}
+	\label{fig:dvbt_rx}
 \end{figure}
 \endinput

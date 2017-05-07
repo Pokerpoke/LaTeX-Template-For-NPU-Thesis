@@ -16,6 +16,8 @@ temp.*
 *.prj
 *.prj.*
 *.synctex
+*.vscode
+blog.md
 
 # Windows image file caches
 Thumbs.db
