@@ -61,7 +61,7 @@
 	\begin{lstlisting}
 	sudo make insatll
 	\end{lstlisting}
-	\par\noindent 如果编译的动态库还需要将其链接\lstinline{sudo ldconfig}
+	\par\noindent 如果编译的动态库还需要将其链接\lstinline{sudo ldconfig}。
 \section{Boost C++ Libraries}
 	\subsection{简介}
 	\par Boost C++ 库（Libraries）是一组扩充C++功能的经过同行评审（Peer-reviewed）且开放源代码程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件许可协议（Boost Software License）之下。许多Boost的开发人员是来自C++标准委员会，而部分的Boost库成为C++的TR1标准之一。
@@ -121,29 +121,29 @@
 	\par 在工程目录下执行\lstinline[language=sh]{doxygen -g}生成Doxyfile，修改\lstinline{OUTPUT_DIRECTORY}为自己想要的生成目录与其他参数，最后执行\lstinline{doxygen Doxyfile}即可生成\lstinline{latex}和\lstinline{html}目录，用浏览器打开\lstinline{html}目录下的\lstinline{index.html}即可看到生成网页。在\lstinline{latex}目录下运行\lstinline{./make}可以生成pdf文件。
 	\par Doxygen还能嵌入到CMake中，在\lstinline{CMakeLists.txt}中添加以下命令
 	\begin{lstlisting}
-	# add a target to generate API documentation with Doxygen  
-  
-	FIND_PACKAGE(Doxygen)  
-	OPTION(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})  
+	# add a target to generate API documentation with Doxygen
+
+	FIND_PACKAGE(Doxygen)
+	OPTION(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
 	
-	IF(BUILD_DOCUMENTATION)  
-		IF(NOT DOXYGEN_FOUND)  
-			MESSAGE(FATAL_ERROR "Doxygen is needed to build the documentation.")  
-		ENDIF()  
+	IF(BUILD_DOCUMENTATION)
+		IF(NOT DOXYGEN_FOUND)
+			MESSAGE(FATAL_ERROR "Doxygen is needed to build the documentation.")
+		ENDIF()
 	
-		SET(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)  
-		SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)  
+		SET(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+		SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 	
-		CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)  
+		CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
 	
-		ADD_CUSTOM_TARGET(doc  
-			COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}  
-			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}  
-			COMMENT "Generating API documentation with Doxygen"  
-			VERBATIM)  
+		ADD_CUSTOM_TARGET(doc
+			COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+			COMMENT "Generating API documentation with Doxygen"
+			VERBATIM)
 	
-		INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)  
-	ENDIF()  
+		INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+	ENDIF()
 	\end{lstlisting}
 	\par 使用CMake生成\lstinline{makefile}以后，可以使用\lstinline{make doc}来生成API文档。
 \section{Python}
@@ -214,7 +214,7 @@
 \section{Docker}
 	\subsection{简介}
 	\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施，
-	\par 依据行业分析公司“451研究”：“Dockers是有能力打包应用程序及其虚拟容器，可以在任何Linux服务器上运行的依赖性工具，这有助于实现灵活性和便携性，应用程序在任何地方都可以运行，无论是公有云、私有云、单机等。”\cite{ wiki:Docker} 
+	\par 依据行业分析公司“451研究”：“Dockers是有能力打包应用程序及其虚拟容器，可以在任何Linux服务器上运行的依赖性工具，这有助于实现灵活性和便携性，应用程序在任何地方都可以运行，无论是公有云、私有云、单机等。”\cite{ wiki:Docker}
 	\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制，与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本即可，进行少量的配置即可运行。
 	\subsection{构建容器}
 \section{GNU Radio}
@@ -245,12 +245,12 @@
 		\item GNU Radio 3.7.10
 			\par 安装完成之后使用python测试，gnuradio需要Python 2，在Python3环境下无法运行。
 	\begin{lstlisting}[ language= sh ]
-	Python 2.7.13 (default, Jan 19 2017, 14:48:08) 
+	Python 2.7.13 (default, Jan 19 2017, 14:48:08)
 	[GCC 6.3.0 20170118] on linux2
 	Type "help", "copyright", "credits" or "license" for more information.
 	>>> import gnuradio
-	>>> 
+	>>>
 	\end{lstlisting}
 		\par 如果没有出现\lstinline[language=sh]{no module named gnuradio}则表示安装成功。
 	\end{itemize}
-% \endinput
+% \endinput 

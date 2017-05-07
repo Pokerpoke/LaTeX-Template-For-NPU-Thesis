@@ -7,14 +7,14 @@
 *.out
 *.thm
 *.toc
-*.gz
+*.gz*
 *.fuse_*
 *.pdf
 *.fls
 temp.*
-*.gz(busy)
 *.aux
 *.prj
+*.prj.*
 
 # Windows image file caches
 Thumbs.db

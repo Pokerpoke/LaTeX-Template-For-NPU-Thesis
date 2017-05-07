@@ -1,0 +1,35 @@
+%!TEX root = ../paper.tex
+\begin{figure}[htb]
+	\centering
+	\begin{tikzpicture}[node distance=1.5cm]
+		\node(MPEG_2_stream)[process_vertical]{\rotatebox{-90}{MPEG-2 TS}\\流};
+		\node(energy_dispersal)[process_vertical,right of=MPEG_2_stream]{能量扩散};
+		\node(RS_encoder)[process_vertical,right of=energy_dispersal]{R\\S编码};
+		\node(convolutional_interleaver)[process_vertical,right of=RS_encoder]{卷积内交织};
+		\node(inner_coder)[process_vertical,right of=convolutional_interleaver]{内编码};
+		\node(bit_inner_interleaver)[process_vertical,right of=inner_coder]{比特内交织};
+		\node(symbol_inner_interleaver)[process_vertical,right of=bit_inner_interleaver]{符号内交织};
+		\node(dvbt_map)[process_vertical,below=2em of symbol_inner_interleaver]{星座映射};
+		\node(reference_signal)[process_vertical,left of=dvbt_map]{参考信号};
+		\node(IFFT)[process_vertical,left of=reference_signal]{反傅里叶变换};
+		\node(OFDM_CP)[process_vertical,left of=IFFT]{\rotatebox{-90}{OFDM}\\循环前缀};
+		\node(rational_resampler)[process_vertical,left of=OFDM_CP]{重采样};
+		\node(USRP_sink)[process_vertical,left of=rational_resampler]{\rotatebox{-90}{USRP}\\发射};
+				
+		\draw[arrow](MPEG_2_stream)--(energy_dispersal);
+		\draw[arrow](energy_dispersal)--(RS_encoder);
+		\draw[arrow](RS_encoder)--(convolutional_interleaver);
+		\draw[arrow](convolutional_interleaver)--(inner_coder);
+		\draw[arrow](inner_coder)--(bit_inner_interleaver);
+		\draw[arrow](bit_inner_interleaver)--(symbol_inner_interleaver);
+		\draw[arrow](symbol_inner_interleaver)--(dvbt_map);
+		\draw[arrow](dvbt_map)--(reference_signal);
+		\draw[arrow](reference_signal)--(IFFT);
+		\draw[arrow](IFFT)--(OFDM_CP);
+		\draw[arrow](OFDM_CP)--(rational_resampler);
+		\draw[arrow](rational_resampler)--(USRP_sink);
+	\end{tikzpicture}
+	\caption{DVB-T发射端系统框图}
+	\label{fig:dvbt_tx}
+\end{figure}
+\endinput
