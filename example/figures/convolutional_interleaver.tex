@@ -1,0 +1,18 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}[align=center]
+		\node (inputM3)[draw,text width=1.2cm] at (2,0) {M=3};
+		\node (inputM6)[draw,text width=1.2cm] at (2,-1) {2M=6};
+
+		\draw [arrow] (-1,0) -- (0,0) -- (1,1);
+		\draw [arrow] (1,1) -- (3,1);
+		\draw [arrow] (3,1) -- (4,0) -- (5,0);
+		\draw [arrow] (0.75,0) -- (inputM3.west);
+		\draw [arrow] (inputM3.east) -- (3.25,0);
+		\draw [arrow] (0.75,-1) -- (inputM6.west);
+		\draw [arrow] (inputM6.east) -- (3.25,-1);
+	\end{tikzpicture}
+	\caption{M=3时卷积交织图}
+	\label{fig:convolutional_interleaver}
+\end{figure}
+\endinput

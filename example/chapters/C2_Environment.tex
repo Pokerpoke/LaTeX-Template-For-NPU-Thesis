@@ -7,8 +7,8 @@
 		\subsection{安装}
 			\par 在Ubuntu环境下可以直接使用\lstinline[language=sh]{sudo apt install cmake}来安装。也能使用源码来编译CMake。
 			\begin{lstlisting}[ language= sh ]
-	git clone https://github.com/Kitware/CMake.git
-	./bootstrap && make && make install
+git clone https://github.com/Kitware/CMake.git
+./bootstrap && make && make install
 			\end{lstlisting}
 			\par 在Windows下可以在CMake官网（\href{https://cmake.org/download/}{https://cmake.org/download/}）选择与自己系统版本相对应的版本进行安装。如果使用Visual Studio 2015及以上版本，可以直接用Visual Studio打开项目目录，会自动使用CMake构建相应的解决方案。
 		\subsection{构建CMake项目}
@@ -35,35 +35,35 @@
 			\par\noindent \lstinline{README.md}为用Markdown格式书写的说明文档。
 			\par\noindent 顶层目录下的\lstinline{CMakeLists.txt}内容如下：
 			\begin{lstlisting}
-	project(main)
-	cmake_minium_required(VERSION 2.6)
-	aux_source_directories(. DIR_SRC)
-	include_directories(include)
-	add_executable(main ${DIR_SRC})
-	add_subdirectory(lib)
-	target_link_libraries(main test)
+project(main)
+cmake_minium_required(VERSION 2.6)
+aux_source_directories(. DIR_SRC)
+include_directories(include)
+add_executable(main ${DIR_SRC})
+add_subdirectory(lib)
+target_link_libraries(main test)
 			\end{lstlisting}
 			\par\noindent \lstinline{/lib/CMakeLists.txt}内容如下：
 			\begin{lstlisting}
-	aux_source_directories(. DIR_TEST_DIR)
-	add_library(test ${DIR_TEST_DIR})
-	# add_library(test STATIC ${DIR_TEST_DIR})
+aux_source_directories(. DIR_TEST_DIR)
+add_library(test ${DIR_TEST_DIR})
+# add_library(test STATIC ${DIR_TEST_DIR})
 			\end{lstlisting}
 			\par\noindent \lstinline{/include/CMakeLists.txt}文件可以为空，有公共库可以用\lstinline[language=sh]{install(file name)}来安装进系统环境。
 			\par\noindent 编译运行
 			\begin{lstlisting}[ language = sh ]
-	mkdir build
-	cd build
-	cmake ..
-	make
+mkdir build
+cd build
+cmake ..
+make
 			\end{lstlisting}
 			\par\noindent 便会在\lstinline{/build/build/app}目录下生成相应的可执行文件。有众多的开源项目基于CMake构建，使用这些程序时编译完成以后还需要使用以下命令来将其置入系统路径，使其能够在命令行下直接执行。
 			\begin{lstlisting}
-	sudo make insatll
+sudo make insatll
 			\end{lstlisting}
 			\par\noindent 如果编译的动态库还需要将其链接：
 			\begin{lstlisting}[ language= sh ]
-	sudo ldconfig
+sudo ldconfig
 			\end{lstlisting}
 	\section{Boost C++ Libraries}
 		\subsection{简介}
@@ -71,7 +71,7 @@
 			\par 为了要确保库的效率与弹性，Boost广泛的使用模板（template）功能。而它是针对各式领域的C++用户与应用领域（Application Domain）上，包含的库类别从像smart\_ptr 库这种类通用库，到像是文件系统的操作系统抽象层，甚至能够利用Boost来开发额外的库或是给高级的C++用户利用，像是MPL。\cite{ wiki:Boost}
 			\par GNU Radio与gr-dvbt中调用了Boost库中的一些函数，需要安装该库才能够进行编译，执行以下命令进行安装。
 			\begin{lstlisting}[ language= sh ]
-	sudo apt install libboost-all-dev
+sudo apt install libboost-all-dev
 			\end{lstlisting}
 			\par Boost的源码已托管于GitHub（\href{https://github.com/boostorg}{https://github.com/boostorg}）。
 	\section{Doxygen}
@@ -98,56 +98,56 @@
 			\par 在文件中使用Doxygen规范的注释\cite{ wiki:Doxygen}。
 			\par\noindent 一般文件：
 			\begin{lstlisting}
-	/**
-	* <A short one line description>
-	*
-	* <Longer description>
-	* <May span multiple lines or paragraphs as needed>
-	*
-	* @param  Description of method's or function's input parameter
-	* @param  ...
-	* @return Description of the return value
-	*/
+/**
+* <A short one line description>
+*
+* <Longer description>
+* <May span multiple lines or paragraphs as needed>
+*
+* @param  Description of method's or function's input parameter
+* @param  ...
+* @return Description of the return value
+*/
 			\end{lstlisting}
 			\par\noindent 头文件：
 			\begin{lstlisting}
-	/*!
-	* <A short one line description>
-	*
-	* <Longer description>
-	* <May span multiple lines or paragraphs as needed>
-	*
-	* @param  Description of method's or function's input parameter
-	* @param  ...
-	* @return Description of the return value
-	*/
+/*!
+* <A short one line description>
+*
+* <Longer description>
+* <May span multiple lines or paragraphs as needed>
+*
+* @param  Description of method's or function's input parameter
+* @param  ...
+* @return Description of the return value
+*/
 			\end{lstlisting}
 			\par 在工程目录下执行\lstinline[language=sh]{doxygen -g}生成Doxyfile，修改\lstinline{OUTPUT_DIRECTORY}为自己想要的生成目录与其他参数，最后执行\lstinline{doxygen Doxyfile}即可生成\lstinline{latex}和\lstinline{html}目录，用浏览器打开\lstinline{html}目录下的\lstinline{index.html}即可看到生成网页，在\lstinline{latex}目录下运行\lstinline{./make}可以生成pdf文件。
 			\par Doxygen还能嵌入到CMake中，在\lstinline{CMakeLists.txt}中添加以下命令
 			\begin{lstlisting}
-	# add a target to generate API documentation with Doxygen
+# add a target to generate API documentation with Doxygen
 
-	FIND_PACKAGE(Doxygen)
-	OPTION(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
-	
-	IF(BUILD_DOCUMENTATION)
-		IF(NOT DOXYGEN_FOUND)
-			MESSAGE(FATAL_ERROR "Doxygen is needed to build the documentation.")
-		ENDIF()
-	
-		SET(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-		SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-	
-		CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
-	
-		ADD_CUSTOM_TARGET(doc
-			COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-			COMMENT "Generating API documentation with Doxygen"
-			VERBATIM)
-	
-		INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+FIND_PACKAGE(Doxygen)
+OPTION(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
+
+IF(BUILD_DOCUMENTATION)
+	IF(NOT DOXYGEN_FOUND)
+		MESSAGE(FATAL_ERROR "Doxygen is needed to build the documentation.")
 	ENDIF()
+
+	SET(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+	SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
+
+	ADD_CUSTOM_TARGET(doc
+		COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		COMMENT "Generating API documentation with Doxygen"
+		VERBATIM)
+
+	INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+ENDIF()
 			\end{lstlisting}
 			\par 使用CMake生成\lstinline{makefile}以后，可以使用\lstinline{make doc}来生成API文档。
 	\section{Python}
@@ -232,107 +232,107 @@
 			\par 树莓派：
 			\par 树莓派默认的软件源为jessie，提供的最新版本为3.7.5，需要手动编译gr-dvbt（参见\ref{sec:gr-dvbt_compile}节）。如果需要安装3.7.10版本，需要切换软件源为stretch源（stretch为testing源），修改\lstinline[language=sh]{/etc/apt/source.list}文件，将其中的jessie修改为stretch。
 			\begin{lstlisting}
-	deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ stretch main non-free contrib 
-	deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ stretch main non-free contrib
+deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ stretch main non-free contrib 
+deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ stretch main non-free contrib
 			\end{lstlisting}
 			\par 修改完成后执行
 			\begin{lstlisting}
-	sudo apt update
-	sudo apt install gnuradio-dev
+sudo apt update
+sudo apt install gnuradio-dev
 			\end{lstlisting}
 			\par 安装完成之后使用python测试，gnuradio需要Python 2，在Python 3环境下无法运行。
 			\begin{lstlisting}[ language= sh ]
-	Python 2.7.13 (default, Jan 19 2017, 14:48:08)
-	[GCC 6.3.0 20170118] on linux2
-	Type "help", "copyright", "credits" or "license" for more information.
-	>>> import gnuradio
-	>>>
+Python 2.7.13 (default, Jan 19 2017, 14:48:08)
+[GCC 6.3.0 20170118] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import gnuradio
+>>>
 			\end{lstlisting}
 			\par 如果没有出现\lstinline[language=sh]{no module named gnuradio}则表示安装成功。
 			\par\noindent \qquad$\circ$ PyBOMBS
 			\par 安装PyBOMBS
 			\begin{lstlisting}[ language= sh ]
-	sudo pip install PyBOMBS
+sudo pip install PyBOMBS
 			\end{lstlisting}
 			\par 或者
 			\begin{lstlisting}[ language= sh ]
-	git clone https://github.com/gnuradio/pybombs.git
-	cd pybombs
-	sudo python setup.py install
+git clone https://github.com/gnuradio/pybombs.git
+cd pybombs
+sudo python setup.py install
 			\end{lstlisting}
 			\par 添加PyBOMBS源
 			\begin{lstlisting}[ language= sh ]
-	pybombs recipes add gr-recipes git+https://github.com/gnuradio/gr-recipes.git  
-	pybombs recipes add gr-etcetera git+https://github.com/gnuradio/gr-etcetera.git
+pybombs recipes add gr-recipes git+https://github.com/gnuradio/gr-recipes.git  
+pybombs recipes add gr-etcetera git+https://github.com/gnuradio/gr-etcetera.git
 			\end{lstlisting}
 			\par 配置安装参数
 			\begin{lstlisting}[ language= sh ]
-	pybombs prefix init ~/prefix/default/
+pybombs prefix init ~/prefix/default/
 			\end{lstlisting}
 			\par 安装GNU Radio
 			\begin{lstlisting}[ language= sh ]
-	pybombs install gnuradio
+pybombs install gnuradio
 			\end{lstlisting}
 			\par 运行GNU Radio Companion
 			\begin{lstlisting}[ language= sh ]
-	pybombs run gnuradio-companion
+pybombs run gnuradio-companion
 			\end{lstlisting}
 		\subsection{gr-dvbt编译}
 			\label{sec:gr-dvbt_compile}
 			\par gr-dvbt源码已托管于GitHub（\href{https://github.com/BogdanDIA/gr-dvbt}{https://github.com/BogdanDIA/gr-dvbt}）。
 			\par 3.7.9及以下版本的GNU Radio需要从源码编译，首先安装相关依赖，一般情况下需要以下依赖：
 			\begin{lstlisting}[ language= sh ]
-	sudo apt insatll log4cpp libboost-all-dev swig git cmake
+sudo apt insatll log4cpp libboost-all-dev swig git cmake
 			\end{lstlisting}
 			\par 编译并运行
 			\begin{lstlisting}[ language= sh ]
-	git clone https://github.com/BogdanDIA/gr-dvbt.git
-	cd gr-dvbt
-	mkdir build
-	cd build
-	cmake ../
-	make && sudo make install
+git clone https://github.com/BogdanDIA/gr-dvbt.git
+cd gr-dvbt
+mkdir build
+cd build
+cmake ../
+make && sudo make install
 			\end{lstlisting}
 			\par 如果是第一次安装还需要链接动态库
 			\begin{lstlisting}[ language= sh ]
-	sudo ldconfig
+sudo ldconfig
 			\end{lstlisting}
 			\par\noindent $\bullet$ 树莓派
 			\par 由于gr-dvbt使用了维特比解码，并且在其中调用了\lstinline{xmmintrin.h}，使用x86平台下的汇编来进行计算加速，导致无法在树莓派平台上成功编译。但是，维特比解码仅在接收端使用，所以可以注释其中与维特比有关的代码段来成功编译，并运行发射端程序。
 			\par \lstinline{/lib/CMakeLists.txt}中注释以下行
 			\begin{lstlisting}
-	......
-	# viterbi_decoder_impl.cc
-    # d_viterbi.c
-	......
-	# ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi_decoder.cc
+......
+# viterbi_decoder_impl.cc
+# d_viterbi.c
+......
+# ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi_decoder.cc
 
 			\end{lstlisting}
 			\par 去掉其中的\lstinline{-msse2}参数
 			\begin{lstlisting}
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -funroll-loops -msse2")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -funroll-loops -msse2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -funroll-loops -msse2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -funroll-loops -msse2")
 			\end{lstlisting}
 			\par \lstinline{/python/CMakeLists.txt}中注释以下行
 			\begin{lstlisting}
-	GR_ADD_TEST(qa_viterbi_decoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi_decoder.py)
+GR_ADD_TEST(qa_viterbi_decoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi_decoder.py)
 			\end{lstlisting}
 			\par \lstinline{/swig/dvbt_swig.i}中注释以下行
 			\begin{lstlisting}
-	......
-	// #include "dvbt/viterbi_decoder.h"
-	......
-	// %include "dvbt/viterbi_decoder.h"
-	......
-	// GR_SWIG_BLOCK_MAGIC2(dvbt, viterbi_decoder);
+......
+// #include "dvbt/viterbi_decoder.h"
+......
+// %include "dvbt/viterbi_decoder.h"
+......
+// GR_SWIG_BLOCK_MAGIC2(dvbt, viterbi_decoder);
 			\end{lstlisting}
 			\par 执行
 			\begin{lstlisting}[ language= sh ]
-	git clone https://github.com/BogdanDIA/gr-dvbt.git
-	cd gr-dvbt
-	mkdir build
-	cd build
-	cmake ../
-	make && sudo make install
-	sudo ldconfig
+git clone https://github.com/BogdanDIA/gr-dvbt.git
+cd gr-dvbt
+mkdir build
+cd build
+cmake ../
+make && sudo make install
+sudo ldconfig
 			\end{lstlisting}

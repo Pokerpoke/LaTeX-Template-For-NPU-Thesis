@@ -39,18 +39,18 @@
 		\par\noindent $\bullet$ Ubuntu
 		\par Ubuntu下使用dd命令进行镜像烧写，首先执行
 		\begin{lstlisting}[ language= sh ]
-	sudo fdisk -l
+sudo fdisk -l
 		\end{lstlisting}
 		\par 确认SD卡是否已经挂载，确认已经挂载以后进入镜像文件所在目录执行
 		\begin{lstlisting}[ language= sh ]
-	sudo dd if=2017-03-18-raspbian-jessie-lite.img of=/dev/mmcblk0
+sudo dd if=2017-03-18-raspbian-jessie-lite.img of=/dev/mmcblk0
 		\end{lstlisting}
 		\par 稍等片刻即可烧写完成。
 		\par 2016.11之前的镜像已经默认开启了ssh登陆，插上卡以后插上网线就能够通过ssh登陆（Windows下使用putty或者xshell，Ubuntu下直接在Terminal下执行\lstinline[language=sh]{ssh pi@192.168.199.1}登陆，\lstinline[language=sh]{@}后为树莓派的ip）。
 		\par 2016.11之后的镜像默认关闭了ssh登陆，如需使用ssh登陆，则需要在烧写完成以后，SD卡会分为两个分区，于其中boot目录下新建一个ssh的空白文件（Windows下可以新建文本文件以后删去txt的后缀名，Ubuntu下直接\lstinline[language=sh]{touch ssh}即可）。
 		\par 树莓派的系统制作完成以后执行
 		\begin{lstlisting}[ language= sh ]
-	sudo raspi-config
+sudo raspi-config
 		\end{lstlisting}
 		\par 会出现如图\ref{fig:raspi_config}所示界面：
 		\begin{figure}[htp]
@@ -68,32 +68,32 @@
 		\end{figure}
 		\par 之后重启系统即可
 		\begin{lstlisting}[ language= sh ]
-	sudo reboot
+sudo reboot
 		\end{lstlisting}
 	\section{软件源}
 		\par 树莓派默认使用的官方源服务器国内访问不便，国内使用需要使用镜像站，修改\lstinline[language=sh]{/etc/apt/sources.list}为以下内容：
 		\begin{lstlisting}[ language= sh ]
-	deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib 
-	deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib
+deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib 
+deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib
 		\end{lstlisting}
 		\par 执行
 		\begin{lstlisting}[ language= sh ]
-	sudo apt update
-	sudo apt upgrade
+sudo apt update
+sudo apt upgrade
 		\end{lstlisting}
 		\par 更新软件，以及各种依赖。
 	\section{无线网络配置}
 		\par 如果需要将树莓派通过WiFi连接进局域网，则需要配置其无线网络参数，修改\lstinline[language=sh]{/etc/wpa_supplicant/wpa_supplicant.conf}内容为以下内容。
 		\begin{lstlisting}
-	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-	update_config=1
-	country=GB
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=GB
 
-	network={
-		ssid="your wifi ssid"
-		psk="your wifi password"
-		priority=5
-	}
+network={
+	ssid="your wifi ssid"
+	psk="your wifi password"
+	priority=5
+}
 		\end{lstlisting}
 		\par 其中：
 		\par \lstinline{ssid}为wifi名称。

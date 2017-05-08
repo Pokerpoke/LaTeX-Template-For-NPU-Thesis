@@ -328,14 +328,14 @@
 \usepackage{listings}
 \lstset{
     basicstyle=\footnotesize\ttfamily,
-    %numbers=left,
-    %numberstyle=\tiny,
-    %numbersep=5pt,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
     tabsize=4,
     extendedchars=true,
     breaklines=true,
     keywordstyle=\color{blue},
-    numberstyle=\color{purple},
+    % numberstyle=\color{purple},
     commentstyle=\color{olive},
     stringstyle=\color{orange}\ttfamily,
     showspaces=false,
@@ -359,7 +359,7 @@
 
 %----------------------------------流程图--------------------------------%
 
-\usetikzlibrary{arrows,shapes,chains,positioning,calc}
+\usetikzlibrary{arrows,shapes,chains,positioning,calc,matrix}
 \usetikzlibrary{circuits.logic.US}
 \tikzstyle{startstop}=[rectangle,rounded corners,text centered,draw=black]
 \tikzstyle{io}=[trapezium,trapezium left angle=30,trapezium right angle= 150,text centered,draw=black,fill=white]

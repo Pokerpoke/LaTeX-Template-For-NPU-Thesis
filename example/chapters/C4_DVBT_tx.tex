@@ -2,14 +2,155 @@
 \chapter{DVB-T发射端}
 	\section{能量扩散}
 		\par 当发射的信号过于集中在某一频段上，将对与其共用频段的其他系统或设备造成较大干扰。人为地对发射信号进行随机化或者加扰，可以使原本集中的信号能量均匀分布。同时，由于添加的随机码为伪随机码，所以在接收端很容易进行去随机化。在数字通信过程中，通过添加伪随机信号还能缩短连续的“0”或者连续的“1”的长度，接收端提取定时信号将变得更加容易。
-		\par MPEG-2的传输复用包长为188字节，包括一个同步字节，如图\ref{fig:MPEG_2_TS}所示。\cite{数字电视DVB标准能量扩散的FPGA设计与实现}
+		\par MPEG-2的传输复用包长为188字节，包括一个同步字节，如图\ref{fig:MPEG_2_TS}所示。\cite{数字电视DVB标准能量扩散的FPGA设计与实现_肖闽进}
 		\input{figures/mpeg_2_TS.tex}
 		\par 其中同步字节为0x47,传送时从高位开始送入即（0100 0111）的0开始送入，由伪随机二进制（PRBS，Pseudo Random Binary Sequence）和码流数据按位异或完成，结构如图\ref{fig:PRBS}所示。
 		\input{figures/PRBS.tex}
-		\par PRBS的生成多项式为$g(x)=1+X^{14}+X^{15}$，伪随机寄存器中的初始序列是“1001 0101 0000 00000”，每8个传输包初始化一次。同时，为了方便接收，每8个传输包为一组，并对每8个传输包的第一个包的同步字节按比特取反，即由0x47变为0xB8。随机化从第1个传输包的同步字节sync后的第1个比特开始进行，但在随后的7个传输包中的同步字节，继续产生伪随机码，但是不对输入的同步字节进行加扰，同步字节保持原状，这样PRBS的周期为$188*8-1=1503$字节。
-		
+		\par PRBS的生成多项式为$g(x)=1+X^{14}+X^{15}$，伪随机寄存器中的初始序列是“1001 0101 0000 000”，每8个传输包初始化一次。同时，为了方便接收，每8个传输包为一组，并对每8个传输包的第一个包的同步字节按比特取反，即由0x47变为0xB8。随机化从第1个传输包的同步字节sync后的第1个比特开始进行，但在随后的7个传输包中的同步字节，继续产生伪随机码，但是不对输入的同步字节进行加扰，同步字节保持原状，这样PRBS的周期为$188*8-1=1503$字节。输入码流中断或者不是MPEG-2 TS码流格式时，随机化继续进行，插入空白字节与同步字节完成空包处理，接收端识别全零的空包并将其删除。
+		\par 主要程序实现如代码段\ref{code:prbs}：
+		\begin{lstlisting}[caption = {能量扩散}, label = {code:prbs}, language = C++ ]
+void dvbt_energy_dispersal_impl::clock_prbs(int clocks)
+{
+	int res = 0;
+	int feedback = 0;
+
+	for (int i = 0; i < clocks; i++) {
+	feedback = ((d_reg >> (14 - 1)) ^ (d_reg >> (15 - 1))) & 0x1;
+	d_reg = ((d_reg << 1) | feedback) & 0x7fff;
+	res = (res << 1) | feedback;
+	}
+	return res;
+}
+		\end{lstlisting}
 	\section{RS编码}
+		\par DVB-T的外编码采用RS编码（Reed-Solomon）编码，RS编码是一种线性分组循环码，以长度为$n$的一组符号为单位处理，组中的$n$个符号由$k$个欲传输的信息符号按一定关系生成的，RS编码具有极强的随机错误和突发错误纠正能力。
+		\par DVB-T系统使用的是由RS（255，239，$t$=8）衍生出的删余RS（204，188，$t$=8）码，通过对每个随机化后的188字节的传输包编码，通过生成多项式，生成一个误码保护包，RS编码从同步字节（0x47）或者倒相后的同步字节（0xB8）开始，误码保护包如图\ref{fig:rs_204_188}。\cite{RS编码器的设计与实现_游余新}
+		\input{figures/rs_204_188.tex}
+		\par 可以看到，编码后的总长度为204字节，有效数据为188字节，最多可以校正8个字节的随机误码错误。
+		\par RS码生成多项式为：
+		\begin{equation}
+			g(x)=(x+\lambda ^0)(x+\lambda ^1)(x+\lambda ^2)...(x+\lambda ^{15})
+		\end{equation}
+		\par 其中$\lambda$=0x02。
+		\par 域生成多项式为：
+		\begin{equation}
+			p(x)=x^8+x^4+x^3+x^2+1
+		\end{equation}
+		\par 如果想要通过RS（255，239，$t$=8）编码器，可以在传输包前面增加51个全零字节，经过编码程序以后，在将这些无用的全零字节删除，最终产生$N$=204字节的RS码字。
+		\par RS编码初始化见代码段\ref{code:rs_init}，RS编码见代码段\ref{code:rs_encode}。
+		\begin{lstlisting}[caption = {RS编码初始化}, label={code:rs_init}, language = C++ ]
+void dvbt_reed_solomon::rs_init(int lambda, int n, int k, int t)
+{
+	d_n = n; d_k = k; d_t = t;
+	// 2t = n - k, dmin = 2t + 1 = n -k + 1
+
+	d_l = new unsigned char[d_n + 1];
+	if (d_l == NULL) {
+	std::cout << "Cannot allocate memory for d_l" << std::endl;
+	exit(1);
+	}
+
+	d_g = new unsigned char[2 * d_t + 1];
+	if (d_g == NULL) {
+	std::cout << "Cannot allocate memory for d_g" << std::endl;
+	delete [] d_l;
+	exit(1);
+	}
+
+	//Generate roots of lambda
+	d_l[0] = 1;
+
+	for (int i = 1; i <= d_n; i++) {
+	d_l[i] = gf_mul(d_l[i - 1], lambda);
+	}
+
+	//Init Generator polynomial buffer
+	for (int i = 0; i <= (2*t); i++) {
+	d_g[i] = 0;
+	}
+
+	//Start with x+lambda^0
+	d_g[0] = 1;
+
+	//Create generator polynomial
+	for (int i = 1; i <= (2 * t); i++) {
+	for (int j = i; j > 0; j--) {
+		if (d_g[j] != 0) {
+		d_g[j] = gf_add(d_g[j - 1], gf_mul(d_g[j], d_l[i - 1]));
+		}
+		else {
+		d_g[j] = d_g[j - 1];
+		}
+	}
+
+	d_g[0] = gf_mul(d_g[0], d_l[i - 1]);
+	}
+
+	// Init syndrome array
+	d_syn = new unsigned char[2 * d_t + 1];
+	if (d_syn == NULL) {
+	std::cout << "Cannot allocate memory for d_syn" << std::endl;
+	delete [] d_g;
+	delete [] d_l;
+	exit(1);
+	}
+}
+		\end{lstlisting}
+		\begin{lstlisting}[caption = {RS编码}, label = {code:rs_encode}, language = C++ ]
+int dvbt_reed_solomon::rs_encode(unsigned char *data_in, unsigned char *parity)
+{
+	memset(parity, 0, 2 * d_t);
+
+	for (int i = 0; i < d_k; i++) {
+	int feedback = gf_add(data_in[i], parity[0]);
+
+	if (feedback != 0) {
+		for (int j = 1; j < (2 * d_t); j++) {
+		if (d_g[2 * d_t - j] != 0) {
+			parity[j] = gf_add(parity[j], gf_mul(feedback, d_g[2 * d_t - j]));
+		}
+		}
+	}
+
+	//Shift the register
+	memmove(&parity[0], &parity[1], (2 * d_t) - 1);
+
+	if (feedback != 0) {
+		parity[2 * d_t - 1] = gf_mul(feedback, d_g[0]);
+	}
+	else {
+		parity[2 * d_t - 1] = 0;
+	}
+	}
+
+	return (0);
+}
+		\end{lstlisting}
 	\section{卷积交织}
+		\par DVB-T系统的外交织采用的是深度$I$=12，基数为17的，基于字节的卷积交织，现用一个$M$=3的例子说明，此时卷积交织工作过程如图\ref{fig:convolutional_interleaver}所示。第一行直通，第二行有$M$=3个存储器，第三行有$2M$=6个存储器,输入、输出的每个字节由同步开关进行控制，第二行延时$M$个字节，第三行延时$2M$个字节，解交织的过程与此相反。输入输出数据流如图\ref{fig:convolutional_interleaver_data_structure}所示\cite{用FPGA实现DVB标准中的卷积交织_刘静}，这样就将原来的数据分散发送了。
+		\input{figures/convolutional_interleaver.tex}
+		\input{figures/convolutional_interleaver_data_structure.tex}
+		\par DVB-T中使用的卷积交织，$M$=17，即第一行直通，第二行延时17字节，第三行延时2*17=34字节，以此类推，总过有12层。
+		\par 主要程序实现见代码段\ref{code:convolutional_interleaver}。
+		\begin{lstlisting}[caption = {卷积交织},label = {code:convolutional_interleaver},language = C++ ]
+int dvbt_convolutional_interleaver_impl::work (int noutput_items,
+				gr_vector_const_void_star &input_items,
+				gr_vector_void_star &output_items)
+{
+	const unsigned char *in = (const unsigned char *) input_items[0];
+	unsigned char *out = (unsigned char *) output_items[0];
+
+	for (int i = 0; i < (noutput_items / d_I); i++) {
+	//Process one block of I symbols
+	for (unsigned int j = 0; j < d_shift.size(); j++) {
+		d_shift[j]->push_front(in[(d_I * i) + j]);
+		out[(d_I * i) + j] = d_shift[j]->back();
+		d_shift[j]->pop_back();
+	}
+	}
+	return noutput_items;
+}
+		\end{lstlisting}
 	\section{内编码(卷积编码)}
 	\section{比特交织}
 	\section{符号交织}

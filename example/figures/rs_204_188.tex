@@ -1,0 +1,16 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}
+		\node (sync)[rectangle,draw] at (0,0) {$\overline{\text{SYNC}}or\text{SYNC}_n$（1字节）};
+		\node (data)[rectangle,draw,right=0 of sync]{随机化数据（187字节）};
+		\node (check)[rectangle,draw,right=0 of data]{奇偶检验位（16字节）};
+		\node (comment1) at (5,-1){204字节};
+		\node (arrow1)[below = 0.1cm of sync.south west]{};
+		\node (arrow2)[below = 0.1cm of check.south east]{};
+
+		\draw [|<->|](arrow1) -- (arrow2);
+	\end{tikzpicture}
+	\caption{RS(204,188,8)误码保护包}
+	\label{fig:rs_204_188}
+\end{figure}
+\endinput

@@ -1,0 +1,54 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}[align=center]
+		\node (input1)[] at (0,2) {0,3,6};
+		\node (input2)[] at (0,1) {1,4,7};
+		\node (input3)[] at (0,0) {2,5,8};
+		\node (output1)[] at (5,2) {0};
+		\node (output2)[] at (5,1) {x};
+		\node (output3)[] at (5,0) {x};
+		\node (M3)[draw,text width=1.5cm] at (2.5,1) {M=3};
+		\node (M6)[draw,text width=1.5cm] at (2.5,0) {2M=6};
+		
+		\node at (5.5,2) {3};
+		\node at (6,2) {6};
+		\foreach \x in {6.5,7,...,9.5}{
+			\node at (\x,2) {\&};
+		};
+		\foreach \x in {5.5,6}{
+			\node at (\x,1) {x};
+		};
+		
+		\node at (6.5,1) {1};
+		\node at (7,1) {4};
+		\node at (7.5,1) {7};
+		\foreach \x in {8,8.5,...,9.5}{
+			\node at (\x,1) {\&};
+		};
+		
+		\foreach \x in {5.5,6,...,7.5}{
+			\node at (\x,0) {x};
+		};
+		\node at (8,0) {2};
+		\node at (8.5,0) {5};
+		\node at (9,0) {8};
+		\node at (9.5,0) {\&};
+		
+		\draw [arrow](input1) -- (output1);
+		\draw [arrow](input2) -- (M3.west);
+		\draw [arrow](M3.east) -- (output2);
+		\draw [arrow](input3) -- (M6.west);
+		\draw [arrow](M6.east) -- (output3);
+		
+		\foreach \x in {5.25,5.75,...,9.25}{
+			\draw [arrow](\x,2.5) -- (\x,-0.5);
+		};
+		
+		\node at (0,-1) {输入数据流};
+		\node at (6,-1) {输出数据流};
+
+	\end{tikzpicture}
+	\caption{卷积交织输入输出数据结构}
+	\label{fig:convolutional_interleaver_data_structure}
+\end{figure}
+\endinput
