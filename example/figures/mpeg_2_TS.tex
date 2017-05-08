@@ -1,0 +1,10 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}
+		\node(SYNC)[rectangle,draw=black,text centered,minimum height=1cm,minimum width=2cm,label=below:1字节]{SYNC};
+		\node(data)[rectangle,draw=black,text centered,right = 0 of SYNC,minimum height=1cm,minimum width=8cm,label=below:187字节]{MPEG-2传输数据};
+	\end{tikzpicture}
+	\caption{MPEG-2传输包}
+	\label{fig:MPEG_2_TS}
+\end{figure}
+\endinput

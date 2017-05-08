@@ -1,0 +1,31 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}[circuit logic US]
+		\node (data)[rectangle split,rectangle split horizontal,rectangle split parts=15,draw,text width=0.4cm] at (0,0){
+			\nodepart{text}1\nodepart{two}2\nodepart{three}3\nodepart{four}4\nodepart{five}5\nodepart{six}6\nodepart{seven}7\nodepart{eight}8\nodepart{nine}9\nodepart{ten}10\nodepart{eleven}11\nodepart{twelve}12\nodepart{thirteen}13\nodepart{fourteen}14\nodepart{fifteen}15
+		};
+		\node (comment1)[above=0.1cm of data,rectangle split,rectangle split horizontal,rectangle split parts=15,text width=0.4cm]{
+			\nodepart{text}1\nodepart{two}0\nodepart{three}0\nodepart{four}1\nodepart{five}0\nodepart{six}1\nodepart{seven}0\nodepart{eight}1\nodepart{nine}0\nodepart{ten}0\nodepart{eleven}0\nodepart{twelve}0\nodepart{thirteen}0\nodepart{fourteen}0\nodepart{fifteen}0
+		};
+		\node (xor1)[xor gate,point left] at (3,-1){};
+		\node (xor2)[xor gate,point right] at (2,-2.1){};
+		\node (and)[and gate,point right] at (0,-2){};
+		\node (enable) at (-1,-3) {使能};
+		\node (input) at (1,-3.5) {输入数据};
+		\node (output) at (5,-2.1) {随机化后的数据};
+		\node (comment2) at (1,-1.3) {0 0 0 0 0 0 1 1......};
+		
+		\draw (data.fourteen south) |- (xor1.input 2);
+		\draw (data.east) -| ++(1,-1) |- (xor1.input 1);
+		\draw (data.text west) -| (-0.8*8,-1) |- (xor1.output);
+		\draw (-0.8*8,-1) |- (and.input 1);
+		\draw (enable.north) |- (and.input 2);
+		\draw (and.output) -- (xor2.input 1);
+		\draw (input.north) |- (xor2.input 2);
+		\draw (xor2.output) -- (output.west);
+		\fill (-0.8*8,-1) circle (2pt);
+	\end{tikzpicture}
+	\caption{能量扩散原理图}
+	\label{fig:PRBS}
+\end{figure}
+\endinput
