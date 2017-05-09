@@ -18,6 +18,7 @@ temp.*
 *.synctex
 *.vscode
 blog.md
+output
 
 # Windows image file caches
 Thumbs.db

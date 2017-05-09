@@ -1,0 +1,45 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}[align=center]
+		\node (and1) [] at (0,3) {$\bigoplus$};
+		\node (and2) [] at (0,-3) {$\bigoplus$};
+		\node (pro1) [draw,text width=3em] at (-5,0) {1比特延迟};
+		\node (pro2) [draw,text width=3em] at (-3,0) {1比特延迟};
+		\node (pro3) [draw,text width=3em] at (-1,0) {1比特延迟};
+		\node (pro4) [draw,text width=3em] at (1,0) {1比特延迟};
+		\node (pro5) [draw,text width=3em] at (3,0) {1比特延迟};
+		\node (pro6) [draw,text width=3em] at (5,0) {1比特延迟};
+
+		\draw [arrow] (-6.5,0) -- (pro1.west);
+		\draw [arrow] (pro1.east) -- (pro2.west);
+		\draw [arrow] (pro2.east) -- (pro3.west);
+		\draw [arrow] (pro3.east) -- (pro4.west);
+		\draw [arrow] (pro4.east) -- (pro5.west);
+		\draw [arrow] (pro5.east) -- (pro6.west);
+		\draw (pro6.east) -- (6,0);
+
+		\draw [arrow] (-6,0) -- (-6,1) -- (-0.4,2.8);
+		\draw [arrow] (-4,0) -- (-4,1) -- (-0.2,2.8);	
+		\draw [arrow] (-2,0) -- (-2,1) -- (-0.1,2.8);
+		\draw [arrow] (0,0) -- (0,2.8);
+		\draw [arrow] (6,0) -- (6,1) -- (0.4,2.8);
+
+		\draw [arrow] (-6,0) -- (-6,-1) -- (-0.4,-2.8);
+		\draw [arrow] (-2,0) -- (-2,-1) -- (-0.2,-2.8);
+		\draw [arrow] (0,0) -- (-0,-2.8);
+		\draw [arrow] (4,0) -- (4,-1) -- (0.2,-2.8);
+		\draw [arrow] (6,0) -- (6,-1) -- (0.1,-2.8);
+
+		\fill (-6,0) circle (2pt);
+		\fill (-4,0) circle (2pt);
+		\fill (-2,0) circle (2pt);
+		\fill (2,0) circle (2pt);
+		\fill (4,0) circle (2pt);
+		\fill (6,0) circle (2pt);
+
+
+	\end{tikzpicture}
+	\caption{1/2码率主卷积码}
+	\label{fig:inner_coder}
+\end{figure}
+\endinput

@@ -130,7 +130,7 @@ int dvbt_reed_solomon::rs_encode(unsigned char *data_in, unsigned char *parity)
 		\par DVB-T系统的外交织采用的是深度$I$=12，基数为17的，基于字节的卷积交织，现用一个$M$=3的例子说明，此时卷积交织工作过程如图\ref{fig:convolutional_interleaver}所示。第一行直通，第二行有$M$=3个存储器，第三行有$2M$=6个存储器,输入、输出的每个字节由同步开关进行控制，第二行延时$M$个字节，第三行延时$2M$个字节，解交织的过程与此相反。输入输出数据流如图\ref{fig:convolutional_interleaver_data_structure}所示\cite{用FPGA实现DVB标准中的卷积交织_刘静}，这样就将原来的数据分散发送了。
 		\input{figures/convolutional_interleaver.tex}
 		\input{figures/convolutional_interleaver_data_structure.tex}
-		\par DVB-T中使用的卷积交织，$M$=17，即第一行直通，第二行延时17字节，第三行延时2*17=34字节，以此类推，总过有12层。
+		\par DVB-T中使用的卷积交织，$M$=17，即第一行直通，第二行延时17字节，第三行延时2*17=34字节，以此类推，总过有12层，同步字节（$\overline{\text{SYNC}}$和$\text{SYNC}_n$）总是通过第一行进行交织。
 		\par 主要程序实现见代码段\ref{code:convolutional_interleaver}。
 		\begin{lstlisting}[caption = {卷积交织},label = {code:convolutional_interleaver},language = C++ ]
 int dvbt_convolutional_interleaver_impl::work (int noutput_items,
@@ -152,6 +152,9 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 }
 		\end{lstlisting}
 	\section{内编码(卷积编码)}
+		\par DVB-T系统的内编码采用卷积编码，卷积码是由$k$个信息比特编码成$n(n>k)$比特码组，编码出的l比特的码组值，不仅与当前码字中的k个信息比特值有关，而且与其前面$N-1$个码字中的$(N-1)xk$个信息比特值有关，也即当前码组内的$n$个码元，它们的值取决于$N$个码组内的全部信息码元，$N$可称为卷积码编码的约束长度。
+		\par DVB-T系统可以选择几种由码率为1/2的主卷积码删余后的卷积码。无论是等级或非等级传送模式，对于某一给定业务的数据率，系统可选择最适当的码率。主码的生成多项式，对$X$路输出是$G_1=171_{OCT}$，对$Y$路输出是$G_2=133_{OCT}$。图\ref{fig:inner_coder}是主卷积码生成结构图。
+		\input{figures/inner_coder.tex}
 	\section{比特交织}
 	\section{符号交织}
 	\section{星座映射}
