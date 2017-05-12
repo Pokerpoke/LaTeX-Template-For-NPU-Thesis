@@ -1,9 +1,9 @@
 #!/bin/sh
 
-xelatex example.tex
+xelatex paper.tex
 
-bibtex example
+bibtex paper
 
-xelatex example.tex
+xelatex paper.tex
 
-xelatex example.tex
+xelatex paper.tex

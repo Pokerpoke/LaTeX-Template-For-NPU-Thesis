@@ -1,0 +1,24 @@
+\begin{table}[!h]
+	\centering
+	\caption{比特交织器置换函数}
+	\begin{tabular}{|l|l|}
+	\hline
+	\multicolumn{1}{|c|}{比特交织器} & \multicolumn{1}{|c|}{置换函数} \\
+	\hline
+	I0 & $H0(w)=w$ \\
+	\hline
+	I1 & $H1(w)=(w+63) mod 126$ \\
+	\hline
+	I2 & $H1(w)=(w+105) mod 126$ \\
+	\hline
+	I3 & $H1(w)=(w+42) mod 126$ \\
+	\hline
+	I4 & $H1(w)=(w+21) mod 126$ \\
+	\hline
+	I5 & $H1(w)=(w+84) mod 126$ \\
+	\hline
+	\end{tabular}
+	\label{table:inner_interleaver_hew}
+\end{table}
+
+\endinput

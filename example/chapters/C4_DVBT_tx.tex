@@ -155,9 +155,145 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 		\par DVB-T系统的内编码采用卷积编码，卷积码是由$k$个信息比特编码成$n(n>k)$比特码组，编码出的l比特的码组值，不仅与当前码字中的k个信息比特值有关，而且与其前面$N-1$个码字中的$(N-1)xk$个信息比特值有关，也即当前码组内的$n$个码元，它们的值取决于$N$个码组内的全部信息码元，$N$可称为卷积码编码的约束长度。
 		\par DVB-T系统可以选择几种由码率为1/2的主卷积码删余后的卷积码。无论是等级或非等级传送模式，对于某一给定业务的数据率，系统可选择最适当的码率。主码的生成多项式，对$X$路输出是$G_1=171_{OCT}$，对$Y$路输出是$G_2=133_{OCT}$。图\ref{fig:inner_coder}是主卷积码生成结构图。
 		\input{figures/inner_coder.tex}
+		\par 除了1/2码率的主码外，系统还可以按照图\ref{fig:inner_coder_slash}使用码率为2/3，3/4，5/6，7/8的删余卷积码。
+		\input{figures/inner_coder_slash.tex}
+		\par 删除卷积码的构造方法如表\ref{table:inner_coder_slash}，优先发送X1。
+		\input{tables/inner_coder_slash.tex}
 	\section{比特交织}
+		\par DVB-T系统的内交织采用比特交织和符号交织，这两种交织都是基于块结构的。
+		\par 内编码后的比特流通过解复用器后进入比特交织器，根据不同的映射模式分成$v$个子流。非等级模式下的对应关系如表\ref{table:bit_inner_interleaver_v}：
+		\begin{table}[!hbp]
+			\centering
+			\caption{非等级模式下对应关系}
+			\begin{tabular*}{5cm}{l|l}
+			\hline\hline
+			QPSK & $v$=2 \\
+			\hline
+			16QAM & $v$=4 \\
+			\hline
+			64QAM & $v$=6 \\
+			\hline\hline
+			\end{tabular*}
+			\label{table:bit_inner_interleaver_v}
+		\end{table}
+		\par 16QAM解复用模型如图\ref{fig:bit_inner_interleaver}，$x_0$映射到$b_{0,0}$，$x_1$映射到$b_{1,0}$，$x_2$映射到$b_{2,0}$，$x_3$映射到$b_{3,0}$\cite{DVB—T中内交织与解交织的算法及实现_徐翼}。
+		\input{figures/bit_inner_interleaver.tex}
+		\par 比特交织仅在有用的数据上进行，比特交织块的大小为126字节，在2K模式下每个OFDM符号中的有效数据在交织过程中重复12次，8K模式下需要重复48次。每一路比特交织器，输入的比特向量定义为：
+		\begin{equation}
+			B(e)=(b_{e,0},b_{e,1},b_{e,2},\cdots b_{e,125}),e\in[0,v-1]
+		\end{equation}
+		\par 交织后的输出向量定义为：
+		\begin{equation}
+			A(e)=(a_{e,0},a_{e,1},a_{e,2},\cdots a_{e,125}),e\in[0,v-1]
+		\end{equation}
+		\par 则：
+		\begin{equation}
+			a_{e,w}=b_{e,He(w)},w\in[0,125]
+		\end{equation}
+		\par $He_{w}$为一置换函数，对于每一路交织器置换函数$He_{w}$均不相同，$He_{w}$定义如表\ref{table:inner_interleaver_hew}。以交织器I3为例，$w$为输入数据地址，$H(w)$为输出数据地址，即先将输入数据输入到126个地址空间中，输出时先输出地址42~125中的数据，在输出地址0~41中的数据。
+		\input{tables/inner_interleaver_hew}
+		\par $v$比特交织器的输出共同组成了一个$v$比特数据字。因此，整个比特交织器的输出是一个$v$比特字$y'$，其中I0支路的输出为最高位。
+		\begin{equation}
+			y_w'=(a_{0,w},a_{1,w},a_{2,w},\cdots a_{v-1,w},),w\in[0,125],v\in[1,6]
+		\end{equation}
+		\par 程序实现见代码段\ref{code:bit_inner_interleaver}。
+		\begin{lstlisting}[caption = {比特内交织}, label = {code:bit_inner_interleaver}, language = C++ ]
+int dvbt_bit_inner_interleaver_impl::general_work (int noutput_items,
+			gr_vector_int &ninput_items,
+			gr_vector_const_void_star &input_items,
+			gr_vector_void_star &output_items)
+{
+	const unsigned char *inh = (const unsigned char *) input_items[0];
+	const unsigned char *inl = (const unsigned char *) input_items[1];
+	unsigned char *out = (unsigned char *) output_items[0];
+
+	int bmax = noutput_items * d_nsize / d_bsize;
+
+	// First index of d_b is Bit interleaver number
+	// Second index of d_b is the position inside the Bit interleaver
+	unsigned char d_b[MAX_MODULATION_ORDER][INTERLEAVER_BLOCK_SIZE];
+
+	for (int bcount = 0; bcount < bmax; bcount++) {
+	for (int i = 0; i < d_bsize; i++) {
+		if (d_hierarchy == NH) {
+		int c = inh[bcount * d_bsize + i];
+
+		// Create the demultiplexer
+		for (int k = 0; k < d_v; k++) {
+			d_b[d_perm[(d_v * i) + k]][i] = (c >> (d_v - k - 1)) & 1;
+		}
+		}
+		else {
+		int ch = inh[(bcount * d_bsize) + i];
+		int cl = inl[(bcount * d_bsize) + i];
+
+		// High priority input - first 2 streams
+		for (int k = 0; k < 2; k++) {
+			d_b[(d_v * i + k) % 2][(d_v * i + k) / 2] = (ch >> (1 - k)) & 1;
+		}
+
+		// Low priority input - (v - 2) streams
+		for (int k = 2; k < (d_v - 2); k++) {
+			d_b[d_perm[d_v * i + k]][(d_v * i + k) / (d_v - 2)] = (cl >> (d_v - k - 1)) & 1;
+		}
+		}
+	}
+
+	// Take one bit from each interleaver
+	// and format the output
+
+	for (int w = 0; w < d_bsize; w++) {
+		int val = 0;
+
+		for (int e = 0; e < d_v; e++) {
+		val = (val << 1) | d_b[e][H(e, w)];
+		}
+
+		out[(bcount * d_bsize) + w] = val;
+	}
+	}
+
+	// Tell runtime system how many input items we consumed on
+	// each input stream.
+	consume_each (noutput_items);
+
+	// Tell runtime system how many output items we produced.
+	return noutput_items;
+}
+		\end{lstlisting}
 	\section{符号交织}
+	\par 符号交织用于将$v$比特字映射到每个OFDM的有效载波上，其中2K模式下为1512个有效载波，8K模式下为6048个有效载波。
+	\par 首先将比特交织输出的$N_{max}$个$v$比特字（2K模式下为$12*126=1512$个，8K模式下为$48*126=6048$个）顺序写入矢量$Y^{in}=(y_0^{in},y_1^{in},y_2^{in},\cdots,y_{N_{max}-1}^{in})$中，接下来对该矢量进行交织，其中2K模式下$N_{max}=1512$，8K模式下$N_{max}=6048$。经过交织后的矢量$Y^{out}=(y_0^{out},y_1^{out},y_2^{out},\cdots,y_{N_{max}-1}^{out})$定义为：
+	\par OFDM帧中的偶数符号：
+	\begin{equation}
+		y_{H(q)}^{out}=y_q^{in}
+	\end{equation}
+	\par OFDM帧中的奇数符号：
+	\begin{equation}
+		y_q^{out}=y_{H(q)}^{in}
+	\end{equation}
+	\par 其中$H(q)$是DVB-T标准中定义的一个专门的置换函数。首先定义一个$N_r-1$位的二进制数$R'_i$，其中$N_r=\log_{2}M_{max}$（2K模式下$M_{max}=2048$，8K模式下$M_{max}=8192$），$R'_i$符号下面的规定：
+	\begin{equation}
+	\begin{array}{ll}
+		R'_i[N_r-2,N_r-3,\cdots,1,0]=0,0,\cdots,0,0 & i={0,1} \\
+		R'_i[N_r-2,N_r-3,\cdots,1,0]=0,0,\cdots,0,1 & i=2\\
+		\{R'_i[N_r-3,N_r-4,\cdots,1,0]=R'_i[N_r-2,N_r-3,\cdots,2,1] & 2<i<M_{max}\\
+		\quad\quad 2K\text{模式}:R'_i[9]=R'_{i-1}[0]\bigoplus R'_{i-1}[3] & \\
+		\quad\quad 8K\text{模式}:R'_i[11]=R'_{i-1}[0]\bigoplus R'_{i-1}[1]\bigoplus R'_{i-1}[4]\bigoplus R'_{i-1}[46]\} & \\
+	\end{array}
+	\end{equation}
+	\par 再定义一个矢量$R_i$，矢量$R_i$由$R'_i$按如表\ref{table:symbol_interleaver_bit_replace}的要求置换得到。
+	\input{tables/symbol_interleaver_bit_replace.tex}
+	\par 则$H(q)$符合以下算法：
+	\par\noindent $q=0;$
+	\par\noindent $for\quad (i=0;i<M_{max};i++)\{$
+	\par\noindent $\qquad H(q)=(i\quad mod\quad 2)\cdot 2^{N_r-1}+\Sigma_{j=0}^{N_r-2}R_i(j)\cdot 2^j;$
+	\par\noindent $\qquad if(H(q)<N_{max})$
+	\par\noindent $\qquad\qquad q=q+1;$
+	\par\noindent $\}$
 	\section{星座映射}
+	\par DVB-T系统采用正交频分复用传输（OFDM）传输，一个OFDM帧的所有数据载波调制采用格雷（Grey）映射的QPSK、16QAM、64QAM、非均匀16QAM或非均匀64QAM映射为复数Z。本设计采用16QAM均匀模式，其星座图如图\ref{fig:dvbt_map_16QAM}。
+	\input{figures/dvbt_map_16QAM.tex}
 	\section{参考信号}
 	\section{IFFT}
 	\section{OFDM循环前缀}

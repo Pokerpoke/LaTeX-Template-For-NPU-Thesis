@@ -1,0 +1,17 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}[align=center]
+		\node (pro1) [draw,minimum width=2cm,minimum height=3cm] at (1,0) {1/2码率\\[2pt]卷积码\\[2pt]编码器};
+		\node (pro2) [draw,minimum width=2cm,minimum height=3cm] at (5,0) {卷积码\\[2pt]删除};
+		\node [above=3pt] at (3,1) {X};
+		\node [below=3pt] at (3,-1) {Y};
+
+		\draw [arrow] (-1,0) -- (pro1.west);
+		\draw [arrow] (2,1) -- (4,1);
+		\draw [arrow] (2,-1) -- (4,-1);
+		\draw [arrow] (pro2.east) -- (7,0);
+	\end{tikzpicture}
+	\caption{1/2基本码率截取框图}
+	\label{fig:inner_coder_slash}
+\end{figure}
+\endinput

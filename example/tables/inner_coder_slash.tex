@@ -1,0 +1,31 @@
+\begin{table}[!hbp]
+	\centering
+	\caption{不同码率的抽取序列}
+	\begin{tabular}{|l|l|l|}
+	\hline
+	码率 & 抽取方式 & 传输序列(并串转换以后) \\
+	\hline
+	\multirow{2}{*}{1/2} & X:1 & \multirow{2}{*}{X1 Y1} \\
+	\cline{2-2}
+		& Y:1 & \\
+	\hline
+	\multirow{2}{*}{2/3} & X:1 0 & \multirow{2}{*}{X1 Y1 Y2} \\
+	\cline{2-2}
+		& Y:1 1 & \\
+	\hline
+	\multirow{2}{*}{3/4} & X:1 0 1 & \multirow{2}{*}{X1 Y1 Y2 X3} \\
+	\cline{2-2}
+		& Y:1 1 0 & \\
+	\hline
+	\multirow{2}{*}{5/6} & X:1 0 1 0 1 & \multirow{2}{*}{X1 Y1 Y2 X3 Y4 X5} \\
+	\cline{2-2}
+		& Y:1 1 0 1 0 & \\
+	\hline
+	\multirow{2}{*}{7/8} & X:1 0 0 1 0 1 & \multirow{2}{*}{X1 Y1 Y2 Y3 Y4 X5 Y6 X7} \\
+	\cline{2-2}
+		& Y:1 1 1 1 0 1 0 & \\
+	\hline
+	\end{tabular}
+	\label{table:inner_coder_slash}
+\end{table}
+\endinput

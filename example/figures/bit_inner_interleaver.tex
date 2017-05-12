@@ -1,0 +1,35 @@
+\begin{figure}[thb]
+	\centering
+	\begin{tikzpicture}
+		\node (demux) [draw, minimum height = 3cm, minimum width = 2cm] at (0,0) {解复用};
+		\node (bit_interleaver1) [draw, minimum height = 1cm, minimum width = 3cm] at (5,3) {比特交织器I0};
+		\node (bit_interleaver2) [draw, minimum height = 1cm, minimum width = 3cm] at (5,1) {比特交织器I1};
+		\node (bit_interleaver3) [draw, minimum height = 1cm, minimum width = 3cm] at (5,-1) {比特交织器I2};
+		\node (bit_interleaver4) [draw, minimum height = 1cm, minimum width = 3cm] at (5,-3) {比特交织器I3};
+
+		\node at (-3,0.2) {$x_1,x_2,x_3,...$};
+
+		\node at (2.5,3+0.2) {$b_{0,0},b_{0,1},...$};
+		\node at (2.5,1+0.2) {$b_{1,0},b_{1,1},...$};
+		\node at (2.5,-1+0.2) {$b_{2,0},b_{2,1},...$};
+		\node at (2.5,-3+0.2) {$b_{3,0},b_{3,1},...$};
+
+		\node at (7.5,3+0.2) {$a_{0,0},a_{0,1},...$};
+		\node at (7.5,1+0.2) {$a_{1,0},a_{1,1},...$};
+		\node at (7.5,-1+0.2) {$a_{2,0},a_{2,1},...$};
+		\node at (7.5,-3+0.2) {$a_{3,0},a_{3,1},...$};
+
+		\draw [arrow] (-4,0) -- (demux);
+		\draw [arrow] (1,0.6) -- ++(0.3,0) -- ++(0,3-0.6) -- (bit_interleaver1.west);
+		\draw [arrow] (1,0.2) -- ++(0.5,0) -- ++(0,1-0.2) -- (bit_interleaver2.west);
+		\draw [arrow] (1,-0.2) -- ++(0.5,0) -- ++(0,-1+0.2) -- (bit_interleaver3.west);
+		\draw [arrow] (1,-0.6) -- ++(0.3,0) -- ++(0,-3+0.6) -- (bit_interleaver4.west);
+		\draw [arrow] (bit_interleaver1.east) -- ++(2,0);
+		\draw [arrow] (bit_interleaver2.east) -- ++(2,0);
+		\draw [arrow] (bit_interleaver3.east) -- ++(2,0);
+		\draw [arrow] (bit_interleaver4.east) -- ++(2,0);
+	\end{tikzpicture}
+	\caption{比特内交织原理图}
+	\label{fig:bit_inner_interleaver}
+\end{figure}
+\endinput
