@@ -1,0 +1,38 @@
+\begin{table}[!hbp]
+	\centering
+	\caption{TPS信息内容定义}
+	\begin{tabular}{|m{2cm}<{\centering}|m{3cm}<{\centering}|m{8cm}<{\centering}|}
+	\hline\hline
+	\multicolumn{1}{|c|}{TPS比特序号} & \multicolumn{1}{c|}{数据含义} & \multicolumn{1}{c|}{数据格式} \\
+	\hline
+	$S_0$ & 初始位 & BPSK调制初始位，它是从PRBS随机序列发生器生成 \\
+	\hline
+	$S_1-S_{16}$ & 同步字 & \tabincell{c}{0011010111101110 \\ 或 \\ 1100101000010001} \\
+	\hline
+	$S_{17}-S_{22}$ & TPS长度指示 & \tabincell{l}{010111 如果不采用覆盖区域蜂窝号码 \\ 011111 如果采用覆盖区域蜂窝号码}\\
+	\hline
+	$S_{23},S_{24}$ & 帧序号 & \tabincell{l}{00：超级帧的第一帧 \\ 01：超级帧的第二帧 \\ 10：超级帧的第三帧 \\ 11：超级帧的第四帧} \\
+	\hline
+	$S_{25},S_{s6}$ & 调制方式 & \tabincell{l}{00：QPSK \\ 01：16QAM \\ 10：64QAM \\ 11：未定义} \\
+	\hline
+	$S_{27},S_{28},S_{29}$ & 等级调制信息 & \tabincell{l}{000：非等级调制 \\ 001：等级调制，Alpha=1 \\ 011：等级调制，Alpha=2 \\ 011：等级调制，Alpha=4 \\ 100,101,110,111：未定义} \\
+	\hline
+	$S_{30},S_{31},S_{32}$ & 高优先级等级调制FEC纠错码 & \tabincell{c}{000：1/2 \qquad 001：2/3 \\ 011：3/4 \qquad 011：5/6 \\ 100：7/8 \\ 101,110,111：未定义} \\
+	\hline
+	$S_{33},S_{34},S_{35}$ & 低优先级等级调制FEC纠错码 & \tabincell{c}{000：1/2 \qquad 001：2/3 \\ 011：3/4 \qquad 011：5/6 \\ 100：7/8 \\ 101,110,111：未定义} \\
+	\hline
+	$S_{36},S_{37}$ & 保护间隔 & \tabincell{l}{00：1/32 \\ 01：1/16 \\ 10：1/8 \\ 11：1/4} \\
+	\hline
+	$S_{38},S_{39}$ & 传输模式 & \tabincell{c}{00：2k \qquad 01：8k \\ 10，11：未定义} \\
+	\hline
+	$S_{40}-S_{47}$ & 覆盖区域蜂窝号码 & \tabincell{l}{当传输第1和第3帧时，\\对应蜂窝号码Cell\_ID15-8高比特序号； \\ 当传输第2和第4帧时，\\对应蜂窝号码Cell\_ID7-0低比特序号} \\
+	\hline
+	$S_{48}-S_{53}$ & 今后使用 & 全部设置为零 \\
+	\hline
+	$S_{54}-S_{67}$ & 纠错保护码 & BCH编码 \\
+	\hline\hline
+	\end{tabular}
+	\label{table:tps}
+\end{table}
+
+\endinput
