@@ -33,10 +33,16 @@
 			\label{table:params_of_raspi}
 		\end{table}
 	\section{烧录系统镜像}
-		\par\noindent $\bullet$ Windows
+		\par $\bullet$ Windows
 		% \paragraph{Windows}
-		\par 首先从官网下载镜像（\href{https://www.raspberrypi.org/downloads/}{https://www.raspberrypi.org/downloads/}），下载完成以后会解压出后缀名为img的镜像文件，使用Win32 Disk Imager（\href{https://sourceforge.net/projects/win32diskimager/files/latest/download}{https://sourceforge.net/projects/win32diskimager/files/latest/download}）软件将镜像烧写进SD卡。
-		\par\noindent $\bullet$ Ubuntu
+		\par 首先从官网下载镜像（\href{https://www.raspberrypi.org/downloads/}{https://www.raspberrypi.org/downloads/}），下载完成以后会解压出后缀名为img的镜像文件，使用Win32 Disk Imager（\href{https://sourceforge.net/projects/win32diskimager/files/latest/download}{https://sourceforge.net/projects/win32diskimager/files/latest/download}）软件将镜像烧写进SD卡，如图\ref{fig:win32diskimager}。
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/win32diskimager.png}
+			\caption{Win32DiskImager}
+			\label{fig:win32diskimager}
+		\end{figure}
+		\par $\bullet$ Ubuntu
 		\par Ubuntu下使用dd命令进行镜像烧写，首先执行
 		\begin{lstlisting}[ language= sh ]
 sudo fdisk -l

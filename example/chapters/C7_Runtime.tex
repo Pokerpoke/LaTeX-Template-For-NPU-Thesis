@@ -16,7 +16,14 @@
 		\end{figure}
 	\section{波形}
 		\par 有如下几种方式查看输出波形：
-		\par $\bullet$ 使用GNU Radio构建一个简易的频谱仪
+		\par $\bullet$ 使用GNU Radio构建一个简易的示波器。
+		\par 按图搭建框图\ref{fig:dvbt_rx_fft}运行即可。
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/dvbt_rx_fft.png}
+			\caption{GNU Radio示波器}
+			\label{fig:dvbt_rx_fft}
+		\end{figure}
 		\par $\bullet$ 使用示波器
 		\par 带宽为2MHz时波形如图\ref{fig:dvbt_BW_2MHz}所示，带宽为5MHz时波形如图\ref{fig:dvbt_BW_5MHz}所示。
 		\begin{figure}[htp]
@@ -39,7 +46,7 @@
 			\includegraphics[width=13cm]{figures/dvbt_rx_TS.png}
 			\caption{视频输出}
 			\label{fig:dvbt_rx_TS}
-		\end{figure}	
+		\end{figure}
 		\par 由于USRP的输出功率（约1W），信号能传播大约一间屋子的距离（约5米），超过这段距离将会出现以如图\ref{fig:dvbt_rx_2MHz_ranged_2}星座图以及如图\ref{fig:dvbt_rx_TS_broken}视频播放的失真。
 		\begin{figure}[htp]
 			\centering

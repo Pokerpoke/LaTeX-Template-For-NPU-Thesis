@@ -24,8 +24,20 @@
 			\label{fig:devices}
 		\end{figure}
 	\section{运行程序}
-		\par 点击GNU Radio中的运行（Run）按钮，会在当前界面中直接运行该程序。
-		\par 点击GNU Radio上的生成（Generate）按钮，会成成一个于Options框图中ID相对应的Python文件（默认为\lstinline[language=sh]{top_block.py}），进入该文件所在目录，执行：
+		\par 点击GNU Radio中的运行（Run）按钮如图\ref{fig:dvbt_run}，会在当前界面中直接运行该程序。
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/dvbt_run.png}
+			\caption{在当前界面中运行}
+			\label{fig:dvbt_run}
+		\end{figure}
+		\par 点击GNU Radio上的生成（Generate）按钮如图\ref{fig:dvbt_generate}，会成成一个于Options框图中ID相对应的Python文件（默认为\lstinline[language=sh]{top_block.py}），进入该文件所在目录，执行：
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/dvbt_generate.png}
+			\caption{生成Python文件}
+			\label{fig:dvbt_generate}
+		\end{figure}	
 		\begin{lstlisting}[ language = sh ]
 python top_block.py
 		\end{lstlisting}
