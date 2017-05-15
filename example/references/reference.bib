@@ -1,44 +1,167 @@
-% Encoding: UTF-8
-@article{pellegrini2008soft,
-  title={Soft-dvb: A fully-software gnuradio-based etsi dvb-t modulator},
-  author={Pellegrini, Vincenzo and Bacci, Giacomo and Luise, Marco},
-  journal={Proc. WSR},
-  volume={8},
+@misc{ wiki:Python,
+  author = "维基百科",
+  title = "Python --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=Python&oldid=43770680}",
+}
+
+@misc{ wiki:Boost,
+  author = "维基百科",
+  title = "Boost C++ Libraries --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=Boost_C%2B%2B_Libraries&oldid=42721688}",
+}
+
+@misc{ wiki:树莓派,
+  author = "维基百科",
+  title = "树莓派 --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=%E6%A0%91%E8%8E%93%E6%B4%BE&oldid=44138173}",
+}
+
+@misc{ wiki:CMake,
+  author = "维基百科",
+  title = "CMake --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=CMake&oldid=44217154}",
+}
+
+@Misc{ wiki:Doxygen,
+  author = {维基百科},
+  title  = {Doxygen --- 维基百科{,} 自由的百科全书},
+  year   = {2017},
+  howpublished    = {\url{https://zh.wikipedia.org/w/index.php?title=Doxygen&oldid=42734857}},
+}
+
+@Misc{ wiki:SWIG,
+  author = {Wikipedia},
+  title  = {SWIG --- Wikipedia{,} The Free Encyclopedia},
+  year   = {2017},
+  howpublished    = {\url{https://en.wikipedia.org/w/index.php?title=SWIG&oldid=771612694}},
+}
+
+@misc{ wiki:USRP,
+  author = "Wikipedia",
+  title = "Universal Software Radio Peripheral --- Wikipedia{,} The Free Encyclopedia",
+  year = "2017",
+  howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Universal_Software_Radio_Peripheral&oldid=777159925}",
+}
+
+@misc{ wiki:GitHub,
+  author = "维基百科",
+  title = "GitHub --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=GitHub&oldid=43503333}",
+}
+
+@misc{ wiki:Docker,
+  author = "维基百科",
+  title = "Docker (软件) --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=Docker_(%E8%BB%9F%E9%AB%94)&oldid=42628638}",
+}
+
+@misc{ wiki:Git,
+  author = "维基百科",
+  title = "Git --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=Git&oldid=44150304}",
+}
+
+@misc{ wiki:DVB-T,
+  author = "维基百科",
+  title = "DVB-T --- 维基百科{,} 自由的百科全书",
+  year = "2017",
+  howpublished = "\url{https://zh.wikipedia.org/w/index.php?title=DVB-T&oldid=43988067}",
+}
+
+@misc{ wiki:PRBS,
+  author = "维基百科",
+  title = "伪乱数二进制数列 --- 维基百科{,} 自由的百科全书",
+  year = "2016",
+  url = "\url{https://zh.wikipedia.org/w/index.php?title=%E5%81%BD%E4%BA%82%E6%95%B8%E4%BA%8C%E9%80%B2%E4%BD%8D%E6%95%B8%E5%88%97&oldid=42458430}",
+}
+
+@article{数字电视DVB标准能量扩散的FPGA设计与实现_肖闽进,
+  title={数字电视 DVB 标准能量扩散的 FPGA 设计与实现},
+  author={肖闽进},
+  journal={常州工学院学报},
+  volume={21},
+  number={1},
+  pages={30--33},
   year={2008}
 }
 
-@thesis{_dvb-tfpga_2008,
-	title = {DVB-T编码调制的仿真和FPGA实现},
-	url = {http://d.wanfangdata.com.cn/Thesis/Y1367111},
-	abstract = {随着超大规模集成电路技术和通信技术的发展，数字电视技术迅速发展起来。数字地面电视作为数字电视广播中最复杂的一个，具有在无线和移动条件下接收的能力，在我国有着广阔的应用前景。近几年来，随着微电子技术的迅猛发展，使得{FPGA的各种性能越来越好}，其在数字系统设计中占据了越来越重要的地位。考虑到系统成本、功耗和面市时间等因素，{FPGA的发展为许多通信}、音频、视频和图像系统提供了全新的解决方案。基于{FPGA的系统解决方案在性价比和可移植性方面的优点使其有着广阔的发展前景}。    本文所做的工作是基于{DVB}-{T标准的研究和FPGA设计}，{DVB}-T是欧洲电信标准委员会提出的数字地面电视广播标准。本文首先介绍了{DVB}-T发射端的整体实现框图，重点分析了{DVB}-T标准中所用到的信道编码调制技术，说明了{DVB}-T系统的结构流程、核心技术及系统信道特性和参数。其次在{MATLAB软件平台下仿真实现了高斯信道}、莱斯信道的系统模型，深入研究了{DVB}-T系统在各种信道环境下的传输性能，全面分析了系统的优缺点。最后完成了{DVB}-{T系统中信道编码调制各模块的FPGA设计与仿真验证}，包括数据加扰，{RS编码}，外交织，卷积编码，比特交织，符号交织等子模块。通过仿真分析，可以看到各模块功能和性能都满足设计要求。},
-	institution = {南京理工大学},
-	type = {phdthesis},
-	author = {王闯},
-	urldate = {2017-05-06},
-	date = {2008}
+@article{用FPGA实现DVB标准中的卷积交织_刘静,
+  title={用 FPGA 实现 DVB 标准中的卷积交织},
+  author={刘静},
+  journal={无线电通信技术},
+  volume={27},
+  number={5},
+  pages={17--18},
+  year={2001}
 }
 
-@online{what_is_dvb_t,
-	title = {What is DVB-T},
-	howpublished = {\url{https://www.electronics-notes.com/articles/audio-video/broadcast-tv-television/what-is-dvb-t-basics-tutorial.php}},
+@article{RS编码器的设计与实现_游余新,
+  title={RS (204,188) 编码器的设计与实现},
+  author={游余新 and 王进祥 and 来逢昌},
+  journal={微处理机},
+  number={1},
+  pages={50--52},
+  year={2001}
 }
 
-@article{dawkins_single-chip_2003,
-	title = {A single-chip tuner for {DVB}-T},
-	volume = {38},
-	issn = {0018-9200},
-	doi = {10.1109/JSSC.2003.814436},
-	abstract = {A new architecture is presented for a single-chip tuner for digital terrestrial television, based on existing double conversion and direct conversion topologies. The new design forms part of a mixed-signal Digital Video Broadcasting-Terrestrial ({DVB}-T) receiver system, employing digital signal processing at baseband to ensure minimal performance requirements for the analog circuitry. To evaluate the potential performance of this new tuner/receiver system, high-level system simulations have been performed, followed by the construction of a prototype {DVB}-T receiver using a custom-designed analog {ASIC} which integrates all analog tuner blocks (including channel filtering) on one chip. Measured results from this chip, implemented in a 20-{GHz} bipolar technology, show an overall third-order input referred intercept point of 116 {dBμV}, a noise figure of 14 {dB} and an automatic gain control range of 71.4 {dB}, drawing 250 {mA} at a 5-V supply.},
-	pages = {1307--1317},
-	number = {8},
-	journaltitle = {{IEEE} Journal of Solid-State Circuits},
-	author = {Dawkins, M. and Burdett, A. P. and Cowley, N.},
-	date = {2003-08},
-	keywords = {5 V, 14 {dB}, 20 {GHz}, 250 {mA}, application specific integrated circuits, automatic gain control, Baseband, channel filtering, Circuit simulation, Circuit topology, consumer electronics, custom-designed analog {ASIC}, digital signal processing, digital terrestrial television, digital video broadcasting, direct conversion, double conversion, {DVB}-T, high-level system simulations, mixed-signal Digital Video Broadcasting-Terrestrial receiver system, noise figure, Performance evaluation, Signal design, single-chip tuner, third-order input referred intercept point, Tuners, tuning, {TV} broadcasting, Virtual prototyping}
+@article{DVB—T中内交织与解交织的算法及实现_徐翼,
+  title={DVB—T 中内交织与解交织的算法及实现},
+  author={徐翼 and 徐建},
+  journal={山西电子技术},
+  number={1},
+  pages={11--13},
+  year={2008}
+}
+
+@phdthesis{DVB—T编码调制的仿真和FPGA实现_王闯,
+  title={DVB—T 编码调制的仿真和 FPGA 实现},
+  author={王闯},
+  year={2008},
+  school={南京: 南京理工大学}
+}
+
+@misc{zhihu:如何直观形象、生动有趣地给文科学生介绍傅立叶变换？,
+  title={如何直观形象、生动有趣地给文科学生介绍傅立叶变换？},
+  author={匿名用户},
+  howpublished={\url{https://www.zhihu.com/question/19991026/answer/22455697}},
+  year={2014},
+}
+
+@misc{如果看了此文你还不懂傅里叶变换，那就过来掐死我吧,
+  title={如果看了此文你还不懂傅里叶变换，那就过来掐死我吧},
+  author={韩昊},
+  howpublished={\url{https://zhuanlan.zhihu.com/p/19763358?columnSlug=wille}},
+  year={2014}
+}
+
+@misc{给"小白"图示讲解OFDM的原理,
+  title={给"小白"图示讲解OFDM的原理},
+  author={码懂},
+  howpublished={\url{http://blog.csdn.net/madongchunqiu/article/details/18614233}},
+  year={2014}
+}
+
+@misc{USRP:SamplingRates,
+  title={About USRP Bandwidths and Sampling Rates},
+  author={Ettus},
+  howpublished={\url{https://kb.ettus.com/About_USRP_Bandwidths_and_Sampling_Rates}},
+  year={2016}
 }
 
 @online{what_is_gnuradio,
 	title = {WhatIsGR - GNU Radio 中文社区},
 	howpublished = {\url{http://gnuradio.microembedded.com/whatisgr}},
 	abstract = {微嵌 - {GNU} Radio 中文维客 由 微嵌软件技术(北京)有限责任公司维护。{GNU} Radio 是免费的软件开发工具套件。它提供信号运行和处理模块，用它可以在易制作的低成本的射频（{RF}）硬件（比如：{USRP} 和{USRP}2）和通用微处理器上实现软件定义无线电。这套套件广泛用于业余爱好者，学术机构和商业机构用来研究和构建无线通信系统。},
+}
+
+@online{what_is_dvb_t,
+	title = {What is DVB-T},
+	howpublished = {\url{https://www.electronics-notes.com/articles/audio-video/broadcast-tv-television/what-is-dvb-t-basics-tutorial.php}},
 }

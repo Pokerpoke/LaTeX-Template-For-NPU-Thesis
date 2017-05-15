@@ -276,7 +276,7 @@ uhd_siggen_gui -f 900000000
 		\subsection{简介}
 			\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施，
 			\par 依据行业分析公司“451研究”：“Dockers是有能力打包应用程序及其虚拟容器，可以在任何Linux服务器上运行的依赖性工具，这有助于实现灵活性和便携性，应用程序在任何地方都可以运行，无论是公有云、私有云、单机等。”\cite{ wiki:Docker}
-			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制，与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本即可，进行少量的配置即可运行。
+			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本，进行少量的配置即可运行。
 		\subsection{构建容器}
 	\section{GNU Radio}
 		\label{sec:gnuradio}
@@ -345,7 +345,7 @@ pybombs run gnuradio-companion
 			\par gr-dvbt源码已托管于GitHub（\href{https://github.com/BogdanDIA/gr-dvbt}{https://github.com/BogdanDIA/gr-dvbt}）。
 			\par 3.7.9及以下版本的GNU Radio需要从源码编译，首先安装相关依赖，一般情况下需要以下依赖：
 			\begin{lstlisting}[ language= sh ]
-sudo apt insatll log4cpp libboost-all-dev swig git cmake
+sudo apt install log4cpp libboost-all-dev swig git cmake
 			\end{lstlisting}
 			\par 编译并运行
 			\begin{lstlisting}[ language= sh ]
