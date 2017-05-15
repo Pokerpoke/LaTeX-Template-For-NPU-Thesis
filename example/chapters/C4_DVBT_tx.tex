@@ -290,6 +290,7 @@ int dvbt_bit_inner_interleaver_impl::general_work (int noutput_items,
 		\par\noindent $\qquad if(H(q)<N_{max})$
 		\par\noindent $\qquad\qquad q=q+1;$
 		\par\noindent $\}$
+		\par 本部分程序段过长，参见\href{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt_symbol_inner_interleaver_impl.cc}{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt\_symbol\_inner\_interleaver\_impl.cc}
 	\section{星座映射}
 		\par DVB-T系统采用正交频分复用传输（OFDM）传输，一个OFDM帧的所有数据载波调制采用格雷（Grey）映射的QPSK、16QAM、64QAM、非均匀16QAM或非均匀64QAM映射为复数Z。本设计采用16QAM均匀模式，其星座图如图\ref{fig:dvbt_map_16QAM}。
 		\input{figures/dvbt_map_16QAM.tex}
@@ -360,11 +361,12 @@ void dvbt_map_impl::make_constellation_points(int size, int step, int alpha)
 		\par OFDM的理论很久以前就提出来了，但是一直没有好的实现方式，因为需要计算出各个信号在时域上的叠加很困难，直到快速傅里叶变换的出现，大大降低了傅里叶变换的复杂度，能够很快地计算出信号在时域上的叠加以后的结果，使得OFDM的广泛使用成为可能。
 		\par IFFT模块的功能相当于说：别麻烦发送N个子载波信号了，我直接算出你们在空中会叠加成啥样子吧；FFT模块的功能相当于说：别用老式的积分方法来去除其余的正交子载波了，我帮你一次把N个携带信号全算出来吧。就是这样，IFFT实现OFDM的系统用"数学的方法"，在发送端计算信号的叠加波形，在接收端去除正交子载波，从而大大简化了系统的复杂度\cite{给"小白"图示讲解OFDM的原理}。
 		\par DVB-T发射系统中采反傅里叶变换，将频域信号的在时域上叠加后的结果一次性计算出来，再在接收端使用傅里叶变换进行还原。
+		\par 由于FFT已经有了众多的实现方式，此处不提供代码。
 	\section{OFDM循环前缀}
 		\par 在传播过程中如果子载波的正交性遭到破环，会影响信号接收，造成信道间干扰（ICI），为了克服这种干扰，OFDM传播系统采取添加循环前缀的措施来减少信道间干扰。
 	% \section{常数}
-	\section{重采样}
-		\par 信号的采样率，用于满足另一个系统的要求
+	% \section{重采样}
+	% 	\par 信号的采样率，用于满足另一个系统的要求
 	\section{USRP发射}
 		% TODO: 图片、参数
 		\par 
