@@ -5,7 +5,7 @@
 			\par CMake是个开源的跨平台自动化建构系统，它用配置文件控制建构过程（build process）的方式和Unix的Make相似，只是CMake的配置文件取名为CMakeLists.txt。Cmake并不直接建构出最终的软件，而是产生标准的建构档（如Unix的Makefile或Windows Visual C++的projects/workspaces），然后再依一般的建构方式使用。这使得熟悉某个集成开发环境（IDE）的开发者可以用标准的方式建构他的软件，这种可以使用各平台的原生建构系统的能力是CMake和SCons等其他类似系统的区别之处。CMake可以编译源代码、制做程序库、产生适配器（wrapper）、还可以用任意的顺序建构可执行文件。CMake支持in-place建构（二进档和源代码在同一个目录树中）和out-of-place建构（二进档在别的目录里），因此可以很容易从同一个源代码目录树中建构出多个二进档。CMake也支持静态与动态程序库的建构。\cite{ wiki:CMake}
 			\par CMake的源码已托管至GitHub（\href{https://github.com/Kitware/CMake.git}{https://github.com/Kitware/CMake.git}）。
 		\subsection{安装}
-		\label{sec:CMake}
+			\label{sec:CMake}
 			\par 在Ubuntu环境下可以直接使用\lstinline[language=sh]{sudo apt install cmake}来安装。也能使用源码来编译CMake。
 			\begin{lstlisting}[ language= sh ]
 git clone https://github.com/Kitware/CMake.git
@@ -60,7 +60,7 @@ make
 			\end{lstlisting}
 			\par 便会在\lstinline{/build/build/app}目录下生成相应的可执行文件。有众多的开源项目基于CMake构建，使用这些程序时编译完成以后还需要使用以下命令来将其置入系统路径，使其能够在命令行下直接执行。
 			\begin{lstlisting}
-sudo make insatll
+sudo make install
 			\end{lstlisting}
 			\par 如果编译的动态库还需要将其链接：
 			\begin{lstlisting}[ language= sh ]
@@ -174,17 +174,46 @@ ENDIF()
 				\label{fig:USRP_B200mini_原理图}
 			\end{figure}
 			\par UHD的源码已托管于GitHub（\href{https://github.com/EttusResearch/uhd}{https://github.com/EttusResearch/uhd}）。
-	\section{HackRF}
-		\subsection{简介}
-			\par HackRF是一款由Michael Ossmann发起的开源软件无线电外设，旨在从30MHz到6GHz，于2012年从DARPA处拿了一笔经费，制作了500块测试版本Jawbreaker，并向社会分发测试。在经过用户对Jawbreaker的反馈后，作者对硬件板卡做了重新布线，改善了射频性能，这一点我们将会在后文详细讨论。 随后于2013年7月31日至9月4日共计35天的时间，在著名的社会化融资平台Kickstarter上，迅速地获得多达1991人的预订，共预订出价值为\$602,960的HackRF One。
-			\begin{figure}[htb]
+		\subsection{UHD}
+			\par 安装完成GNU Radio以后可以会自动安装UHD相关软件，USRP B200 mini需要UHD3.9.0及以上版本，使用版本过低会导致USRP无法识别。UHD提供了一些简单信号发生函数，能够用来实现一些简单的测试。
+			\par 首次使用需要执行
+			\begin{lstlisting}[ language = sh ]
+uhd_images_downloader
+			\end{lstlisting}
+			\par 来下载USRP需要的镜像，以便之后的使用。
+			\par 执行
+			\begin{lstlisting}[ language = sh ]
+uhd_siggen -f 900000000
+			\end{lstlisting}
+			\par 来产生一个如图\ref{fig:uhd_siggen}的正弦波。
+			\begin{figure}[htp]
 				\centering
-				\includegraphics[width=13cm]{figures/HackRF_Schematic.png}
-				\caption{HackRF\_架构图}
-				\label{fig:HackRF_架构}
+				\includegraphics[width=13cm]{figures/uhd_siggen.jpg}
+				\caption{uhd\_siggen}
+				\label{fig:uhd_siggen}
 			\end{figure}
-			\par HackRF的源码已托管于GitHub（\href{https://github.com/mossmann/hackrf}{https://github.com/mossmann/hackrf}）。
-		\subsection{osmosdr}
+			\par 或者执行
+			\begin{lstlisting}[ language = sh ]
+uhd_siggen_gui -f 900000000
+			\end{lstlisting}
+			\par 来运行一个如图\ref{fig:uhd_siggen_gui}的基于GNU Radio的GUI界面。
+			\begin{figure}[htp]
+				\centering
+				\includegraphics[width=13cm]{figures/uhd_siggen_gui.png}
+				\caption{uhd\_siggen\_gui}
+				\label{fig:uhd_siggen_gui}
+			\end{figure}
+			% \section{HackRF}
+			% 	\subsection{简介}
+			% 		\par HackRF是一款由Michael Ossmann发起的开源软件无线电外设，旨在从30MHz到6GHz，于2012年从DARPA处拿了一笔经费，制作了500块测试版本Jawbreaker，并向社会分发测试。在经过用户对Jawbreaker的反馈后，作者对硬件板卡做了重新布线，改善了射频性能，这一点我们将会在后文详细讨论。 随后于2013年7月31日至9月4日共计35天的时间，在著名的社会化融资平台Kickstarter上，迅速地获得多达1991人的预订，共预订出价值为\$602,960的HackRF One。
+			% 		\begin{figure}[htb]
+			% 			\centering
+			% 			\includegraphics[width=13cm]{figures/HackRF_Schematic.png}
+			% 			\caption{HackRF\_架构图}
+			% 			\label{fig:HackRF_架构}
+			% 		\end{figure}
+			% 		\par HackRF的源码已托管于GitHub（\href{https://github.com/mossmann/hackrf}{https://github.com/mossmann/hackrf}）。
+			% 	\subsection{osmosdr}
 	\section{gqrx}
 		\subsection{简介}
 			\par Gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR）。
@@ -201,10 +230,43 @@ ENDIF()
 			\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力。
 			\par 实际上内核开发团队决定开始开发和使用git来作为内核开发的版本控制系统的时候，世界上开源社区的反对声音不少，最大的理由是git太艰涩难懂，从git的内部工作机制来说，的确是这样。但是随着开发的深入，git的正常使用都由一些友善的命令稿来执行，使git变得非常好用。现在，越来越多的著名项目采用git来管理项目开发，例如：wine、U-boot等。
 			\par 作为开源自由原教旨主义项目，git没有对版本库的浏览和修改做任何的权限限制，通过其他工具也可以达到有限的权限控制，比如：gitosis、CodeBeamer MR。原本git的使用范围只适用于Linux/Unix平台，但在Windows平台下的使用也日渐成熟，这主要归功于Cygwin、msysgit环境，以及TortoiseGit这样易用的GUI工具。git的源代码中也已经加入了对Cygwin与MinGW编译环境的支持且逐渐完善，为Windows用户带来福音。\cite{ wiki:Git}
+			\par git的一个仓库由三个区组成：工作区，暂存区，版本库。我们平常编写程序的叫做工作区，在工作区中编写程序，修复bug，然后将修改后的文件通过\lstinline[language=sh]{git add -p <file>}	命令添加到暂存区，检查暂存区没有错误以后通过\lstinline[language=sh]{git commit -m "some comments"}命令将修改提交至版本库，如果存在远程仓库还需要执行\lstinline[language=sh]{git push}命令来将修改提交至远程仓库。
+			\par 以上是一个正常的提交流程，我们可以通过\lstinline[language=sh]{git log}来查看所有的\lstinline[language=sh]{commit}，并通过\lstinline[language=sh]{git reset --hard <your commit flag>}来回退至相应的版本。
 			\par git的源码已托管于GitHub（\href{https://github.com/git/git}{https://github.com/git/git}）。
 		\subsection{常用命令}
+			\par $\bullet$ \lstinline[language=sh]{git config --global user.name "Your name"}
+			\par 使用仓库之前得先告诉git你是谁，谁提交了接下来的修改。
+			\par $\bullet$ \lstinline[language=sh]{git config --global user.email "email@example.com"}
+			\par git是外国人开发的，较为正式的联系方式是电子邮件。
+			\par $\bullet$ \lstinline[language=sh]{git add -p <file>}
+			\par 将文件和修改提交至暂存区，可以使用\lstinline[language=sh]{git add .}命令将所有文件提交至暂存区。
+			\par $\bullet$ \lstinline[language=sh]{git commit -m "some comments"}
+			\par 将文件和修改提交至本地仓库，并添加一些批注。
+			\par $\bullet$ \lstinline[language=sh]{git status}
+			\par 显示仓库当前状态			
+			\par $\bullet$ \lstinline[language=sh]{}git log
+			\par 显示提交日志，可以通过添加\lstinline[language=sh]{--pretty=oneline}参数来格式化输出信息。
+			\par $\bullet$ \lstinline[language=sh]{git reset --hard 130f101}
+			\par 版本回退，最后的为\lstinline[language=sh]{git log}中的唯一标识，也可以使用\lstinline[language=sh]{HEAD}来撤销更改，回退到当前版本。
+			\par $\bullet$ \lstinline[language=sh]{git checkout -- <file>}
+			\par 丢弃工作区的修改，回到最近一次的\lstinline[language=sh]{commit}或者\lstinline[language=sh]{add}的状态，该命令可以在\lstinline[language=sh]{git status}中提示。
+			\par $\bullet$ \lstinline[language=sh]{git push origin master}
+			\par 将修改提交至远程仓库，可以添加多个远程仓库，可以指定分支。
+			\par $\bullet$ \lstinline[language=sh]{git diff}
+			\par 显示文件于版本库的差异。
+			\par $\bullet$ \lstinline[language=sh]{git fetch}
+			\par 获取远程仓库的最新版本。
+			\par $\bullet$ \lstinline[language=sh]{git pull}
+			\par 获取远程仓库的最新版本，并与本地仓库合并。
+			\par $\bullet$ \lstinline[language=sh]{git branch dev}
+			\par 创建分支。
+			\par $\bullet$ \lstinline[language=sh]{git checkout dev}
+			\par 切换至dev分支，可以使用\lstinline[language=sh]{git checkout -b dev}来创建并切换至dev分支。
+			\par $\bullet$ \lstinline[language=sh]{git merge dev}
+			\par 合并指定分支至当前分支。
+			\par 一个好的习惯是在添加新功能或者修复某一个bug时创建一个相应的分支，在该分支中修改，修改完成并测试通过以后合并至主分支，这样可以在不影响主分支的情况进行bug的修复和新功能的添加。
 			\par 在众多教程中，廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})很适合初学者，深入浅出的讲解了使用git过程中常用的许多命令。
-		\subsection{版本控制}
+			% \subsection{版本控制}
 		\subsection{github}
 			\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
 			\par GitHub同时提供付费账户和免费账户。这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等。GitHub也提供了图表功能，用于概观显示开发者们怎样在代码库上工作以及软件的开发活跃程度。
@@ -217,7 +279,7 @@ ENDIF()
 			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制，与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本即可，进行少量的配置即可运行。
 		\subsection{构建容器}
 	\section{GNU Radio}
-	\label{sec:gnuradio}
+		\label{sec:gnuradio}
 		\subsection{简介}
 			\par GNU Radio 是免费开源的软件开发工具套件。它提供构建软件无线电所需的信号运行和处理的模块，用它可以在唾手可得的低成本的外部射频（RF）硬件和通用微处理器上、或无硬件的模拟环境中实现软件定义无线电。这套套件广泛用于业余爱好者，学术机构和商业机构用来研究和构建无线通信系统。
 			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）、等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks),这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。对 GNU Radio 进行扩充也十分容易；如若发现所缺失的特定功能块，便可快速生成并将其添加到系统中。
@@ -337,3 +399,4 @@ cmake ../
 make && sudo make install
 sudo ldconfig
 			\end{lstlisting}
+			\par 之后便可以通过GNU Radio调用gr-dvbt的相关框图。
