@@ -45,6 +45,7 @@
 			\label{fig:dvbt_BW_5MHz}
 		\end{figure}
 		\par $\bullet$ 使用gqrx
+		\par 直接在gqrx中调节到相应频段查看即可，不再赘述。
 	\section{距离}
 		\par 收发端之间距离较近时可以在当前目录下看到生成的\lstinline[language=sh]{test_out.ts}文件，使用VLC或者Mplayer可以播放出视频，如图\ref{fig:dvbt_rx_TS}。
 		\begin{figure}[htp]
@@ -53,7 +54,7 @@
 			\caption{视频输出}
 			\label{fig:dvbt_rx_TS}
 		\end{figure}
-		\par 由于USRP的输出功率（约1W），信号能传播大约一间屋子的距离（约5米），超过这段距离将会出现以如图\ref{fig:dvbt_rx_2MHz_ranged_2}星座图以及如图\ref{fig:dvbt_rx_TS_broken}视频播放的失真。
+		\par 由于USRP的输出功率（约1W），信号能传播大约一间屋子的距离（约5米），超过这段距离将会出现以如图\ref{fig:dvbt_rx_2MHz_ranged_2}无法解星座映射以及如图\ref{fig:dvbt_rx_TS_broken}视频播放失真的情况。
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=13cm]{figures/dvbt_rx_2MHz_ranged_2.png}
@@ -67,4 +68,12 @@
 			\label{fig:dvbt_rx_TS_broken}
 		\end{figure}
 	\section{树莓派发射}
+		\par 将设备按图\ref{fig:dvbt_raspi}所示连接，便可以在接收端上看到\lstinline[language=sh]{test_out.ts}但是由于带宽太小，误码率高，在OFDM接收端处无法解码，该文件无法流畅播放。
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/dvbt_raspi.jpg}
+			\caption{树莓派连接图}
+			\label{fig:dvbt_raspi}
+		\end{figure}
+		\par 由于树莓派的计算性能与IO性能较弱，仅能提供约500KHz的带宽，也许将部分模块交由FPGA处理会有巨大的提升，或者通过gpu来计算相关模块，有待后续开发者继续研究。
 		% TODO: 树莓派图

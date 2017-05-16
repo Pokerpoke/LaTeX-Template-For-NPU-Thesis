@@ -2,7 +2,7 @@
 \chapter{程序实现}
 	\section{GNU Radio框图}
 		\par 按照图\ref{fig:gnuradio_dvbt_tx}在GNU Radio中搭建DVB-T发射端，图\ref{fig:gnuradio_dvbt_rx}在GNU Radio中搭建DVB-T接收端。
-		\par 可以在右侧的模块中选择相应模块，使用Ctrl+f快捷键能更快的找到相应的模块。
+		\par 在右侧的模块中选择相应模块，使用Ctrl+f快捷键能更快的找到相应的模块。
 		\begin{figure}[htb]
 			\centering
 			\includegraphics[height=13cm,angle=-90]{figures/dvbt_tx.png}
@@ -17,7 +17,7 @@
 		\end{figure}
 	\section{设备连接}
 		% TODO:图片标注
-		\par 按图\ref{fig:devices}将设备连接，需要将USRP连接至USB3.0上，USB2.0的传输速率为8MS/s @ 16-bit I/Q，USB3.0的传输速率为61.44MS/s @ 16-bit I/Q\cite{USRP:SamplingRates}。
+		\par 按图\ref{fig:devices}将设备连接，需要将USRP连接至USB3.0上，因为USB2.0的传输速率为8MS/s @ 16-bit I/Q，USB3.0的传输速率为61.44MS/s @ 16-bit I/Q\cite{USRP:SamplingRates}。
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=13cm]{figures/devices.jpg}
@@ -25,7 +25,7 @@
 			\label{fig:devices}
 		\end{figure}
 	\section{运行程序}
-		\par 点击GNU Radio中的运行（Run）按钮如图\ref{fig:dvbt_run}，会在当前界面中直接运行该程序。
+		\par 点击GNU Radio中的运行（Run）按钮如图\ref{fig:dvbt_run}，会在当前界面中直接运行该程序，直接运行可能会提示\lstinline[language=sh]{file not found}的错误，此时需要在\lstinline[language=sh]{file source}框图中指定文件的绝对位置，生成Python文件则只需要在同一目录下即可。
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=13cm]{figures/dvbt_run.png}

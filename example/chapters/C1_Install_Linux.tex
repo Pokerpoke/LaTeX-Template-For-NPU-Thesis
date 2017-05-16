@@ -34,7 +34,7 @@
 		\end{table}
 	\section{烧录系统镜像}
 		\par $\bullet$ Windows
-		\par 首先从官网下载镜像（\href{https://www.raspberrypi.org/downloads/}{https://www.raspberrypi.org/downloads/}），下载完成以后会解压出后缀名为img的镜像文件，使用Win32 Disk Imager（\href{https://sourceforge.net/projects/win32diskimager/files/latest/download}{https://sourceforge.net/projects/win32diskimager/files/latest/download}）软件将镜像烧写进SD卡，如图\ref{fig:win32diskimager}。
+		\par 首先从官网下载镜像（\href{https://www.raspberrypi.org/downloads/}{https://www.raspberrypi.org/downloads/}），下载完成以后可以解压出后缀名为img的镜像文件，使用Win32 Disk Imager（\href{https://sourceforge.net/projects/win32diskimager/files/latest/download}{https://sourceforge.net/projects/win32diskimager/files/latest/download}）软件将镜像烧写进SD卡，如图\ref{fig:win32diskimager}。
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=13cm]{figures/win32diskimager.png}
@@ -50,10 +50,10 @@ sudo fdisk -l
 		\begin{lstlisting}[ language= sh ]
 sudo dd if=2017-03-18-raspbian-jessie-lite.img of=/dev/mmcblk0
 		\end{lstlisting}
-		\par 稍等片刻即可烧写完成。
-		\par 2016.11之前的镜像已经默认开启了ssh登陆，插上卡以后插上网线就能够通过ssh登陆（Windows下使用putty或者xshell，Ubuntu下直接在Terminal下执行\lstinline[language=sh]{ssh pi@192.168.199.1}登陆，\lstinline[language=sh]{@}后为树莓派的ip）。
-		\par 2016.11之后的镜像默认关闭了ssh登陆，如需使用ssh登陆，则需要在烧写完成以后，SD卡会分为两个分区，于其中boot目录下新建一个ssh的空白文件（Windows下可以新建文本文件以后删去txt的后缀名，Ubuntu下直接\lstinline[language=sh]{touch ssh}即可）。
-		\par 树莓派的系统制作完成以后执行
+		\par 其中，\lstinline[language=sh]{of}为SD卡的地址，稍等片刻即可烧写完成。
+		\par 2016.11之前的镜像已经默认开启了ssh登陆，插上卡以后插上网线就能够通过ssh登陆（Windows下可以使用putty或者Xshell，Ubuntu下直接在Terminal下执行\lstinline[language=sh]{ssh pi@192.168.199.123}登陆，\lstinline[language=sh]{@}后为树莓派的ip）。
+		\par 2016.11之后的镜像默认关闭了ssh登陆，如需使用ssh登陆，则需要在烧写完成以后，SD卡会分为两个分区，于其中\lstinline[language=sh]{boot}目录下新建一个ssh的空白文件（Windows下可以新建文本文件以后删去txt的后缀名，Ubuntu下直接执行\lstinline[language=sh]{touch ssh}即可）。
+		\par 树莓派的系统制作完成以后，ssh登陆到树莓派执行
 		\begin{lstlisting}[ language= sh ]
 sudo raspi-config
 		\end{lstlisting}
@@ -76,7 +76,7 @@ sudo raspi-config
 sudo reboot
 		\end{lstlisting}
 	\section{软件源}
-		\par 树莓派默认使用的官方源服务器国内访问不便，国内使用需要使用镜像站，修改\lstinline[language=sh]{/etc/apt/sources.list}为以下内容：
+		\par 树莓派默认使用的官方源服务器国内访问不便，国内使用需要使用镜像站，在此使用的是重庆大学的源，修改\lstinline[language=sh]{/etc/apt/sources.list}为以下内容：
 		\begin{lstlisting}[ language= sh ]
 deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib 
 deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib
@@ -107,3 +107,4 @@ network={
 		\par 树莓派安装GNU Radio参见\ref{sec:gnuradio}节。
 		\par 至此，树莓派的已经基本配置完成。
 		% \subsection{镜像备份}
+		% TODO:镜像备份
