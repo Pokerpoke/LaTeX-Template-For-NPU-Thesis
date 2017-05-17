@@ -364,11 +364,31 @@ void dvbt_map_impl::make_constellation_points(int size, int step, int alpha)
 		\par DVB-T发射系统中采反傅里叶变换，将频域信号的在时域上叠加后的结果一次性计算出来，再在接收端使用傅里叶变换进行还原。
 		\par 由于FFT已经有了众多的实现方式，此处不提供代码。
 	% \section{OFDM循环前缀}
-		% TODO:OFDM循环前缀
 	% 	\par 在传播过程中如果子载波的正交性遭到破环，会影响信号接收，造成信道间干扰（ICI），为了克服这种干扰，OFDM传播系统采取添加循环前缀的措施来减少信道间干扰。
 		% \section{常数}
 		% \section{重采样}
 		% 	\par 信号的采样率，用于满足另一个系统的要求
-	% \section{USRP发射}
-	% 	% TODO: 图片、参数
-	% 	\par 
+	\section{USRP发射}
+		\begin{figure}[htp]
+			\centering
+			\subfigure[USRP\_Sink设置：General]{
+				\includegraphics[width=0.4\textwidth]{figures/usrp_sink_general.png}
+				\label{fig:usrp_sink_general}}
+			\subfigure[USRP\_Sink设置：RF Options]{%
+				\includegraphics[width=0.4\textwidth]{figures/usrp_sink_rf_options.png}
+				\label{fig:usrp_sink_rf_options}} \\
+		\end{figure}
+		\par USRP\_Sink模块的通用设置如图\ref{fig:usrp_sink_general}
+		\par 其中常用的是以下两个参数：
+		\par $\bullet$ Device Address
+		\par 用来指定设备地址，可以通过执行\lstinline[language=sh]{uhd_find_devices}来查看已连接的设备地址，如果留空将默认使用第一个设备。
+		\par $\bullet$ Samp Rate(Sps)
+		\par 采样率，指每秒发送至USRP的数据量，同时也决定了发送信号的带宽，在I5-3337U的设备上可以取得的最大采样率为5MHz，过高的采样率会导致电脑无法处理而无法发送信号。
+		\par USRP\_Sink模块的RF设置如图\ref{fig:usrp_sink_rf_options}
+		\par 其中常用的为以下参数：
+		\par $\bullet$ Center Freq(Hz)
+		\par 中心频率，即发射频率。
+		\par $\bullet$ Gain Value
+		\par 增益，最高约可以调制120dB，通常使用70$\sim$90dB即可。
+		\par $\bullet$ Antenma
+		\par 天线，可以选择USRP发射或者接收的天线。
