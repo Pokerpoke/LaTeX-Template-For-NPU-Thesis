@@ -4,15 +4,12 @@
 		\par 在电脑上，如果程序正常运行，则可以在接收端看到如图\ref{fig:dvbt_rx_map_1}和\ref{fig:dvbt_rx_map_2}星座图。
 		\begin{figure}[htp]
 			\centering
-			\includegraphics[width=13cm]{figures/dvbt_rx_map_1.png}
-			\caption{DVB-T接收端星座图}
-			\label{fig:dvbt_rx_map_1}
-		\end{figure}
-		\begin{figure}[htp]
-			\centering
-			\includegraphics[width=13cm]{figures/dvbt_rx_map_2.png}
-			\caption{DVB-T接收端星座图}
-			\label{fig:dvbt_rx_map_2}
+			\subfigure[DVB-T接收端星座图]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_rx_map_1.png}
+				\label{fig:dvbt_rx_map_1}}
+			\subfigure[DVB-T接收端星座图]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_rx_map_2.png}
+				\label{fig:dvbt_rx_map_2}} \\
 		\end{figure}
 	\section{波形}
 		\par 有如下几种方式查看输出波形：
@@ -34,15 +31,12 @@
 		\par 带宽为2MHz时波形如图\ref{fig:dvbt_BW_2MHz}所示，带宽为5MHz时波形如图\ref{fig:dvbt_BW_5MHz}所示。
 		\begin{figure}[htp]
 			\centering
-			\includegraphics[width=13cm]{figures/dvbt_BW_2MHz.jpg}
-			\caption{带宽为2MHz时示波器波形}
-			\label{fig:dvbt_BW_2MHz}
-		\end{figure}
-		\begin{figure}[htp]
-			\centering
-			\includegraphics[width=13cm]{figures/dvbt_BW_5MHz.jpg}
-			\caption{带宽为5MHz时示波器波形}
-			\label{fig:dvbt_BW_5MHz}
+			\subfigure[带宽为2MHz时示波器波形]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_BW_2MHz.jpg}
+				\label{fig:dvbt_BW_2MHz}}
+			\subfigure[带宽为5MHz时示波器波形]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_BW_5MHz.jpg}
+				\label{fig:dvbt_BW_5MHz}} \\
 		\end{figure}
 		\par $\bullet$ 使用gqrx
 		\par 直接在gqrx中调节到相应频段查看即可，不再赘述。
@@ -57,15 +51,12 @@
 		\par 由于USRP的输出功率，信号能传播大约一间屋子的距离（约5米），超过这段距离将会出现以如图\ref{fig:dvbt_rx_2MHz_ranged_2}无法解星座映射以及如图\ref{fig:dvbt_rx_TS_broken}视频播放失真的情况。
 		\begin{figure}[htp]
 			\centering
-			\includegraphics[width=13cm]{figures/dvbt_rx_2MHz_ranged_2.png}
-			\caption{约5m处星座图}
-			\label{fig:dvbt_rx_2MHz_ranged_2}
-		\end{figure}
-		\begin{figure}[htp]
-			\centering
-			\includegraphics[width=13cm]{figures/dvbt_rx_TS_broken.png}
-			\caption{约5m处视频解码}
-			\label{fig:dvbt_rx_TS_broken}
+			\subfigure[约5m处星座图]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_rx_2MHz_ranged_2.png}
+				\label{fig:dvbt_rx_2MHz_ranged_2}}
+			\subfigure[约5m处视频解码]{%
+				\includegraphics[width=0.4\textwidth]{figures/dvbt_rx_TS_broken.png}
+				\label{fig:dvbt_rx_TS_broken}} \\
 		\end{figure}
 	\section{树莓派发射}
 		\par 将设备按图\ref{fig:dvbt_raspi}所示连接，便可以在接收端上看到\lstinline[language=sh]{test_out.ts}但是由于带宽太小，误码率高，在OFDM接收端处无法解码，该文件无法流畅播放。
