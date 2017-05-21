@@ -14,7 +14,7 @@ git clone https://github.com/Kitware/CMake.git
 			\end{lstlisting}
 			\par 在Windows下可以在CMake官网（\href{https://cmake.org/download/}{https://cmake.org/download/}）选择与自己系统版本相对应的版本进行安装。如果使用Visual Studio 2015及以上版本，可以直接用Visual Studio打开项目目录，会自动使用CMake构建相应的解决方案。
 		\subsection{构建CMake项目}
-			\par CMake要求每个目录下均有一个\lstinline{CMakeLists.txt}文件，一个通用的目录结构如下：
+			\par CMake要求每个目录下均有一个\lstinline{CMakeLists.txt}文件，一个常见的CMake项目的目录结构如下：
 			\dirtree{%
 				.1 ..
 				.2 app.
@@ -82,7 +82,7 @@ sudo apt install libboost-all-dev
 			\par Doxygen是一个编写软件参考文档的工具。该文档是直接写在源代码中，因此比较容易保持更新。Doxygen可以交叉引用文档和源代码，使文件的读者可以很容易地引用实际的源代码。
 			\par KDE使用Doxygen作为其部分文档且KDevelop具有内置的支持。 Doxygen的发布遵守GNU通用公共许可证，并且是自由软件。\cite{ wiki:Doxygen}
 			\par GNU Radio的API文档（\href{https://gnuradio.org/doc/doxygen/index.html}{https://gnuradio.org/doc/doxygen/index.html}）由Doxygen生成。
-			\par 在编写程序的过程中保持良好的注释习惯与注释风格，最后使用Doxygen可以生成如图\ref{fig:doxygen_gnuradio}的说明文档以及如图\ref{fig:doxygen_dvbt_map}调用关系图。
+			\par 在编写程序的过程中使用符合Doxygen规范的注释块，如有需要，构建时便可以使用Doxygen生成如图\ref{fig:doxygen_gnuradio}的说明文档以及如图\ref{fig:doxygen_dvbt_map}调用关系图。
 			\begin{figure}[htb]
 				\centering
 				\includegraphics[width=13cm]{figures/doxygen_gnuradio.png}
@@ -124,7 +124,7 @@ sudo apt install libboost-all-dev
 * @return Description of the return value
 */
 			\end{lstlisting}
-			\par 在工程目录下执行\lstinline[language=sh]{doxygen -g}生成Doxyfile，修改\lstinline{OUTPUT_DIRECTORY}为自己想要的生成目录与其他参数，最后执行\lstinline{doxygen Doxyfile}即可生成\lstinline{latex}和\lstinline{html}目录，用浏览器打开\lstinline{html}目录下的\lstinline{index.html}即可看到生成网页，在\lstinline{latex}目录下运行\lstinline{./make}可以生成pdf文件。
+			\par 在工程目录下执行\lstinline[language=sh]{doxygen -g}生成Doxyfile，修改\lstinline{OUTPUT_DIRECTORY}为自己想要的生成目录与其他参数，最后执行\lstinline{doxygen Doxyfile}即可生成\lstinline{latex}和\lstinline{html}目录，打开\lstinline{html}目录下的\lstinline{index.html}即可看到生成的网页格式的说明文档以及文件间的调用关系图，在\lstinline{latex}目录下运行\lstinline{./make}还可以生成pdf文件。
 			\par Doxygen还能嵌入到CMake中，在\lstinline{CMakeLists.txt}中添加以下命令
 			\begin{lstlisting}
 # add a target to generate API documentation with Doxygen
@@ -165,6 +165,7 @@ ENDIF()
 	\section{SWIG}
 		\subsection{简介}
 			\par SWIG是个帮助使用C或者C++编写的软件能与其它各种高级编程语言进行嵌入联接的开发工具。SWIG能应用于各种不同类型的语言包括常用脚本编译语言例如Perl, PHP, Python, Tcl, Ruby and PHP。支持语言列表中也包括非脚本编译语言，例如C\#, Common Lisp (CLISP, Allegro CL, CFFI, UFFI), Java, Modula-3, OCAML以及R，甚至是编译器或者汇编的计划应用（Guile, MzScheme, Chicken）。SWIG普遍应用于创建高级语言解析或汇编程序环境，用户接口，作为一种用来测试C/C++或进行原型设计的工具。SWIG还能够导出XML或Lisp s-expressions格式的解析树。SWIG可以被自由使用，发布，修改用于商业或非商业中。\cite{ wiki:SWIG}
+			\par GNU Radio使用C++编写底层函数以实现性能最大化，使用SWIG将其中公有函数封装为Python的模块，极大的方便了开发者直接使用Python作为开发语言。GNU Radio的SWIG文件为\lstinline[language=sh]{swig}目录下的\lstinline[language=sh]{*.i}文件。
 			\par SWIG的源码已托管于GitHub（\href{https://github.com/swig/swig}{https://github.com/swig/swig}）。
 			% TODO:用法
 	\section{USRP}
@@ -282,7 +283,7 @@ uhd_siggen_gui -f 900000000
 			\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施，
 			\par 依据行业分析公司“451研究”：“Dockers是有能力打包应用程序及其虚拟容器，可以在任何Linux服务器上运行的依赖性工具，这有助于实现灵活性和便携性，应用程序在任何地方都可以运行，无论是公有云、私有云、单机等。”\cite{ wiki:Docker}
 			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本，进行少量的配置即可运行。
-			\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以再一开始就在Docker的环境下开发软件，或者再安装Ubuntu是使用LVM，可以创建快照省去因为系统环境配置出错而频繁的重装系统。
+			\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以一开始就在Docker的环境下开发软件，或者在安装Ubuntu时使用LVM，创建快照省去因为系统环境配置出错而频繁的重装系统，同时其他开发者可以直接拉取该镜像以进行二次开发。
 		% \subsection{构建容器}
 	\section{GNU Radio}
 		\label{sec:gnuradio}
