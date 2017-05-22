@@ -18,12 +18,12 @@
 % 封皮
 \input{cover.tex}
 
-\setcounter{page}{1}
-
 % 中文摘要
-% \include{preface/c_abstract}
+\include{preface/c_abstract}
 % 英文摘要
-% \include{preface/e_abstract}
+\include{preface/e_abstract}
+
+\setcounter{page}{1}
 
 \renewcommand{\baselinestretch}{1.25}
 \fontsize{12pt}{12pt}\selectfont
@@ -45,7 +45,6 @@
 \include{chapters/Gnuradio}
 \include{chapters/Runtime}
 \include{chapters/Expectation}
-\include{chapters/Thanks}
 
 \sWuhao
 
@@ -61,6 +60,11 @@
 % 参考文献位置
 % \bibliography{references/reference,references/wiki}
 \bibliography{references/reference}
+
+\backmatter
+\include{chapters/Design_conclusion}
+\include{chapters/Thanks}
+
 
 \clearpage
 \end{document} 
