@@ -3,21 +3,22 @@
 	\section{GNU Radio框图}
 		\par 按照图\ref{fig:gnuradio_dvbt_tx}在GNU Radio中搭建DVB-T发射端，图\ref{fig:gnuradio_dvbt_rx}在GNU Radio中搭建DVB-T接收端。
 		\par 在右侧的模块中选择相应模块，使用Ctrl+f快捷键能更快的找到相应的模块。
-		\begin{figure}[htb]
+		\begin{figure}[htbp]
 			\centering
 			\includegraphics[height=13cm,angle=-90]{figures/dvbt_tx.png}
 			\caption{GNU Radio DVB-T发射端}
 			\label{fig:gnuradio_dvbt_tx}
 		\end{figure}
-		\begin{figure}[htb]
+		\begin{figure}[htbp]
 			\centering
 			\includegraphics[height=13cm,angle=-90]{figures/dvbt_rx.png}
 			\caption{GNU Radio DVB-T接收端}
 			\label{fig:gnuradio_dvbt_rx}
 		\end{figure}
+		\par 相比较\ref{sec:dvbt_summary}节中的DVB-T框图而言，这两个框图多了一个常数相乘和重采样的过程，其中该常数参考gr-dvbt模块作者提供的例程进行的设置，初步推测是用来使FFT出来后的值小于1，不至于超过USRP所允许的范围，查阅资料和联系作者均未找出该常数是如何得出的。重采样用于改变信号的采样率，用于满足另一个系统的要求，这里用来满足USRP的要求，关于采样率将在\ref{sec:sample_rate}节中进行解释。
 	\section{设备连接}
 		% TODO:图片标注
-		\par 按图\ref{fig:devices}将设备连接，需要将USRP连接至USB3.0上，因为USB2.0的传输速率为8MS/s @ 16-bit I/Q，USB3.0的传输速率为61.44MS/s @ 16-bit I/Q\cite{USRP:SamplingRates}。
+		\par 按图\ref{fig:devices}将设备连接，需要将USRP连接至USB3.0上，因为USB2.0的传输速率为8MS/s @ 16-bit I/Q，USB3.0的传输速率为61.44MS/s @ 16-bit I/Q\ucite{USRP:SamplingRates}。
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=13cm]{figures/devices.jpg}

@@ -2,7 +2,7 @@
 \chapter{环境配置}
 	\section{CMake}
 		\subsection{简介}
-			\par CMake是个开源的跨平台自动化建构系统，它用配置文件控制建构过程（build process）的方式和Unix的Make相似，只是CMake的配置文件取名为CMakeLists.txt。Cmake并不直接建构出最终的软件，而是产生标准的建构档（如Unix的Makefile或Windows Visual C++的projects/workspaces），然后再依一般的建构方式使用。这使得熟悉某个集成开发环境（IDE）的开发者可以用标准的方式建构他的软件，这种可以使用各平台的原生建构系统的能力是CMake和SCons等其他类似系统的区别之处。CMake可以编译源代码、制做程序库、产生适配器（wrapper）、还可以用任意的顺序建构可执行文件。CMake支持in-place建构（二进档和源代码在同一个目录树中）和out-of-place建构（二进档在别的目录里），因此可以很容易从同一个源代码目录树中建构出多个二进档。CMake也支持静态与动态程序库的建构。\cite{ wiki:CMake}
+			\par CMake是个开源的跨平台自动化建构系统，它用配置文件控制建构过程（build process）的方式和Unix的Make相似，只是CMake的配置文件取名为CMakeLists.txt。Cmake并不直接建构出最终的软件，而是产生标准的建构档（如Unix的Makefile或Windows Visual C++的projects/workspaces），然后再依一般的建构方式使用。这使得熟悉某个集成开发环境（IDE）的开发者可以用标准的方式建构他的软件，这种可以使用各平台的原生建构系统的能力是CMake和SCons等其他类似系统的区别之处。CMake可以编译源代码、制做程序库、产生适配器（wrapper）、还可以用任意的顺序建构可执行文件，支持in-place建构（二进档和源代码在同一个目录树中）和out-of-place建构（二进档在别的目录里），因此可以很容易从同一个源代码目录树中建构出多个二进档。CMake也支持静态与动态程序库的建构\ucite{ wiki:CMake}。
 			\par GNU Radio采用CMake构建，所以简单介绍一下CMake的使用方法，方便后续开发者理解GNU Radio模块的编写以及在此基础上构建自己的应用。
 			\par CMake的源码已托管至GitHub（\href{https://github.com/Kitware/CMake.git}{https://github.com/Kitware/CMake.git}）。
 		\subsection{安装}
@@ -59,7 +59,7 @@ cd build
 cmake ..
 make
 			\end{lstlisting}
-			\par 便会在\lstinline{/build/build/app}目录下生成相应的可执行文件。有众多的开源项目基于CMake构建，使用这些程序时编译完成以后还需要使用以下命令来将其置入系统路径，使其能够在命令行下直接执行。
+			\par 便会在\lstinline{/build/build/app}目录下生成相应的可执行文件。在使用git时进行版本控制注意在gitignore中添加build目录，以免git对编译后产生的文件进行跟踪，以免编译一次产生一次更改，造成版本库的混乱。有众多的开源项目基于CMake构建，使用这些程序时编译完成以后还需要使用以下命令来将其置入系统路径，使其能够在命令行下直接执行。
 			\begin{lstlisting}
 sudo make install
 			\end{lstlisting}
@@ -69,8 +69,7 @@ sudo ldconfig
 			\end{lstlisting}
 	\section{Boost C++ Libraries}
 		\subsection{简介}
-			\par Boost C++ 库（Libraries）是一组扩充C++功能的经过同行评审（Peer-reviewed）且开放源代码程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件许可协议（Boost Software License）之下。许多Boost的开发人员是来自C++标准委员会，而部分的Boost库成为C++的TR1标准之一。
-			\par 为了要确保库的效率与弹性，Boost广泛的使用模板（template）功能。而它是针对各式领域的C++用户与应用领域（Application Domain）上，包含的库类别从像smart\_ptr 库这种类通用库，到像是文件系统的操作系统抽象层，甚至能够利用Boost来开发额外的库或是给高级的C++用户利用，像是MPL。\cite{ wiki:Boost}
+			\par Boost C++ 库（Libraries）是一组扩充C++功能的经过同行评审（Peer-reviewed）且开放源代码程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件许可协议（Boost Software License）之下。许多Boost的开发人员是来自C++标准委员会，而部分的Boost库成为C++的TR1标准之一\ucite{ wiki:Boost}。
 			\par GNU Radio与gr-dvbt中调用了Boost库中的众多函数，需要安装该库才能够进行编译，执行以下命令进行安装。
 			\begin{lstlisting}[ language= sh ]
 sudo apt install libboost-all-dev
@@ -78,18 +77,16 @@ sudo apt install libboost-all-dev
 			\par Boost的源码已托管于GitHub（\href{https://github.com/boostorg}{https://github.com/boostorg}）。
 	\section{Doxygen}
 		\subsection{简介}
-			\par Doxygen是一个C++、C、Java、Objective-C、Python、IDL（CORBA和Microsoft flavors）、Fortran、VHDL、PHP、C\#和D语言的文档生成器。可以在大多数类Unix的系统上运行，以及Mac OS X操作系统和Microsoft Windows。初始版本的Doxygen使用了一些旧版本DOC++的源代码；随后，Doxygen源代码由Dimitri van Heesch重写。
-			\par Doxygen是一个编写软件参考文档的工具。该文档是直接写在源代码中，因此比较容易保持更新。Doxygen可以交叉引用文档和源代码，使文件的读者可以很容易地引用实际的源代码。
-			\par KDE使用Doxygen作为其部分文档且KDevelop具有内置的支持。 Doxygen的发布遵守GNU通用公共许可证，并且是自由软件。\cite{ wiki:Doxygen}
+			\par Doxygen是一个C++、C、Java、Objective-C、Python、IDL（CORBA和Microsoft flavors）、Fortran、VHDL、PHP、C\#和D语言的文档生成器。可以在大多数类Unix以及Mac OS X和Microsoft Windows上运行。Doxygen文档是直接写在源代码中，因此比较容易保持更新。Doxygen支持交叉引用文档和源代码，使文件的读者可以很容易地引用实际的源代码\ucite{ wiki:Doxygen}。
 			\par GNU Radio的API文档（\href{https://gnuradio.org/doc/doxygen/index.html}{https://gnuradio.org/doc/doxygen/index.html}）由Doxygen生成。
-			\par 在编写程序的过程中使用符合Doxygen规范的注释块，如有需要，构建时便可以使用Doxygen生成如图\ref{fig:doxygen_gnuradio}的说明文档以及如图\ref{fig:doxygen_dvbt_map}调用关系图。
-			\begin{figure}[htb]
+			\par 在编写程序的过程中使用符合Doxygen规范的注释块，如有需要，构建时可以使用Doxygen生成如图\ref{fig:doxygen_gnuradio}的说明文档以及如图\ref{fig:doxygen_dvbt_map}调用关系图。
+			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/doxygen_gnuradio.png}
 				\caption{Doxygen生成的GNU Radio说明文档}
 				\label{fig:doxygen_gnuradio}
 			\end{figure}
-			\begin{figure}[htb]
+			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/doxygen_dvbt_map.png}
 				\caption{Doxygen生成的调用关系图}
@@ -97,8 +94,8 @@ sudo apt install libboost-all-dev
 			\end{figure}
 			\par Doxygen的源码已托管于GitHub（\href{https://github.com/doxygen/doxygen}{https://github.com/doxygen/doxygen}）。
 		\subsection{使用方法}
-			\par 在文件中使用Doxygen规范的注释\cite{ wiki:Doxygen}。
-			\par\noindent 一般文件：
+			\par 在文件中使用Doxygen规范的注释\ucite{ wiki:Doxygen}。
+			\par 一般文件：
 			\begin{lstlisting}
 /**
 * <A short one line description>
@@ -111,7 +108,7 @@ sudo apt install libboost-all-dev
 * @return Description of the return value
 */
 			\end{lstlisting}
-			\par\noindent 头文件：
+			\par 头文件：
 			\begin{lstlisting}
 /*!
 * <A short one line description>
@@ -154,26 +151,21 @@ ENDIF()
 			\par 使用CMake生成\lstinline{makefile}以后，可以使用\lstinline{make doc}来生成API文档。
 	\section{Python}
 		\subsection{简介}
-			\par Python，是一种面向对象、解释型的计算机程序语言。它包含了一组功能完备的标准库，能够轻松完成很多常见的任务。它的语法简单，与其它大多数程序设计语言使用大括号不一样，它使用缩进来定义语句块。
-			\par 与Scheme、Ruby、Perl、Tcl等动态语言一样，Python具备垃圾回收功能，能够自动管理内存使用。它经常被当作脚本语言用于处理系统管理任务和网络程序编写，然而它也非常适合完成各种高级任务。Python虚拟机本身几乎可以在所有的作业系统中运行。使用一些诸如py2exe、PyPy、PyInstaller之类的工具可以将Python源代码转换成可以脱离Python解释器运行的程序。
-			\par Python的官方解释器是CPython，该解释器用C语言编写，是一个由社区驱动的自由软件，目前由Python软件基金会管理。
-			\par Python支持命令式程序设计、面向对象程序设计、函数式编程、面向侧面的程序设计、泛型编程多种编程范式。\cite{ wiki:Python}
-			\par Python被广泛的应用于机器学习、科学计算、Web后端、数字图像处理等众多领域，在不久的将来应该也会被广泛应用于数字信号处理与通信工程领域。
-			\par 因为Python简单的语法能够让开发者专注于算法，而不是去解决语法上的问题，所以Python语言具有很高的开发效率，被广泛的应用于各种场景。GNU Radio采用Python来连接各个模块，在模块中传递参数，支持直接Python编程，但是由于Python执行效率的问题，所以底层采用C++来提高性能，通过SWIG将C++类跟函数封装为Python中的模块，实现了性能与效率的综合。
-			\par 一个好的Python学习网站是廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})。
+			\par Python，是一种面向对象、解释型的计算机程序语言。它包含了一组功能完备的标准库，能够轻松完成很多常见的任务。它的语法简单，与其它大多数程序设计语言使用大括号不一样，它使用缩进来定义语句块，经常被当作脚本语言用于处理系统管理任务和网络程序编写，然而它也非常适合完成各种高级任务。Python支持命令式程序设计、面向对象程序设计、函数式编程、面向侧面的程序设计、泛型编程多种编程范式\ucite{ wiki:Python}。
+			\par Python简单的语法能够让开发者专注于算法，而不用去纠结语法上的问题，其众多的第三方库也给开发者带来了极大的便利，诸如用于科学计算的NumPy库已经能够替代Matlab的一些功能，所以Python语言具有很高的开发效率，已经被广泛地应用于机器学习、科学计算、Web后端、数字图像处理等众多领域。可以预见，在不久的将来也会在数字信号处理与通信工程领域大放异彩。
+			\par GNU Radio采用Python来连接各个模块，在模块间传递参数，支持直接Python编程，但是由于Python执行效率较低，所以底层采用C++来提高性能，通过SWIG将C++类跟函数封装为Python中的模块，实现了性能与效率的综合。
+			\par 一个不错的Python学习网站是廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})，此处不再赘述。
 			\par Python源码可以从\href{https://www.python.org/downloads/source/}{https://www.python.org/downloads/source/}下载。
 	\section{SWIG}
 		\subsection{简介}
-			\par SWIG是个帮助使用C或者C++编写的软件能与其它各种高级编程语言进行嵌入联接的开发工具。SWIG能应用于各种不同类型的语言包括常用脚本编译语言例如Perl, PHP, Python, Tcl, Ruby and PHP。支持语言列表中也包括非脚本编译语言，例如C\#, Common Lisp (CLISP, Allegro CL, CFFI, UFFI), Java, Modula-3, OCAML以及R，甚至是编译器或者汇编的计划应用（Guile, MzScheme, Chicken）。SWIG普遍应用于创建高级语言解析或汇编程序环境，用户接口，作为一种用来测试C/C++或进行原型设计的工具。SWIG还能够导出XML或Lisp s-expressions格式的解析树。SWIG可以被自由使用，发布，修改用于商业或非商业中。\cite{ wiki:SWIG}
+			\par SWIG是个帮助使用C或者C++编写的软件能与其它各种高级编程语言进行嵌入联接的开发工具。SWIG能应用于各种不同类型的语言包括常用脚本编译语言例如Perl, PHP, Python, Tcl, Ruby and PHP。SWIG普遍应用于创建高级语言解析或汇编程序环境，用户接口，作为一种用来测试C/C++或进行原型设计的工具\ucite{ wiki:SWIG}。
 			\par GNU Radio使用C++编写底层函数以实现性能最大化，使用SWIG将其中公有函数封装为Python的模块，极大的方便了开发者直接使用Python作为开发语言。GNU Radio的SWIG文件为\lstinline[language=sh]{swig}目录下的\lstinline[language=sh]{*.i}文件。
 			\par SWIG的源码已托管于GitHub（\href{https://github.com/swig/swig}{https://github.com/swig/swig}）。
 			% TODO:用法
 	\section{USRP}
 		\subsection{简介}
-			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。
-			\par 大多数USRP通过高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据。一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。
-			\par USRP系列设计之初便有很高的可修改性，许多产品是开源硬件。选择USRP型号的电路板原理图可免费下载，所有USRP产品均采用开源的UHD驱动程序进行控制，该驱动程序是免费的开源软件。 USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统。\cite{ wiki:USRP}
-			\begin{figure}[htb]
+			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，许多产品是开源硬件，所有USRP型号的电路板原理图均可免费下载，所有USRP产品均采用开源的UHD驱动程序进行控制。USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统\ucite{ wiki:USRP}。
+			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/USRP_B200mini_BD.png}
 				\caption{USRP\_B200mini\_原理图}
@@ -209,22 +201,11 @@ uhd_siggen_gui -f 900000000
 				\caption{uhd\_siggen\_gui}
 				\label{fig:uhd_siggen_gui}
 			\end{figure}
-			% \section{HackRF}
-			% 	\subsection{简介}
-			% 		\par HackRF是一款由Michael Ossmann发起的开源软件无线电外设，旨在从30MHz到6GHz，于2012年从DARPA处拿了一笔经费，制作了500块测试版本Jawbreaker，并向社会分发测试。在经过用户对Jawbreaker的反馈后，作者对硬件板卡做了重新布线，改善了射频性能，这一点我们将会在后文详细讨论。 随后于2013年7月31日至9月4日共计35天的时间，在著名的社会化融资平台Kickstarter上，迅速地获得多达1991人的预订，共预订出价值为\$602,960的HackRF One。
-			% 		\begin{figure}[htb]
-			% 			\centering
-			% 			\includegraphics[width=13cm]{figures/HackRF_Schematic.png}
-			% 			\caption{HackRF\_架构图}
-			% 			\label{fig:HackRF_架构}
-			% 		\end{figure}
-			% 		\par HackRF的源码已托管于GitHub（\href{https://github.com/mossmann/hackrf}{https://github.com/mossmann/hackrf}）。
-			% 	\subsection{osmosdr}
 	\section{gqrx}
 		\subsection{简介}
-			\par gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR），用来通过USRP接收无线电信号，可以直接接收FM广播，并提供直观的瀑布图，可以作为没有示波器情况下的替代品。
+			\par gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR），用来通过USRP接收无线电信号，可以直接接收FM广播，并提供直观的瀑布图，可以作为没有频谱仪情况下的替代品。
 			\par gqrx支持许多SDR硬件，包括Airspy，Funcube Dongles，rtl-sdr，HackRF和USRP设备，gqrx是免费软件，根据GNU通用公共许可证许可，允许任何人修复和修改它以供使用。
-			\begin{figure}[htb]
+			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/gqrx.png}
 				\caption{gqrx运行截图}
@@ -233,9 +214,8 @@ uhd_siggen_gui -f 900000000
 			\par gqrx的源码已托管于GitHub（\href{https://github.com/csete/gqrx}{https://github.com/csete/gqrx}）。
 	\section{git}
 		\subsection{简介}
-			\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力。
-			\par 实际上内核开发团队决定开始开发和使用git来作为内核开发的版本控制系统的时候，世界上开源社区的反对声音不少，最大的理由是git太艰涩难懂，从git的内部工作机制来说，的确是这样。但是随着开发的深入，git的正常使用都由一些友善的命令稿来执行，使git变得非常好用。现在，越来越多的著名项目采用git来管理项目开发，例如：wine、U-boot等。
-			\par 作为开源自由原教旨主义项目，git没有对版本库的浏览和修改做任何的权限限制，通过其他工具也可以达到有限的权限控制，比如：gitosis、CodeBeamer MR。原本git的使用范围只适用于Linux/Unix平台，但在Windows平台下的使用也日渐成熟，这主要归功于Cygwin、msysgit环境，以及TortoiseGit这样易用的GUI工具。git的源代码中也已经加入了对Cygwin与MinGW编译环境的支持且逐渐完善，为Windows用户带来福音。\cite{ wiki:Git}
+			\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力\ucite{ wiki:Git}。
+			\par GNU Radio使用git进行版本控制，在进行源码查看编辑的时候使用git能大大提高开发效率，在此简要介绍其使用方法。
 			\par git的一个仓库由三个区组成：工作区，暂存区，版本库。我们平常编写程序的叫做工作区，在工作区中编写程序，修复bug，然后将修改后的文件通过\lstinline[language=sh]{git add -p <file>}	命令添加到暂存区，检查暂存区没有错误以后通过\lstinline[language=sh]{git commit -m "some comments"}命令将修改提交至版本库，如果存在远程仓库还需要执行\lstinline[language=sh]{git push}命令来将修改提交至远程仓库。
 			\par 以上是一个正常的提交流程，我们可以通过\lstinline[language=sh]{git log}来查看所有的\lstinline[language=sh]{commit}，并通过\lstinline[language=sh]{git reset --hard <your commit flag>}来回退至相应的版本。
 			\par 一个好的习惯是在添加新功能或者修复某一个bug时执行\lstinline[language=sh]{git checkout -b fix}创建一个名为\lstinline[language=sh]{fix}的分支，在该分支中修改bug，修改完成并测试通过以后\lstinline[language=sh]{git commit -m "some comments"}将修改提交至本地仓库，再执行\lstinline[language=sh]{git checkout master}并执行\lstinline[language=sh]{git merge fix}来将修改合并至主分支，这样可以在不影响主分支的情况进行bug的修复和新功能的添加。在GitHub上可能还需要执行pull request来将修改提交至源仓库。
@@ -274,24 +254,23 @@ uhd_siggen_gui -f 900000000
 			\par 在众多教程中，廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})很适合初学者，深入浅出的讲解了使用git过程中常用的许多命令。
 			% \subsection{版本控制}
 		\subsection{GitHub}
-			\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
-			\par GitHub同时提供付费账户和免费账户。这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等。GitHub也提供了图表功能，用于概观显示开发者们怎样在代码库上工作以及软件的开发活跃程度。
-			\par 截止到2015年，GitHub已经有超过九百万注册用户和2110万代码库。事实上已经成为了世界上最大的代码存放网站和开源社区。\cite{ wiki:GitHub}
+			\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。GitHub同时提供付费账户和免费账户，这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等\ucite{ wiki:GitHub}。
+			\par GitHub的使用与git并无太多区别。
 			\par 本设计使用的众多开源库、软件均已托管于GitHub。
 	\section{Docker}
 		\subsection{简介}
-			\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施，
-			\par 依据行业分析公司“451研究”：“Dockers是有能力打包应用程序及其虚拟容器，可以在任何Linux服务器上运行的依赖性工具，这有助于实现灵活性和便携性，应用程序在任何地方都可以运行，无论是公有云、私有云、单机等。”\cite{ wiki:Docker}
+			\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施\ucite{ wiki:Docker}。
 			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本，进行少量的配置即可运行。
-			\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以一开始就在Docker的环境下开发软件，或者在安装Ubuntu时使用LVM，创建快照省去因为系统环境配置出错而频繁的重装系统，同时其他开发者可以直接拉取该镜像以进行二次开发。
-		% \subsection{构建容器}
+			\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以一开始就在Docker的环境下开发软件，或者在安装Ubuntu时使用LVM，创建快照省去因为系统环境配置出错而频繁的重装系统，保证一个相对纯净的开发环境，同时其他开发者可以直接拉取该镜像以进行二次开发。
+			% \subsection{构建容器}
+			% TODO: 构建容器
 	\section{GNU Radio}
 		\label{sec:gnuradio}
 		\subsection{简介}
 			\par GNU Radio 是免费开源的软件开发工具套件。它提供构建软件无线电所需的信号运行和处理的模块，用它可以在唾手可得的低成本的外部射频（RF）硬件和通用微处理器上、或无硬件的模拟环境中实现软件定义无线电。这套套件广泛用于业余爱好者，学术机构和商业机构用来研究和构建无线通信系统。
-			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）、等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks),这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。对 GNU Radio 进行扩充也十分容易；如若发现所缺失的特定功能块，便可快速生成并将其添加到系统中。
-			\par GNU Radio 的应用主要是用 Python 编程语言来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的。因此，开发者能够简单快速的构建一个实时、高容量的无线通信系统。\cite{what_is_gnuradio}
-			\par GNU Radio的使用方法类似于Matlab中的SimuLink，通过拖动框图来构建通信系统，并能够生成一个Python文件，如果使用No Gui就能够在命令行下执行相关操作。因为其有友好的GUI界面，此处不再赘述使用方法。
+			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）、等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks)，这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。
+			\par GNU Radio 的应用主要是用 Python 编程语言来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的。因此，开发者能够简单快速的构建一个实时、高容量的无线通信系统\ucite{what_is_gnuradio}。
+			\par GNU Radio的使用方法类似于Matlab中的SimuLink，通过拖动框图来构建通信系统，并能够生成一个Python文件，如果使用No Gui就能够生成命令行下可以直接运行的程序。因为其有友好的GUI界面，此处不再赘述使用方法。
 		\subsection{安装}
 			\par GNU Radio安裝有两种方式：源码编译和通过包管理程序安装，包管理程序安装方式包括两种：apt-get和PyBOMBS。
 			\par\noindent $\bullet$ 源码编译

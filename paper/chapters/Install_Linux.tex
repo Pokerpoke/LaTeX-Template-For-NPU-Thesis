@@ -2,11 +2,8 @@
 \chapter{ARM平台---树莓派}
 	\section{简介}
 		\par 树莓派（英语：Raspberry Pi），是一款基于Linux的单板机电脑，由英国的树莓派基金会开发，目的是以低价的硬件及自由软件来促进学校的基本计算机科学教育。
-		\par 有两家有生产许可的公司在网上售卖树莓派：Element 14/Premier Farnell和RS Components。
-		\par 树莓派配备一枚博通（Broadcom）出产的ARM架构700MHz BCM2835处理器，256MB內存，其中B型已升级到512MB内存，使用SD卡存储资料，且拥有一个以太网接口、两个USB接口、支持HDMI（支持声音输出）和RCA端子输出。操作系统采用开源的Linux系统如Debian、ArchLinux，自带Iceweasel、KOffice等软件，能够满足基本的网络浏览、文字处理以及电脑学习的需要。树莓派分A、B两种型号，A型售价为25美元、B型售价为35美元。树莓派基金会从2012年2月29日开始接受B型的订货。
-		\par 树莓派基金会提供了基于ARM架构的Debian、Arch Linux和Fedora等的发行版供大众下载，支持Python、C语言和Perl等常见编程语言。
-		树莓派3于2016年2月发布，较前一代树莓派2，处理器升级为了64位的博通BCM2837，并首次加入了Wi-Fi无线网络及蓝牙功能，表\ref{table:params_of_raspi}为树莓派3B+的参数。\cite{ wiki:树莓派}
-		\begin{table}[!ht]
+		\par 树莓派使用SD卡存储资料，且拥有一个以太网接口、两个USB接口、支持HDMI（支持声音输出）和RCA端子输出。操作系统采用开源的Linux系统如Debian、ArchLinux，自带Iceweasel、KOffice等软件，能够满足基本的网络浏览、文字处理以及电脑学习的需要。树莓派基金会提供了基于ARM架构的Debian、Arch Linux和Fedora等的发行版供大众下载，支持Python、C语言和Perl等常见编程语言。表\ref{table:params_of_raspi}为树莓派3B+的参数\ucite{ wiki:树莓派}。
+		\begin{table}[!htbp]
 			\centering
 			\caption{树莓派3B+参数}
 			\begin{tabular}{|l|p{0.8\columnwidth}|}
@@ -50,7 +47,7 @@ sudo fdisk -l
 		\begin{lstlisting}[ language= sh ]
 sudo dd if=2017-03-18-raspbian-jessie-lite.img of=/dev/mmcblk0
 		\end{lstlisting}
-		\par 其中，\lstinline[language=sh]{of}后为SD卡的地址，稍等片刻即可烧写完成。
+		\par 其中，\lstinline[language=sh]{of}后为SD卡的地址，如果使用USB读卡器，地址可能为\lstinline[language=sh]{/dev/USB0}，稍等片刻即可烧写完成。
 		\par 2016.11之前的镜像已经默认开启了ssh登陆，插上卡以后插上网线就能够通过ssh登陆（Windows下可以使用putty或者Xshell，Ubuntu下直接在Terminal下执行\lstinline[language=sh]{ssh pi@192.168.199.123}登陆，\lstinline[language=sh]{@}后为树莓派的ip）。
 		\par 2016.11之后的镜像默认关闭了ssh登陆，如需使用ssh登陆，则需要在烧写完成以后，SD卡会分为两个分区，于其中\lstinline[language=sh]{boot}目录下新建一个ssh的空白文件（Windows下可以新建文本文件以后删去txt的后缀名，Ubuntu下直接执行\lstinline[language=sh]{touch ssh}即可）。
 		\par 至此树莓派的系统制作已经完成，接下来通过ssh的方式登陆到树莓派执行以下命令：
