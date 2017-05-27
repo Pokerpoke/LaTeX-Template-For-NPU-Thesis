@@ -156,12 +156,12 @@ ENDIF()
 			\par GNU Radio采用Python来连接各个模块，在模块间传递参数，支持直接Python编程，但是由于Python执行效率较低，所以底层采用C++来提高性能，通过SWIG将C++类跟函数封装为Python中的模块，实现了性能与效率的综合。
 			\par 一个不错的Python学习网站是廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})，此处不再赘述。
 			\par Python源码可以从\href{https://www.python.org/downloads/source/}{https://www.python.org/downloads/source/}下载。
-	\section{SWIG}
-		\subsection{简介}
-			\par SWIG是个帮助使用C或者C++编写的软件能与其它各种高级编程语言进行嵌入联接的开发工具。SWIG能应用于各种不同类型的语言包括常用脚本编译语言例如Perl, PHP, Python, Tcl, Ruby and PHP。SWIG普遍应用于创建高级语言解析或汇编程序环境，用户接口，作为一种用来测试C/C++或进行原型设计的工具\ucite{ wiki:SWIG}。
-			\par GNU Radio使用C++编写底层函数以实现性能最大化，使用SWIG将其中公有函数封装为Python的模块，极大的方便了开发者直接使用Python作为开发语言。GNU Radio的SWIG文件为\lstinline[language=sh]{swig}目录下的\lstinline[language=sh]{*.i}文件。
-			\par SWIG的源码已托管于GitHub（\href{https://github.com/swig/swig}{https://github.com/swig/swig}）。
-			% TODO:用法
+	% \section{SWIG}
+	% 	\subsection{简介}
+	% 		\par SWIG是个帮助使用C或者C++编写的软件能与其它各种高级编程语言进行嵌入联接的开发工具。SWIG能应用于各种不同类型的语言包括常用脚本编译语言例如Perl, PHP, Python, Tcl, Ruby and PHP。SWIG普遍应用于创建高级语言解析或汇编程序环境，用户接口，作为一种用来测试C/C++或进行原型设计的工具\ucite{ wiki:SWIG}。
+	% 		\par GNU Radio使用C++编写底层函数以实现性能最大化，使用SWIG将其中公有函数封装为Python的模块，极大的方便了开发者直接使用Python作为开发语言。GNU Radio的SWIG文件为\lstinline[language=sh]{swig}目录下的\lstinline[language=sh]{*.i}文件。
+	% 		\par SWIG的源码已托管于GitHub（\href{https://github.com/swig/swig}{https://github.com/swig/swig}）。
+	% 		% TODO:用法
 	\section{USRP}
 		\subsection{简介}
 			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，许多产品是开源硬件，所有USRP型号的电路板原理图均可免费下载，所有USRP产品均采用开源的UHD驱动程序进行控制。USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统\ucite{ wiki:USRP}。
@@ -201,17 +201,17 @@ uhd_siggen_gui -f 900000000
 				\caption{uhd\_siggen\_gui}
 				\label{fig:uhd_siggen_gui}
 			\end{figure}
-	\section{gqrx}
-		\subsection{简介}
-			\par gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR），用来通过USRP接收无线电信号，可以直接接收FM广播，并提供直观的瀑布图，可以作为没有频谱仪情况下的替代品。
-			\par gqrx支持许多SDR硬件，包括Airspy，Funcube Dongles，rtl-sdr，HackRF和USRP设备，gqrx是免费软件，根据GNU通用公共许可证许可，允许任何人修复和修改它以供使用。
-			\begin{figure}[htbp]
-				\centering
-				\includegraphics[width=13cm]{figures/gqrx.png}
-				\caption{gqrx运行截图}
-				\label{fig:gqrx运行截图}
-			\end{figure}
-			\par gqrx的源码已托管于GitHub（\href{https://github.com/csete/gqrx}{https://github.com/csete/gqrx}）。
+	% \section{gqrx}
+	% 	\subsection{简介}
+	% 		\par gqrx是由GNU Radio和Qt图形工具包提供支持的开源软件定义无线电接收器（SDR），用来通过USRP接收无线电信号，可以直接接收FM广播，并提供直观的瀑布图，可以作为没有频谱仪情况下的替代品。
+	% 		\par gqrx支持许多SDR硬件，包括Airspy，Funcube Dongles，rtl-sdr，HackRF和USRP设备，gqrx是免费软件，根据GNU通用公共许可证许可，允许任何人修复和修改它以供使用。
+	% 		\begin{figure}[htbp]
+	% 			\centering
+	% 			\includegraphics[width=13cm]{figures/gqrx.png}
+	% 			\caption{gqrx运行截图}
+	% 			\label{fig:gqrx运行截图}
+	% 		\end{figure}
+	% 		\par gqrx的源码已托管于GitHub（\href{https://github.com/csete/gqrx}{https://github.com/csete/gqrx}）。
 	\section{git}
 		\subsection{简介}
 			\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力\ucite{ wiki:Git}。
@@ -253,23 +253,22 @@ uhd_siggen_gui -f 900000000
 			\par 合并指定分支至当前分支。
 			\par 在众多教程中，廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})很适合初学者，深入浅出的讲解了使用git过程中常用的许多命令。
 			% \subsection{版本控制}
-		\subsection{GitHub}
-			\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。GitHub同时提供付费账户和免费账户，这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等\ucite{ wiki:GitHub}。
-			\par GitHub的使用与git并无太多区别。
-			\par 本设计使用的众多开源库、软件均已托管于GitHub。
-	\section{Docker}
-		\subsection{简介}
-			\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施\ucite{ wiki:Docker}。
-			\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本，进行少量的配置即可运行。
-			\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以一开始就在Docker的环境下开发软件，或者在安装Ubuntu时使用LVM，创建快照省去因为系统环境配置出错而频繁的重装系统，保证一个相对纯净的开发环境，同时其他开发者可以直接拉取该镜像以进行二次开发。
-			% \subsection{构建容器}
-			% TODO: 构建容器
+		% \subsection{GitHub}
+		% 	\par GitHub是一个通过Git进行版本控制的软件源代码托管服务，由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。GitHub同时提供付费账户和免费账户，这两种账户都可以创建公开的代码仓库，但是付费账户还可以创建私有的代码仓库。根据在2009年的Git用户调查，GitHub是最流行的Git访问站点。除了允许个人和组织创建和访问保管中的代码以外，它也提供了一些方便社会化共同软件开发的功能，即一般人口中的社区功能，包括允许用户追踪其他用户、组织、软件库的动态，对软件代码的改动和bug提出评论等\ucite{ wiki:GitHub}。
+		% 	\par GitHub的使用与git并无太多区别。
+		% 	\par 本设计使用的众多开源库、软件均已托管于GitHub。
+	% \section{Docker}
+	% 	\subsection{简介}
+	% 		\par Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、存储器、block I/O与网络。从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的 LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施\ucite{ wiki:Docker}。
+	% 		\par 在构建应用时，如果在实机上进行运行测试，很容易因为依赖的问题导致应用无法正常运行，严重时会造成系统的崩溃。Docker提供了一个虚拟的环境来构建自己的应用，同时也能够与git进行版本控制与回滚，在Docker中构建应用也能更快的部署应用。需要大规模部署应用时只需要从仓库中拉取自己需要的环境以及版本，进行少量的配置即可运行。
+	% 		\par 本设计由于时间问题并未采用Docker来管理系统镜像版本，在修改系统环境的过程中走了不少弯路，后续开发者可以一开始就在Docker的环境下开发软件，或者在安装Ubuntu时使用LVM，创建快照省去因为系统环境配置出错而频繁的重装系统，保证一个相对纯净的开发环境，同时其他开发者可以直接拉取该镜像以进行二次开发。
+	% 		% \subsection{构建容器}
+	% 		% TODO: 构建容器
 	\section{GNU Radio}
 		\label{sec:gnuradio}
 		\subsection{简介}
 			\par GNU Radio 是免费开源的软件开发工具套件。它提供构建软件无线电所需的信号运行和处理的模块，用它可以在唾手可得的低成本的外部射频（RF）硬件和通用微处理器上、或无硬件的模拟环境中实现软件定义无线电。这套套件广泛用于业余爱好者，学术机构和商业机构用来研究和构建无线通信系统。
-			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）、等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks)，这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。
-			\par GNU Radio 的应用主要是用 Python 编程语言来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的。因此，开发者能够简单快速的构建一个实时、高容量的无线通信系统\ucite{what_is_gnuradio}。
+			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks)，这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。GNU Radio 的应用主要是用 Python 编程语言来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的。因此，开发者能够简单快速的构建一个实时、高容量的无线通信系统\ucite{what_is_gnuradio}。
 			\par GNU Radio的使用方法类似于Matlab中的SimuLink，通过拖动框图来构建通信系统，并能够生成一个Python文件，如果使用No Gui就能够生成命令行下可以直接运行的程序。因为其有友好的GUI界面，此处不再赘述使用方法。
 		\subsection{安装}
 			\par GNU Radio安裝有两种方式：源码编译和通过包管理程序安装，包管理程序安装方式包括两种：apt-get和PyBOMBS。
@@ -387,3 +386,5 @@ make && sudo make install
 sudo ldconfig
 			\end{lstlisting}
 			\par 之后便可以通过GNU Radio调用gr-dvbt的相关框图。
+		% \subsection{模块编程}
+		% 	\par GNU Radio的

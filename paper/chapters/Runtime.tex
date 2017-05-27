@@ -69,10 +69,22 @@
 		\par 由于树莓派的计算性能与IO性能较弱，仅能提供约500KHz的带宽，如图\ref{fig:dvbt_raspi_bandwidth}，也许将部分模块交由FPGA处理会有巨大的提升，或者通过gpu来计算相关模块，或者在要求不高的情况下去除一些编码交织模块，有待后续开发者继续研究。
 		\begin{figure}[htp]
 			\centering
-			\subfigure[树莓派连接图]{%
-				\includegraphics[width=0.4\textwidth]{figures/dvbt_raspi.jpg}
-				\label{fig:dvbt_raspi}}
-			\subfigure[树莓派运行频谱]{%
-				\includegraphics[width=0.4\textwidth]{figures/dvbt_raspi_bandwidth.jpg}
-				\label{fig:dvbt_raspi_bandwidth}} \\
+			\includegraphics[width=13cm]{figures/dvbt_raspi.png}
+			\caption{树莓派连接图}
+			\label{fig:dvbt_raspi}
 		\end{figure}
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=13cm]{figures/dvbt_raspi_bandwidth.jpg}
+			\caption{树莓派运行频谱}
+			\label{fig:dvbt_raspi_bandwidth}
+		\end{figure}
+		% \begin{figure}[htp]
+		% 	\centering
+		% 	\subfigure[树莓派连接图]{%
+		% 		\includegraphics[width=0.4\textwidth]{figures/dvbt_raspi.png}
+		% 		\label{fig:dvbt_raspi}}
+		% 	\subfigure[树莓派运行频谱]{%
+		% 		\includegraphics[width=0.4\textwidth]{figures/dvbt_raspi_bandwidth.jpg}
+		% 		\label{fig:dvbt_raspi_bandwidth}} \\
+		% \end{figure}
