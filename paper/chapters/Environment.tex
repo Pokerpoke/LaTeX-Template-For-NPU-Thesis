@@ -2,7 +2,7 @@
 \chapter{环境配置}
 	\section{CMake}
 		\subsection{简介}
-			\par CMake是个开源的跨平台自动化建构系统，它采用与Unix中Make命令相似的建构过程，不同之处在于CMake采用CMakeLists.txt文件而非Makefile来指定建构过程。CMake先产生如Unix的Makefile或Windows Visual C++的projects/workspaces等标准的建构档，然后再依一般的建构方式编译二进制档。CMake可以编译源代码、制做程序库、产生适配器，还可以用任意的顺序建构可执行文件，既支持在当前目录中建构也支持指定输出目录里建构，因此以很容易从同一个源代码目录树中建构出多个二进档\ucite{ wiki:CMake}。
+			\par CMake是个开源的跨平台自动化建构系统，它采用与Unix中Make命令相似的建构过程，不同之处在于CMake采用CMakeLists.txt文件而非Makefile来指定建构过程。CMake先产生如Unix的Makefile或Windows Visual C++的projects/workspaces等标准的建构档，然后再依一般的建构方式编译二进制程序。CMake可以编译源代码、生成静态库和动态库，还可以用任意的顺序建构可执行文件，既支持在当前目录中建构也支持指定输出目录里建构，因此以很容易从同一个源代码目录树中建构出多个不同功能的二进制程序，还能配合诸如CTest、GTest实现单元测试\ucite{ wiki:CMake}。
 			\par GNU Radio采用CMake构建，所以简单介绍一下CMake的使用方法，方便后续开发者理解GNU Radio模块的编写以及在此基础上构建自己的应用。
 			\par CMake的源码已托管至GitHub（\href{https://github.com/Kitware/CMake.git}{https://github.com/Kitware/CMake.git}）。
 		\subsection{安装}
@@ -12,7 +12,7 @@
 git clone https://github.com/Kitware/CMake.git
 ./bootstrap && make && make install
 			\end{lstlisting}
-			\par 在Windows下可以在CMake官网（\href{https://cmake.org/download/}{https://cmake.org/download/}）选择与自己系统版本相对应的版本进行安装。如果使用Visual Studio 2015及以上版本，可以直接用Visual Studio打开项目目录，会自动使用CMake构建相应的解决方案。
+			\par 在Windows下可以在CMake官网（\href{https://cmake.org/download/}{https://cmake.org/download/}）选择与自己系统版本相对应的版本进行安装。如果使用Visual Studio 2015及以上版本，直接使用Visual Studio打开项目目录，会自动使用CMake构建解决方案。
 		\subsection{构建CMake项目}
 			\par CMake要求每个目录下均有一个\lstinline{CMakeLists.txt}文件，一个常见的CMake项目的目录结构如下：
 			\dirtree{%
@@ -77,7 +77,7 @@ sudo apt install libboost-all-dev
 			\par Boost的源码已托管于GitHub（\href{https://github.com/boostorg}{https://github.com/boostorg}）。
 	\section{Doxygen}
 		\subsection{简介}
-			\par Doxygen是一个C++、C、Java、Objective-C、Python、IDL（CORBA和Microsoft flavors）、Fortran、VHDL、PHP、C\#和D语言的文档生成器。可以在大多数类Unix以及Mac OS X和Microsoft Windows上运行。Doxygen文档是直接写在源代码中，因此比较容易保持更新。Doxygen支持交叉引用文档和源代码，使文件的读者可以很容易地引用实际的源代码\ucite{ wiki:Doxygen}。
+			\par Doxygen是一个C++、C、Python等语言的文档生成器，可以在大多数类Unix以及Microsoft Windows和Mac OS中运行。Doxygen将文档写在源代码中，也能够提取函数的注释，因此能够在改动源代码时保持文档的更新。\ucite{wiki:Doxygen}。
 			\par GNU Radio的API文档（\href{https://gnuradio.org/doc/doxygen/index.html}{https://gnuradio.org/doc/doxygen/index.html}）由Doxygen生成。
 			\par 在编写程序的过程中使用符合Doxygen规范的注释块，如有需要，构建时可以使用Doxygen生成如图\ref{fig:doxygen_gnuradio}的说明文档以及如图\ref{fig:doxygen_dvbt_map}调用关系图。
 			\begin{figure}[htbp]
@@ -151,7 +151,7 @@ ENDIF()
 			\par 使用CMake生成\lstinline{makefile}以后，可以使用\lstinline{make doc}来生成API文档。
 	\section{Python}
 		\subsection{简介}
-			\par Python，是一种解释型的、面向对象的计算机程序语言，它能够在仅使用标准库的情况下完成许多操作。它的语法简单，使用缩进来定义语句块，这一点与其它大多数程序设计语言使用大括号不一样。Python经常被当作脚本语言用于处理系统管理任务和网络程序编写，它也非常适合完成各种高级任务。Python支持众多编程范式，如函数式编程、泛型编程、面向对象程序设计、命令式程序设计、面向侧面的程序设计等\ucite{ wiki:Python}。
+			\par Python是一种解释型的、面向对象的计算机程序语言，与其它大多数程序设计语言最大的不同之处在于它使用缩进来定义语句块。Python能够很好的处理、调度系统任务，经常作为脚本语言使用，也能够胜任机器学习等高级任务。Python支持众多编程范式，如函数式编程、泛型编程、面向对象程序设计等\ucite{wiki:Python}。
 			\par Python简单的语法能够让开发者专注于算法，而不用去纠结语法上的问题，其众多的第三方库也给开发者带来了极大的便利，诸如用于科学计算的NumPy库已经能够替代Matlab的一些功能，所以Python语言具有很高的开发效率，已经被广泛地应用于机器学习、科学计算、Web后端、数字图像处理等众多领域。可以预见，在不久的将来也会在数字信号处理与通信工程领域大放异彩。
 			\par GNU Radio采用Python来连接各个模块，在模块间传递参数，支持直接Python编程，但是由于Python执行效率较低，所以底层采用C++来提高性能，通过SWIG将C++类跟函数封装为Python中的模块，实现了性能与效率的综合。
 			\par 一个不错的Python学习网站是廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})，此处不再赘述。
@@ -164,7 +164,7 @@ ENDIF()
 	% 		% TODO:用法
 	\section{USRP}
 		\subsection{简介}
-			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过USB、网卡、PCIe等高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，许多产品是开源硬件，所有USRP型号的电路板原理图均可从网站上免费获得，所有USRP产品均采用开源的UHD驱动程序进行控制。USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统\ucite{ wiki:USRP}。
+			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过USB、网卡、PCIe等高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与ARM等处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，大部分产品是开源硬件，所有USRP型号的电路板原理图均可从网站上免费获得，所有USRP产品均采用开源的UHD（USRP Hardware Driver）驱动程序进行控制。USRP通常与GNU Radio一起使用，以创建复杂的软件定义无线电系统\ucite{wiki:USRP}。
 			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/USRP_B200mini_BD.png}
@@ -267,8 +267,7 @@ uhd_siggen_gui -f 900000000
 	\section{GNU Radio}
 		\label{sec:gnuradio}
 		\subsection{简介}
-			\par GNU Radio是免费开源的软件无线电开发工具套件。它提供构建软件无线电所需的众多信号运行和处理的模块，用它可以在低成本外部射频（RF）硬件和通用微处理器上或无硬件的模拟环境中实现软件定义无线电。已经有众多业余爱好者，学术机构和商业机构在GNU Radio平台上研究和构建无线通信系统。
-			\par GNU Radio可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio含有滤波器、通道编码、解码器等很多单元（GNU Radio中，这些被称作功能块--blocks)，这些单元也都是无线电系统中的常见部件单元。它还具有连接这些功能模块及管理在这些功能块间数据的传输的策略，能够简单的检测框图输入输出的匹配。GNU Radio的应用主要是用Python来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的\ucite{what_is_gnuradio}。
+			\par GNU Radio是免费开源的软件无线电开发工具套件。它提供了构建软件无线电所需的众多信号运行和处理模块，用它可以在低成本外部射频硬件和通用微处理器上实现软件定义无线电，也可以在无硬件的情况下，在模拟环境中实现软件定义无线电。GNU Radio可以进行各类信号处理，可以从数据流中获取数据进行数字信号处理以后传回数据流中，然后通过外部射频硬件将数据信号发射出去。GNU Radio含有滤波器、通道编码、解码器等很多无线电系统中的常见的单元，GNU Radio将这些单元这些被称作功能块--blocks。它还具有连接这些功能模块及管理在这些功能块间数据的传输的策略，能够简单的检测框图输入输出的匹配并给出提示。GNU Radio的核心信号处理模块由C++编写，顶层由Python实现，所以能很快的搭建出一个高效的通信系统\ucite{what_is_gnuradio}。
 			\par GNU Radio的使用方法类似于Matlab中的SimuLink，通过拖动框图来构建通信系统，并能够生成一个Python文件，如果使用No Gui就能够生成命令行下可以直接运行的程序。因为其有友好的GUI界面，此处不再赘述使用方法。
 		\subsection{安装}
 			\par GNU Radio安裝有两种方式：源码编译和通过包管理程序安装，包管理程序安装方式包括两种：apt-get和PyBOMBS。
