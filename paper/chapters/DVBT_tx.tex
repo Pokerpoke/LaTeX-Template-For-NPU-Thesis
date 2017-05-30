@@ -1,12 +1,12 @@
 %!TEX root = ../paper.tex
 \chapter{DVB-T发射端}
 	\section{能量扩散}
-		\par 当发射的信号过于集中在某一频段上，将对与其共用频段的其他系统或设备造成较大干扰。人为地对发射信号进行随机化或者加扰，可以使原本集中的信号能量均匀分布。同时，由于添加的随机码为伪随机码，具有确定性的算法，所以在接收端很容易进行去随机化，解出正确的信息。在数字通信过程中，通过添加伪随机信号还能缩短连续的“0”或者连续的“1”的长度，接收端提取定时信号将变得更加容易\ucite{数字电视DVB标准能量扩散的FPGA设计与实现_肖闽进}。
+		\par 当发射的信号过于集中（连续多个0或者连续多个1的情况）在某一频段上时，将对共用频段的其他系统或设备造成较大干扰。在发射时添加具有确定性算法的伪随机码，人为地对发射信号进行随机化或者加扰，可以使原本集中的信号能量均匀分布，这样，在接收端也很容易进行去随机化，解出正确的信息。在数字通信过程中，添加伪随机信号还能缩短连0或者连1的长度，接收端也更容易提取定时信号\ucite{数字电视DVB标准能量扩散的FPGA设计与实现_肖闽进}。
 		\par MPEG-2的传输复用包长为188字节，包括一个同步字节，如图\ref{fig:MPEG_2_TS}所示。
 		\input{figures/mpeg_2_TS.tex}
-		\par 其中同步字节为0x47，传送时从高位开始送入，即从0x47（0100 0111）的0开始送入，由伪随机二进制序列（PRBS，Pseudo Random Binary Sequence）和码流数据按位异或完成，结构如图\ref{fig:PRBS}所示。
+		\par 其中同步字节为0x47，传送时从高位开始送入，即从0x47（0100 0111）的0开始送入，由码流数据和伪随机二进制序列（PRBS）按bit异或完成，结构如图\ref{fig:PRBS}所示。
 		\input{figures/PRBS.tex}
-		\par 伪随机二进制序列的生成多项式为$g(x)=1+X^{14}+X^{15}$，伪随机寄存器中的初始序列是“1001 0101 0000 000”（在编程时可以定义为0xa9左移送入，而不用定义为0x4a80右移送入，减少一定的性能开销）。伪随机寄存器每8个传输包（$8*188=1504$字节）作为一组，每8个传输包初始化一次，同时，对每组的第一个包的同步字节按比特取反，即同步字节由0x47变为0xB8。能量扩散从每组第1个传输包的同步字节之后的第1个比特开始进行，但在随后的7个传输包中的同步字节，不对输入的同步字节进行加扰，同步字节保持原状，仅仅产生伪随机码，这样能量扩散的周期就为$188*8-1=1503$字节。当输入码流不是MPEG-2 TS码流格式或者码流中断时，能量扩散继续进行，插入同步字节与空白字节完成来空包处理，这样接收端辨别出全零的空包并将其删除，就完成了整个能量扩散的过程。
+		\par 伪随机二进制序列的生成多项式为$g(x)=1+X^{14}+X^{15}$，伪随机寄存器中的初始序列是“1001 0101 0000 000”（因为最后为全0，所以在编程时可以定义为0xa9左移送入，而不用定义为0x4a80右移送入，减少一定的性能开销）。伪随机寄存器每8个传输包（$8*188=1504$字节，即GNU Radio中blocks的参数之一）作为一组，每组初始化一次，同时，对每组的第一个包的同步字节按比特取反，即同步字节由0x47变为0xB8。能量扩散从每组第1个传输包的同步字节之后的第1个比特开始进行，但在随后的7个传输包中的同步字节，不对输入的同步字节进行加扰，同步字节保持原状，仅仅产生伪随机码，这样能量扩散的周期就为$188*8-1=1503$字节。当输入码流不是MPEG-2 TS码流格式或者码流中断时，能量扩散过程继续进行，通过插入同步字节与空白字节的方式来完成空包处理，这样在接收端只需识别出全零的空包并将其删除即可，就完成了整个能量扩散的过程。
 		\par 程序实现主要代码见代码\ref{code:prbs}：
 		\begin{lstlisting}[caption = {能量扩散}, label = {code:prbs}, language = C++ ]
 void dvbt_energy_dispersal_impl::clock_prbs(int clocks)
@@ -23,10 +23,11 @@ void dvbt_energy_dispersal_impl::clock_prbs(int clocks)
 }
 		\end{lstlisting}
 	\section{RS编码}
-		\par DVB-T系统的外编码采用RS编码（Reed-Solomon codes），由$k$个信息符号按一定关系组成$n$个符号，以$n$个符号为一组处理，是一种前向错误更正的信道编码。DVB-T系统使用的是由RS（255，239，$t$=8）衍生出的删余RS（204，188，$t$=8）码，通过对每个随机化后的188字节的传输包编码，通过生成多项式生成一个有效数据为188字节，总长度为204字节的误码保护包。RS编码从同步字节（0x47）或者倒相后的同步字节（0xB8）开始，误码保护包的组成如图\ref{fig:rs_204_188}，最多可以校正8个字节的随机误码错误\ucite{RS编码器的设计与实现_游余新}。
+		\par DVB-T系统的外编码采用RS编码（Reed-Solomon codes），由$k$个信息符号按一定关系组成$n$个符号，以$n$个符号为一组处理，是一种前向错误更正的信道编码。DVB-T系统使用的是由RS（255，239）衍生出的删余RS（204，188）码，通过式\ref{equ:RS_gen}生成一个有效数据为188字节，总长度为204字节的误码保护包，因此最多可以校正8个字节的随机误码错误。RS编码从同步字节（0x47）或者倒相后的同步字节（0xB8）开始，误码保护包的组成如图\ref{fig:rs_204_188}\ucite{RS编码器的设计与实现_游余新}。
 		\input{figures/rs_204_188.tex}
 		\par RS码生成多项式为：
 		\begin{equation}
+		\label{equ:RS_gen}
 			g(x)=(x+\lambda ^0)(x+\lambda ^1)(x+\lambda ^2)...(x+\lambda ^{15})
 		\end{equation}
 		\par 其中$\lambda$=0x02。
@@ -34,7 +35,7 @@ void dvbt_energy_dispersal_impl::clock_prbs(int clocks)
 		\begin{equation}
 			p(x)=x^8+x^4+x^3+x^2+1
 		\end{equation}
-		\par 可以在传输包前面增加51个全零字节，通过RS（255，239，$t$=8）编码器，再删除无用的全零字节，最终可以产生长度为204字节的RS码字。
+		\par 可以在传输包前部增加51个全零字节，通过RS（255，239）编码器，再误码保护包中的删除无用的全零字节，最终可以产生长度为204字节的输出码字。
 		\par RS编码初始化主要代码见代码\ref{code:rs_init}，RS编码主要代码见代码\ref{code:rs_encode}。
 		\begin{lstlisting}[caption = {RS编码初始化}, label={code:rs_init}, language = C++ ]
 void dvbt_reed_solomon::rs_init(int lambda, int n, int k, int t)
@@ -151,7 +152,7 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 		\end{lstlisting}
 	\section{内编码(卷积编码)}
 		% TODO: fix
-		\par DVB-T系统的内编码采用卷积编码，卷积编码是由$k$个信息比特编码成$n(n>k)$比特码组，输出码字不仅与当前码字中的$k$个信息比特值有关，而且与前面$N-1$个码字中的$(N-1)xk$个信息比特值有关，所以，$N$可称为约束长度。
+		\par DVB-T系统采用卷积编码作为内编码，由$k$比特输入码字编码成$n(n>k)$比特输出码字，输出码字的值与当前码字中的$k$个输入码字的值有关，也与之前$N-1$个输入码字中的$(N-1)xk$个输入码字的值有关。
 		\par DVB-T系统可以选择几种由码率为1/2的主卷积码删余后的卷积码。主码的生成多项式，对$X$路输出是$G_1=171_{OCT}$，对$Y$路输出是$G_2=133_{OCT}$，图\ref{fig:inner_coder}是主卷积码生成结构图。
 		\input{figures/inner_coder.tex}
 		\par 系统还可以按照图\ref{fig:inner_coder_slash}使用除了1/2码率的主码外的码率为2/3，3/4，5/6，7/8的删余卷积码。
@@ -160,7 +161,7 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 		\input{tables/inner_coder_slash.tex}
 	\section{比特交织}
 		% TODO: fix
-		\par DVB-T系统的内交织采用的是比特交织和符号交织，内编码后的比特流通过解复用器后进入比特交织器，根据不同的映射模式分成$v$个子流，本设计采用的是非等级模式，该式下的对应关系如表\ref{table:bit_inner_interleaver_v}：
+		\par DVB-T系统采用比特交织和符号交织作为内交织的方法，卷积编码后的码流通过解复用器后依次进入比特交织器和符号交织器。在比特交织器中，根据系统采用的不同的映射模式分成$v$个子码流，本设计采用的是非等级模式，该模式下的对应关系如表\ref{table:bit_inner_interleaver_v}所示：
 		\begin{table}[!htbp]
 			\centering
 			\caption{非等级模式下对应关系}
@@ -177,11 +178,11 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 		\end{table}
 		\par 16QAM解复用模型如图\ref{fig:bit_inner_interleaver}，$x_0$映射到$b_{0,0}$，$x_1$映射到$b_{1,0}$，$x_2$映射到$b_{2,0}$，$x_3$映射到$b_{3,0}$\ucite{DVB—T中内交织与解交织的算法及实现_徐翼}。
 		\input{figures/bit_inner_interleaver.tex}
-		\par 比特交织仅在有用的数据上进行，交织块的大小为126字节，2K模式下每个OFDM符号中的有效数据在交织过程中重复12次（共计$12*126=1512$字节），8K模式下需要重复48次（共计$48*126=6048$字节）。对于每一路比特交织器，输入的比特向量定义为：
+		\par 整个过程只对有用的数据上进行比特交织，每个交织块的大小为126Byte，在2K模式下每个OFDM符号中的有效数据在交织过程中重复12次（共计$12*126=1512$字节），在8K模式下需要重复48次（共计$48*126=6048$字节），GNU Radio中模块的输出数据大小与之相对应。输入码流向量定义为：
 		\begin{equation}
 			B(e)=(b_{e,0},b_{e,1},b_{e,2},\cdots b_{e,125}),e\in[0,v-1]
 		\end{equation}
-		\par 交织后的输出向量定义为：
+		\par 交织后的输出码流向量定义为：
 		\begin{equation}
 			A(e)=(a_{e,0},a_{e,1},a_{e,2},\cdots a_{e,125}),e\in[0,v-1]
 		\end{equation}
@@ -189,9 +190,9 @@ int dvbt_convolutional_interleaver_impl::work (int noutput_items,
 		\begin{equation}
 			a_{e,w}=b_{e,He(w)},w\in[0,125]
 		\end{equation}
-		\par $He_{w}$为一置换函数，对于每一路交织器置换函数$He_{w}$均不相同，$He_{w}$定义如表\ref{table:inner_interleaver_hew}。以交织器I3为例，$w$为输入数据地址，$H(w)$为输出数据地址，即先将输入数据输入到126个地址空间中，输出时先输出地址42$\sim$125中的数据，在输出地址0$\sim$41中的数据。
+		\par $He_{w}$为DVB-T协议定义的一系列标准置换函数，每一路比特交织器的置换函数$He_{w}$均不相同，$He_{w}$定义如表\ref{table:inner_interleaver_hew}。以交织器I3为例，输入码流地址为$w$，输出码流地址为$H(w)$，即先将输入码流写入到126个地址空间中，输出时先将地址42$\sim$125中的数据输出，再将地址0$\sim$41中的数据输出。
 		\input{tables/inner_interleaver_hew}
-		\par $v$比特交织器的输出共同组成了一个$v$比特数据字。因此，整个比特交织器的输出是一个$v$比特字$y'$，其中I0支路的输出为最高位。
+		\par 整个比特交织器的输出是最高位为I0，总长度为$v$ bit的$y'$，即：
 		\begin{equation}
 			y_w'=(a_{0,w},a_{1,w},a_{2,w},\cdots a_{v-1,w},),w\in[0,125],v\in[1,6]
 		\end{equation}
@@ -261,8 +262,8 @@ int dvbt_bit_inner_interleaver_impl::general_work (int noutput_items,
 }
 		\end{lstlisting}
 	\section{符号交织}
-		\par 符号交织用于将$v$比特字映射到每个OFDM的有效载波上，其中2K模式下为1512个有效载波，8K模式下为6048个有效载波。
-		\par 首先将比特交织输出的$N_{max}$个$v$比特字（2K模式下为$12*126=1512$个，8K模式下为$48*126=6048$个）顺序写入矢量$Y^{in}=(y_0^{in},y_1^{in},y_2^{in},\cdots,y_{N_{max}-1}^{in})$中，接下来对该矢量进行交织，其中2K模式下$N_{max}=1512$，8K模式下$N_{max}=6048$。经过交织后的矢量$Y^{out}=(y_0^{out},y_1^{out},y_2^{out},\cdots,y_{N_{max}-1}^{out})$定义为：
+		\par 比特交织后的码流进入符号交织器，符号交织的作用是将输入码流映射到OFDM的有效载波上，其中2K模式下共1512个有效载波，8K模式下共6048个有效载波。
+		\par 首先将比特交织输出的$N_{max}$个$v$比特码字（2K模式下共$12*126=1512$个，8K模式下共$48*126=6048$个）依次写入矢量$Y^{in}=(y_0^{in},y_1^{in},y_2^{in},\cdots,y_{N_{max}-1}^{in})$中，接下来对该矢量进行交织，其中2K模式下$N_{max}=1512$，8K模式下$N_{max}=6048$。经过交织后的矢量$Y^{out}=(y_0^{out},y_1^{out},y_2^{out},\cdots,y_{N_{max}-1}^{out})$定义为：
 		\par OFDM帧中的偶数符号：
 		\begin{equation}
 			y_{H(q)}^{out}=y_q^{in}
@@ -292,7 +293,7 @@ int dvbt_bit_inner_interleaver_impl::general_work (int noutput_items,
 		\par\noindent $\}$
 		\par 本部分程序段过长，参见\href{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt_symbol_inner_interleaver_impl.cc}{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt\_symbol\_inner\_interleaver\_impl.cc}
 	\section{星座映射}
-		\par DVB-T系统中采用正交频分复用（OFDM）传输，一帧OFDM符号的所有数据载波调制采用格雷（Grey）映射的QPSK、16QAM、64QAM、非均匀16QAM或非均匀64QAM映射为复数$Z$，本设计采用均匀16QAM模式，其星座图如图\ref{fig:dvbt_map_16QAM}。
+		\par DVB-T系统信道调制技术采用的是码分正交频分复用（COFDM），需要将每一帧OFDM符号的所有数据载波按调制方式映射为复数$Z$，本设计采用均匀16QAM模式，其星座图如图\ref{fig:dvbt_map_16QAM}。
 		\input{figures/dvbt_map_16QAM.tex}
 		\par 其他模式星座图与之类似，不再赘述。
 		\par 程序实现主要代码见代码\ref{code:dvbt_map}。
@@ -341,28 +342,26 @@ void dvbt_map_impl::make_constellation_points(int size, int step, int alpha)
 		\end{lstlisting}
 	\section{参考信号}
 		% TODO: fix
-		\par DVB-T系统中的子载波（2K模式下1705个子载波，8K模式下6817个子载波），按作用可以分为三类：
-		\par （1）数据载波，负责传递MPEG-2 TS流数据信号。
-		\par （2）传输参数信令载波（TPS: Transport Parameter Signaling）含有接收终端对接收信号进行解码所需的调制方式（QPSK，16QAM，64QAM），信号纠错码（1/2，2/3，3/4，5/6，7/8），2k和8k模式，保护间隔（1/4，1/8，1/16，1/32）等参数。
-		\par （3）导频信号载波（Pilot），用来方便接收终端对接收信号幅度和相位进行预估和校正。
-		\par 在有效载波数的基础上，通常会加入一些虚拟载波使其载波总数达到2的n次方（2k模式为$2^{11}=2048$个，8k模式为$2^{13}=8192$个），以方便计算机采用反向快速富里叶变换。在接收终端通过快速富里叶变换可以解调出相应的OFDM信号，这也就是2k和8k模式名称的由来\ucite{DVB—T编码调制的仿真和FPGA实现_王闯}。
+		\par DVB-T系统中的子载波按其作用可以分为三类：
+		\par （1）数据载波，用来传递MPEG-2 TS流数据。
+		\par （2）传输参数信令载波（TPS）含有调制方式，信号纠错码，保护间隔等参数，有了这些参数接收终端才能进行相应的解码操作。
+		\par （3）导频信号载波，用来协助接收终端预估、校正接收信号的幅度和相位。
+		\par 为了方便计算机采用反向快速富里叶变换进行计算，通常会在有效载波数的基础上加入一些虚拟载波使其载波总数达到2的n次方（2k模式为$2^{11}=2048$，8k模式为$2^{13}=8192$）\ucite{DVB—T编码调制的仿真和FPGA实现_王闯}。
 		\par 即：
-		\par 2K模式：
-		\par 总载波数：1512（数据）+17（传输参数信令）+176（导频）=1705
-		\par 8K模式：
-		\par 总载波数：7048（数据）+68（传输参数信令）+701（导频）=6817
-		\par 传数参数信令（TPS）在2k模式下占用17个载波，8k模式下占用68个载波，是为了方便机顶盒的信道解码而发送的传输参数。它们所占用的载波序号见表\ref{table:tps_carrier}，它们所传输的信息是：调制方式，等级调制信息，保护间隔，纠错保护码，传输模式，超级帧中的帧序号，发射机所覆盖的蜂窝标识等，详细含义见表\ref{table:tps}。
+		\par 2K模式：总载波数：1512（数据）+17（传输参数信令）+176（导频）=1705
+		\par 8K模式：总载波数：7048（数据）+68（传输参数信令）+701（导频）=6817
+		\par 传数参数信令在2k模式下占用17个载波，8k模式下占用68个载波，它们所占用的载波序号见表\ref{table:tps_carrier}，它们所包含信息的详细含义见表\ref{table:tps}。传输参数信令采用是抗干扰能力更强的BPSK，与数据信号所采用的QPSK，16QAM，64QAM均不相同，所以能够接收到TPS信号时未必能够接收到数据信号。
 		\input{tables/tps_carrier.tex}
 		\input{tables/tps.tex}
-		\par 传输参数信令采用的调制方式既不是QPSK，也不是16QAM或者64QAM，而是抗干扰能力更强的BPSK，所以接收终端即使可以接收到TPS信号，也未必可以成功接收到数据信号。
 		\par 本部分程序段过长，参见\href{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt\_reference\_signals\_impl.cc}{https://github.com/gnuradio/gnuradio/blob/master/gr-dtv/lib/dvbt/dvbt\_reference\_signals\_impl.cc}
 	\section{IFFT}
-		\par 忽一人大呼“火起”，夫起大呼，妇亦起大呼。两儿齐哭。俄而百千人大呼，百千儿哭，百千犬吠。中间力拉崩倒之声，火爆声，呼呼风声，百千齐作；又夹百千求救声，曳屋许许声，抢夺声，泼水声。凡所应有，无所不有。虽人有百手，手有百指，不能指其一端；人有百口，口有百舌，不能名其一处也。
-		\par 傅里叶变换指其各端，名其处处\ucite{zhihu:如何直观形象、生动有趣地给文科学生介绍傅立叶变换？}。
-		\par 傅里叶变换是将时域和频域联系起来的工具，将信号的时域表示用频域的表示方式表示出来，傅里叶变换能够直接计算出给定时域信号在频域上的表示，反傅里叶变换为其逆过程，能够计算出给定频域信号在时域的表示。
-		\par OFDM的理论很久以前就提出来了，但是一直没有好的实现方式，因为在没有快速傅里叶变换时需要计算出各个信号在时域上的叠加很困难，需要消耗大量的计算资源，快速傅里叶变换的出现，大大降低了傅里叶变换的复杂度，能够十分快速地计算出信号在时域上的叠加以后的结果，使得OFDM的广泛应用成为可能。
-		\par IFFT模块的功能相当于说：别麻烦发送N个子载波信号了，我直接算出你们在空中会叠加成啥样子吧；FFT模块的功能相当于说：别用老式的积分方法来去除其余的正交子载波了，我帮你一次把N个携带信号全算出来吧。就是这样，IFFT实现OFDM的系统用"数学的方法"，在发送端计算信号的叠加波形，在接收端去除正交子载波，从而大大简化了系统的复杂度\ucite{给"小白"图示讲解OFDM的原理}。
-		\par DVB-T发射系统中采反傅里叶变换，将频域信号的在时域上叠加后的结果一次性计算出来，再在接收端使用傅里叶变换进行还原，得出相应的频域表达形式。
+		% \par 忽一人大呼“火起”，夫起大呼，妇亦起大呼。两儿齐哭。俄而百千人大呼，百千儿哭，百千犬吠。中间力拉崩倒之声，火爆声，呼呼风声，百千齐作；又夹百千求救声，曳屋许许声，抢夺声，泼水声。凡所应有，无所不有。虽人有百手，手有百指，不能指其一端；人有百口，口有百舌，不能名其一处也。
+		% \par 傅里叶变换指其各端，名其处处。
+		% \par 傅里叶变换指其各端，名其处处\ucite{zhihu:如何直观形象、生动有趣地给文科学生介绍傅立叶变换？}。
+		\par 时域和频域是一个信号的两种表现形式，相当于同一个人的两个名字，傅里叶变换正是将时域和频域联系起来的工具，将信号的时域表示用频域的表示方式表示出来，反傅里叶变换为其逆过程，能够计算出给定频域信号在时域的表示。
+		\par OFDM的理论很久以前就提出来了，但因为需要计算出各个信号在时域上的叠加需要消耗大量的计算资源，所以一直没有很好的实现方式，直到快速傅里叶变换的出现，大大降低了傅里叶变换的复杂度，能够十分快速地计算出信号在时域上的叠加以后的结果，使得OFDM的广泛应用成为可能。DVB-T发射系统中采反傅里叶变换，将频域信号的在时域上叠加后的结果一次性计算出来，再在接收端使用傅里叶变换进行还原，得出相应的频域表达形式。
+		% \par IFFT模块的功能相当于说：别麻烦发送N个子载波信号了，我直接算出你们在空中会叠加成啥样子吧；FFT模块的功能相当于说：别用老式的积分方法来去除其余的正交子载波了，我帮你一次把N个携带信号全算出来吧。就是这样，IFFT实现OFDM的系统用"数学的方法"，在发送端计算信号的叠加波形，在接收端去除正交子载波，从而大大简化了系统的复杂度\ucite{给"小白"图示讲解OFDM的原理}。
+		% \par 关于傅里叶变换更通俗易懂的解释可以参考《傅里叶分析之掐死教程》（https://zhuanlan.zhihu.com/p/19763358）。
 		\par 由于FFT已经有了众多的实现方式，此处不提供代码。
 	% \section{OFDM循环前缀}
 	% 	\par 在传播过程中如果子载波的正交性遭到破环，会影响信号接收，造成信道间干扰（ICI），为了克服这种干扰，OFDM传播系统采取添加循环前缀的措施来减少信道间干扰。
@@ -384,7 +383,7 @@ void dvbt_map_impl::make_constellation_points(int size, int step, int alpha)
 		\par $\bullet$ Device Address
 		\par 用来指定设备地址，可以通过执行\lstinline[language=sh]{uhd_find_devices}来查看已连接的设备地址，如果留空将默认使用第一个设备。
 		\par $\bullet$ Samp Rate(Sps)
-		\par 采样率，指每秒发送至USRP的数据量，同时也决定了发送信号的带宽，在I5-3337U的设备上可以取得的最大采样率为5MHz，过高的采样率会导致电脑无法处理而无法发送信号。
+		\par 采样率，指每秒发送至USRP的数据量，同时也决定了发送信号的带宽，在I5-3337U的设备上可以取得的最大采样率为5MHz，过高的采样率会导致电脑无法处理而无法发送信号。这里的采样率与正常的采样率意义稍有不同，参见\ref{sec:sample_rate}节。
 		\par USRP\_Sink模块的RF设置如图\ref{fig:usrp_sink_rf_options}
 		\par 其中常用的为以下参数：
 		\par $\bullet$ Center Freq(Hz)

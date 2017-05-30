@@ -1,30 +1,27 @@
 %!TEX root = ../paper.tex
-\chapter{ARM平台---树莓派}
+\chapter{ARM平台--树莓派}
 	\section{简介}
-		\par 树莓派（Raspberry Pi），是一款基于Linux的单板机电脑，由英国的树莓派基金会开发育。
-		\par 树莓派使用SD卡存储资料，拥有一个以太网接口、两个USB接口、支持HDMI（支持声音输出）和RCA端子输出。操作系统采用开源的Linux系统如Debian、ArchLinux，自带Iceweasel、KOffice等软件，能够满足基本的网络浏览、文字处理以及电脑学习的需要，支持Python、C语言和Perl等常见编程语言。表\ref{table:params_of_raspi}为树莓派3B+的参数\ucite{ wiki:树莓派}。
+		\par 树莓派3B+（Raspberry Pi 3B+），是一款基于Linux的单板机电脑，使用SD卡存储资料，拥有一个以太网接口、四个USB接口、支持HDMI输出，操作系统采用开源的Linux系统，能够满足基本的网络浏览、文字处理以及电脑学习的需要，支持Python、C语言和Perl等常见编程语言\ucite{ wiki:树莓派}。表\ref{table:params_of_raspi}为树莓派3B+的参数。
 		\begin{table}[!htbp]
 			\centering
 			\caption{树莓派3B+参数}
 			\begin{tabular}{|l|p{0.8\columnwidth}|}
 				\hline\hline
-				SoC          & Broadcom\ BCM2837（CPU，GPU\ DSP和SDRAM、USB）                                       \\
+				SoC     & Broadcom\ BCM2837（CPU，GPU\ DSP和SDRAM、USB）\\
 				\hline
-				CPU          & ARM\ Cortex-A53\ 64位\ (ARMv8系列)\ 1.2GHz\ (四核心)                                \\
+				CPU     & ARM\ Cortex-A53\ 64位\ (ARMv8系列)\ 1.2GHz\ (四核心)\\
 				\hline
-				GPU          & Broadcom\ VideoCore\ IV[43],\ OpenGL\ ES\ 2.0,1080p\ 30\ h.264/MPEG-4\ AVC高清解码器 \\
+				GPU     & Broadcom\ VideoCore\ IV[43],\ OpenGL\ ES\ 2.0,1080p\ 30\ h.264/MPEG-4\ AVC高清解码器\\
 				\hline
-				RAM          & 1024\ MB\ (LPDDR2)                                                                        \\
+				RAM     & 1024\ MB\ (LPDDR2)\\
 				\hline
-				外设       & 14个GPIO及HAT规格铺设                                                               \\
+				额定功率 & 4.0\ 瓦\ (5V/800mA)\\
 				\hline
-				额定功率 & 4.0\ 瓦\ (5V/800mA)                                                                      \\
+				电源输入 & 5V\ (通过MicroUSB或GPIO输入)\\
 				\hline
-				电源输入 & 5V\ 电压\ (通过MicroUSB或经GPIO输入)                                              \\
+				总体尺寸 & 85.60\ ×\ 53.98\ 毫米（3.370\ ×\ 2.125\ 英寸）\\
 				\hline
-				总体尺寸 & 85.60\ ×\ 53.98\ 毫米（3.370\ ×\ 2.125\ 英寸）                                    \\
-				\hline
-				重量       & 45\ g（1.6\ oz）                                                                        \\
+				重量     & 45\ g（1.6\ oz）\\
 				\hline\hline
 			\end{tabular}
 			\label{table:params_of_raspi}
@@ -73,7 +70,7 @@ sudo raspi-config
 sudo reboot
 		\end{lstlisting}
 	\section{软件源}
-		\par 树莓派默认使用的官方源服务器国内访问不便，国内使用需要使用镜像站，在此使用的是重庆大学的源，修改\lstinline[language=sh]{/etc/apt/sources.list}为以下源：
+		\par 国内安装完系统以后直接更新源会出现无法连接、访问速度过慢等问题，推荐使用镜像站来加速软件源的更新和下载，这里使用的是重庆大学的源，修改\lstinline[language=sh]{/etc/apt/sources.list}为以下源：
 		\begin{lstlisting}[ language= sh ]
 deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib 
 deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main non-free contrib
@@ -101,7 +98,7 @@ network={
 		\par \lstinline{ssid}为wifi名称。
 		\par \lstinline{psk}为wifi密码。
 		\par \lstinline{priority}为优先级，范围在0$\sim$255，在有多个wifi可选时优先选择数值较高的。
-		\par 树莓派安装GNU Radio参见\ref{sec:gnuradio}节。
+		\par 树莓派安装配置GNU Radio参见\ref{sec:gnuradio}节。
 		\par 至此，树莓派的已经基本配置完成。
 		% \subsection{镜像备份}
 		% TODO:镜像备份

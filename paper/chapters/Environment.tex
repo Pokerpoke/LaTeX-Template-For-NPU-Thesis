@@ -2,7 +2,7 @@
 \chapter{环境配置}
 	\section{CMake}
 		\subsection{简介}
-			\par CMake是个开源的跨平台自动化建构系统，它用配置文件控制建构过程（build process）的方式和Unix的Make相似，只是CMake的配置文件取名为CMakeLists.txt。Cmake先产生标准的建构档（如Unix的Makefile或Windows Visual C++的projects/workspaces），然后再依一般的建构方式使用。这使得熟悉某个集成开发环境（IDE）的开发者可以用标准的方式建构他的软件。CMake可以编译源代码、制做程序库、产生适配器（wrapper）、还可以用任意的顺序建构可执行文件，支持二进档和源代码在同一个目录树中建构和二进档在别的目录里建构，因此以很容易从同一个源代码目录树中建构出多个二进档。CMake也支持静态与动态程序库的建构\ucite{ wiki:CMake}。
+			\par CMake是个开源的跨平台自动化建构系统，它采用与Unix中Make命令相似的建构过程，不同之处在于CMake采用CMakeLists.txt文件而非Makefile来指定建构过程。CMake先产生如Unix的Makefile或Windows Visual C++的projects/workspaces等标准的建构档，然后再依一般的建构方式编译二进制档。CMake可以编译源代码、制做程序库、产生适配器，还可以用任意的顺序建构可执行文件，既支持在当前目录中建构也支持指定输出目录里建构，因此以很容易从同一个源代码目录树中建构出多个二进档\ucite{ wiki:CMake}。
 			\par GNU Radio采用CMake构建，所以简单介绍一下CMake的使用方法，方便后续开发者理解GNU Radio模块的编写以及在此基础上构建自己的应用。
 			\par CMake的源码已托管至GitHub（\href{https://github.com/Kitware/CMake.git}{https://github.com/Kitware/CMake.git}）。
 		\subsection{安装}
@@ -69,7 +69,7 @@ sudo ldconfig
 			\end{lstlisting}
 	\section{Boost C++ Libraries}
 		\subsection{简介}
-			\par Boost C++ 库（Libraries）是一组扩充C++功能的经过同行评审（Peer-reviewed）且开放源代码程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件许可协议（Boost Software License）之下。许多Boost的开发人员是来自C++标准委员会，而部分的Boost库成为C++的TR1标准之一\ucite{ wiki:Boost}。
+			\par Boost C++ 库是经过同行评审且开放源代码的一组扩充C++功能的程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件许可协议之下，部分的Boost库已经成为C++的TR1标准之一\ucite{ wiki:Boost}。
 			\par GNU Radio与gr-dvbt中调用了Boost库中的众多函数，需要安装该库才能够进行编译，执行以下命令进行安装。
 			\begin{lstlisting}[ language= sh ]
 sudo apt install libboost-all-dev
@@ -151,7 +151,7 @@ ENDIF()
 			\par 使用CMake生成\lstinline{makefile}以后，可以使用\lstinline{make doc}来生成API文档。
 	\section{Python}
 		\subsection{简介}
-			\par Python，是一种面向对象、解释型的计算机程序语言。它包含了一组功能完备的标准库，能够轻松完成很多常见的任务。它的语法简单，与其它大多数程序设计语言使用大括号不一样，它使用缩进来定义语句块，经常被当作脚本语言用于处理系统管理任务和网络程序编写，然而它也非常适合完成各种高级任务。Python支持命令式程序设计、面向对象程序设计、函数式编程、面向侧面的程序设计、泛型编程多种编程范式\ucite{ wiki:Python}。
+			\par Python，是一种解释型的、面向对象的计算机程序语言，它能够在仅使用标准库的情况下完成许多操作。它的语法简单，使用缩进来定义语句块，这一点与其它大多数程序设计语言使用大括号不一样。Python经常被当作脚本语言用于处理系统管理任务和网络程序编写，它也非常适合完成各种高级任务。Python支持众多编程范式，如函数式编程、泛型编程、面向对象程序设计、命令式程序设计、面向侧面的程序设计等\ucite{ wiki:Python}。
 			\par Python简单的语法能够让开发者专注于算法，而不用去纠结语法上的问题，其众多的第三方库也给开发者带来了极大的便利，诸如用于科学计算的NumPy库已经能够替代Matlab的一些功能，所以Python语言具有很高的开发效率，已经被广泛地应用于机器学习、科学计算、Web后端、数字图像处理等众多领域。可以预见，在不久的将来也会在数字信号处理与通信工程领域大放异彩。
 			\par GNU Radio采用Python来连接各个模块，在模块间传递参数，支持直接Python编程，但是由于Python执行效率较低，所以底层采用C++来提高性能，通过SWIG将C++类跟函数封装为Python中的模块，实现了性能与效率的综合。
 			\par 一个不错的Python学习网站是廖雪峰的官方网站(\href{http://www.liaoxuefeng.com/}{http://www.liaoxuefeng.com/})，此处不再赘述。
@@ -164,7 +164,7 @@ ENDIF()
 	% 		% TODO:用法
 	\section{USRP}
 		\subsection{简介}
-			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，许多产品是开源硬件，所有USRP型号的电路板原理图均可免费下载，所有USRP产品均采用开源的UHD驱动程序进行控制。USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统\ucite{ wiki:USRP}。
+			\par 通用软件无线电外设（USRP）是由Ettus Research及其母公司National Instruments设计和销售的一系列软件定义无线电设备。由Matt Ettus领导的团队开发，USRP产品系列旨在成为软件无线电相对便宜的硬件平台，已经被研究实验室，大学和业余爱好者广泛使用。大多数USRP通过USB、网卡、PCIe等高速链路连接到主机，主机软件用于控制USRP硬件和发送/接收数据，一些USRP模型还将主机的一般功能与嵌入式处理器集成，从而允许USRP设备以独立的方式运行。USRP系列设计之初便有很高的可修改性，许多产品是开源硬件，所有USRP型号的电路板原理图均可从网站上免费获得，所有USRP产品均采用开源的UHD驱动程序进行控制。USRP通常与GNU Radio软件套件一起使用，以创建复杂的软件定义无线电系统\ucite{ wiki:USRP}。
 			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=13cm]{figures/USRP_B200mini_BD.png}
@@ -214,9 +214,9 @@ uhd_siggen_gui -f 900000000
 	% 		\par gqrx的源码已托管于GitHub（\href{https://github.com/csete/gqrx}{https://github.com/csete/gqrx}）。
 	\section{git}
 		\subsection{简介}
-			\par git是用于Linux内核开发的版本控制工具。与CVS、Subversion一类的集中式版本控制工具不同，它采用了分布式版本库的作法，不需要服务器端软件，就可以运作版本控制，使得源代码的发布和交流极其方便。git的速度很快，这对于诸如Linux内核这样的大项目来说自然很重要。git最为出色的是它的合并追踪（merge tracing）能力\ucite{ wiki:Git}。
-			\par GNU Radio使用git进行版本控制，在进行源码查看编辑的时候使用git能大大提高开发效率，在此简要介绍其使用方法。
-			\par git的一个仓库由三个区组成：工作区，暂存区，版本库。我们平常编写程序的叫做工作区，在工作区中编写程序，修复bug，然后将修改后的文件通过\lstinline[language=sh]{git add -p <file>}	命令添加到暂存区，检查暂存区没有错误以后通过\lstinline[language=sh]{git commit -m "some comments"}命令将修改提交至版本库，如果存在远程仓库还需要执行\lstinline[language=sh]{git push}命令来将修改提交至远程仓库。
+			\par git是采用分布式版本库的版本控制工具，不需要服务器端软件就可以进行版本控制，极大地简化了源代码的发布和交流的过程。git的速度很快，这对诸如GNU Radio这样的大项目来说，是选择git的一个重要原因。git凭借它出色的合并追踪（merge tracing）能力成为了目前开源界最流行的版本控制软件\ucite{ wiki:Git}。
+			\par GNU Radio使用git进行版本控制，在进行源码查看编辑的时候使用git能大大提高开发效率，在此简要介绍其使用方法并推荐使用git作为代码管理的工具。
+			\par git的一个仓库由三个区组成：工作区，暂存区，版本库。我们平常编写程序的叫做工作区，在工作区中编写程序，修复bug，然后将修改后的文件通过\lstinline[language=sh]{git add -p <file>}命令添加到暂存区，检查暂存区没有错误以后通过\lstinline[language=sh]{git commit -m "some comments"}命令将修改提交至版本库，如果存在远程仓库还需要执行\lstinline[language=sh]{git push}命令来将修改提交至远程仓库。
 			\par 以上是一个正常的提交流程，我们可以通过\lstinline[language=sh]{git log}来查看所有的\lstinline[language=sh]{commit}，并通过\lstinline[language=sh]{git reset --hard <your commit flag>}来回退至相应的版本。
 			\par 一个好的习惯是在添加新功能或者修复某一个bug时执行\lstinline[language=sh]{git checkout -b fix}创建一个名为\lstinline[language=sh]{fix}的分支，在该分支中修改bug，修改完成并测试通过以后\lstinline[language=sh]{git commit -m "some comments"}将修改提交至本地仓库，再执行\lstinline[language=sh]{git checkout master}并执行\lstinline[language=sh]{git merge fix}来将修改合并至主分支，这样可以在不影响主分支的情况进行bug的修复和新功能的添加。在GitHub上可能还需要执行pull request来将修改提交至源仓库。
 			\par git的源码已托管于GitHub（\href{https://github.com/git/git}{https://github.com/git/git}）。
@@ -267,8 +267,8 @@ uhd_siggen_gui -f 900000000
 	\section{GNU Radio}
 		\label{sec:gnuradio}
 		\subsection{简介}
-			\par GNU Radio 是免费开源的软件开发工具套件。它提供构建软件无线电所需的信号运行和处理的模块，用它可以在唾手可得的低成本的外部射频（RF）硬件和通用微处理器上、或无硬件的模拟环境中实现软件定义无线电。这套套件广泛用于业余爱好者，学术机构和商业机构用来研究和构建无线通信系统。
-			\par GNU Radio 可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio 具有滤波器、通道编码、同步单元、均衡单元（equalizer）、解调器、声音合成机（vocoder）、解码器（decoder）等很多单元（使用 GNU Radio 术语，这些被称作功能块 - blocks)，这些单元也都是无线电系统中的常见部件单元。更重要的是，它还具有连接这些功能模块的方法及管理在这些功能块间传输数据的策略。GNU Radio 的应用主要是用 Python 编程语言来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的。因此，开发者能够简单快速的构建一个实时、高容量的无线通信系统\ucite{what_is_gnuradio}。
+			\par GNU Radio是免费开源的软件无线电开发工具套件。它提供构建软件无线电所需的众多信号运行和处理的模块，用它可以在低成本外部射频（RF）硬件和通用微处理器上或无硬件的模拟环境中实现软件定义无线电。已经有众多业余爱好者，学术机构和商业机构在GNU Radio平台上研究和构建无线通信系统。
+			\par GNU Radio可以进行各类信号处理。可以使用它编写应用程序从数据流中获取数据或将数据传输到数据流中，然后使用硬件将其发射出去。GNU Radio含有滤波器、通道编码、解码器等很多单元（GNU Radio中，这些被称作功能块--blocks)，这些单元也都是无线电系统中的常见部件单元。它还具有连接这些功能模块及管理在这些功能块间数据的传输的策略，能够简单的检测框图输入输出的匹配。GNU Radio的应用主要是用Python来编写的。但是其核心信号处理模块是 C++ 在带浮点运算的微处理器上构建的\ucite{what_is_gnuradio}。
 			\par GNU Radio的使用方法类似于Matlab中的SimuLink，通过拖动框图来构建通信系统，并能够生成一个Python文件，如果使用No Gui就能够生成命令行下可以直接运行的程序。因为其有友好的GUI界面，此处不再赘述使用方法。
 		\subsection{安装}
 			\par GNU Radio安裝有两种方式：源码编译和通过包管理程序安装，包管理程序安装方式包括两种：apt-get和PyBOMBS。
